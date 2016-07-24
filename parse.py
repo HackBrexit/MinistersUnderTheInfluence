@@ -1,12 +1,18 @@
 import re
 import csv
-
+import sys
 
 def main():
+    inputfile = ""
+    print(sys.argv)
+    if(len(sys.argv)>1):
+        inputfile = sys.argv[1]
+
+    year = getYearFromFilename(inputfile)
 
     startWithNote = re.compile("^Note")
 
-    with open("./ministerial-data-cabinet-office/data/bmmeetingsjanmar2013.csv",'r') as file:
+    with open(inputfile,'r') as file:
         csvReader = csv.reader(file,delimiter=',',quotechar='\"')
 
         minister = "";
@@ -22,8 +28,8 @@ def main():
                 writeToFile(line,minister)
 
 
-def isBlankLine(columns):
-    return(len(columns[1])==0 and len(columns[2])==0)
+def isBlankLine(line):
+    return(len(line[1])==0 and len(line[2])==0)
 
 def writeToFile(line,minister):
     writeMinisters(minister)
@@ -36,13 +42,24 @@ def writeToFile(line,minister):
         # file.write((',').join(line))
 def writeMinisters(minister):
     with open("ministers.csv","a") as f:
-        print(minister)
-        f.write(minister+"\n")
+        # print(minister)
+        f.write(minister.strip()+"\n")
 
 def writeOrgs(orgs):
     with open("orgs.csv","a") as f:
         for org in orgs:
-            print(org)
-            f.write(org+"\n")
+            # print(org)
+            f.write(org.strip()+"\n")
+
+def getYearFromFilename(inputfile):
+    matchYear = re.compile("[0-9][0-9]+")
+    year = re.findall(matchYear,str(inputfile))
+    if(len(year)==1):
+        if(len(year[0])==4):
+            print(year[0])
+            return year[0]
+        else:
+            return("20"+year[0])
+
 
 main()
