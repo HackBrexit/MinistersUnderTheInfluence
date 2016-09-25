@@ -18,6 +18,3 @@ For all files in resources/csv directory:
 
 For a specific file:
 `python csv_file_reader.py -f PM_meetings_jan_mar_14.csv`
-
-Saving output to a named csv file:
-`python csv_file_reader.py -o output.csv`
