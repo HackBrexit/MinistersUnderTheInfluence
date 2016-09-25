@@ -19,4 +19,6 @@ The Ministers: Under the Influence team will be holding [fortnightly Meetups](ht
 This is a mono repo, a container for all components and services built for this project. The reason for organising our code this way is to enable discovery of code we have completed and to make it easy to add new things - in different languages if wanted.
 
 The file structure is:
-/src/_language_/_projectname_/_projectfiles
+`/src/language/projectname/projectfiles`
+
+In addition there is a `resources` directory at the root of the repository with some sample data for ease of access. There is more sample data in the MinistersUnderTheInfluence-Data repository.
