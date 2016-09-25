@@ -137,5 +137,5 @@ if __name__ == '__main__':
     if args.f:
         run_file(args.f)
     else:
-        for fn in os.listdir('resources/csv'):
-            run_file('resources/csv/%s' % fn)
+        for fn in os.listdir('../../../resources/csv'):
+            run_file('../../../resources/csv/%s' % fn)
