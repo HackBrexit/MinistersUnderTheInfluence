@@ -12,3 +12,11 @@ We hope this will help concerned citizens and activists alike get the full pictu
 # Want to get involved?
 
 The Ministers: Under the Influence team will be holding [fortnightly Meetups](http://www.meetup.com/Hack-Brexit/) to work on this and [other projects](https://github.com/HackBrexit/WhatTheFact) being featured in the Hack Brexit Accelerator programme. 
+
+
+# Code Organisation
+
+This is a mono repo, a container for all components and services built for this project. The reason for organising our code this way is to enable discovery of code we have completed and to make it easy to add new things - in different languages if wanted.
+
+The file structure is:
+/src/_language_/_projectname_/_projectfiles
