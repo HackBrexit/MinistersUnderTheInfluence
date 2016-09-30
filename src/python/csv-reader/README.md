@@ -1,5 +1,5 @@
 
-This script reads in one or many csv files containing information about minstry meetings.
+This script reads in one or many csv files containing information about ministry meetings.
 
 It assumes that the files have the following four ordered columns:
    - Minister name
