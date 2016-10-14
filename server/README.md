@@ -19,7 +19,6 @@ Vagrant with Ansible, Docker, Xdebug
     * Express
     * Socket.io
 * Ruby
-    * Jekyll
 * Xdebug (debugging code) - not recommended to use with Blackfire
 
 ## Dependencies
