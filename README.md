@@ -11,7 +11,7 @@ We hope this will help concerned citizens and activists alike get the full pictu
 
 # Want to get involved?
 
-The Ministers: Under the Influence team will be holding [fortnightly Meetups](http://www.meetup.com/Hack-Brexit/) to work on this and [other projects](https://github.com/HackBrexit/WhatTheFact) being featured in the Hack Brexit Accelerator programme. 
+The Ministers: Under the Influence team will be holding [fortnightly Meetups](http://www.meetup.com/Hack-Brexit/) to work on this and [other projects](https://github.com/HackBrexit/WhatTheFact) being featured in the Hack Brexit Accelerator programme. Don't hesitate to get in touch!
 
 
 # Code Organisation
