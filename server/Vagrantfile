@@ -45,8 +45,8 @@ Vagrant.configure("2") do |config|
 
     if which('ansible-playbook')
         config.vm.provision "ansible" do |ansible|
-            ansible.playbook = "./server/ansible/playbook.yml"
-            ansible.inventory_path = "./server/ansible/inventories/dev"
+            ansible.playbook = "./ansible/playbook.yml"
+            ansible.inventory_path = "./ansible/inventories/dev"
             ansible.limit = 'all'
         end
     else
@@ -56,4 +56,3 @@ Vagrant.configure("2") do |config|
 
     config.vm.synced_folder "../", "/vagrant", type: "nfs"
 end
-
