@@ -7,9 +7,6 @@ It assumes that the files have the following four ordered columns:
    - Attendees of meeting (a name or list of names, formatted arbitrarily)
    - Purpose of meeting
 
-A log file is created in the location the script is run named "csv_file_reader.log"
-which contains some debugging information.
-
 
 Running from the command line:
 
@@ -18,3 +15,7 @@ For all files in resources/csv directory:
 
 For a specific file:
 `python csv_file_reader.py -f PM_meetings_jan_mar_14.csv`
+
+Running tests:
+You may need to install nosetests on your system first.
+From the directory `src/python/datapreprocessor` run the command `nosetests`
