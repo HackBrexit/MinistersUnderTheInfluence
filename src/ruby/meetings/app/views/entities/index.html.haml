@@ -1,0 +1,25 @@
+%h1 Listing entities
+
+%table.table.table-inverse.table-striped
+  %thead
+    %tr
+      %th Name
+      %th Wikipedia entry
+      %th Type
+      %th
+      %th
+      %th
+
+  %tbody
+    - @entities.each do |entity|
+      %tr
+        %td= entity.name
+        %td= entity.wikipedia_entry
+        %td= entity.type
+        %td= link_to 'Show', entity
+        %td= link_to 'Edit', edit_entity_path(entity)
+        %td= link_to 'Destroy', entity, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Entity', new_entity_path

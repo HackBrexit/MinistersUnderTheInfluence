@@ -1,0 +1,34 @@
+= form_for @means_of_influence do |f|
+  - if @means_of_influence.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@means_of_influence.errors.count, "error")} prohibited this means_of_influence from being saved:"
+      %ul
+        - @means_of_influence.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :type
+    = f.text_field :type
+  .field
+    = f.label :day
+    = f.number_field :day
+  .field
+    = f.label :month
+    = f.number_field :month
+  .field
+    = f.label :year
+    = f.number_field :year
+  .field
+    = f.label :purpose
+    = f.text_field :purpose
+  .field
+    = f.label :type_of_hospitality
+    = f.text_field :type_of_hospitality
+  .field
+    = f.label :gift
+    = f.text_field :gift
+  .field
+    = f.label :value
+    = f.number_field :value
+  .actions
+    = f.submit 'Save'

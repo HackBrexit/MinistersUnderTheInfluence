@@ -1,0 +1,46 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "",
+  "resourcePath": "people",
+  "apis": [
+    {
+      "path": "/api/v1/people.json",
+      "operations": [
+        {
+          "summary": "Fetches all Person items",
+          "notes": "This lists all the active people",
+          "parameters": [
+            {
+              "paramType": "query",
+              "name": "page",
+              "type": "integer",
+              "description": "Page number",
+              "required": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 401,
+              "responseModel": null,
+              "message": "Unauthorized"
+            },
+            {
+              "code": 406,
+              "responseModel": null,
+              "message": "The request you made is not acceptable"
+            },
+            {
+              "code": 500,
+              "responseModel": null,
+              "message": "Requested Range Not Satisfiable"
+            }
+          ],
+          "nickname": "Api::V1::People#index",
+          "method": "get"
+        }
+      ]
+    }
+  ],
+  "authorizations": null
+}

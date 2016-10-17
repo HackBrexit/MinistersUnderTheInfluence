@@ -1,0 +1,35 @@
+%h1 Listing means_of_influences
+
+%table
+  %thead
+    %tr
+      %th Type
+      %th Day
+      %th Month
+      %th Year
+      %th Purpose
+      %th Type of hospitality
+      %th Gift
+      %th Value
+      %th
+      %th
+      %th
+
+  %tbody
+    - @means_of_influences.each do |means_of_influence|
+      %tr
+        %td= means_of_influence.type
+        %td= means_of_influence.day
+        %td= means_of_influence.month
+        %td= means_of_influence.year
+        %td= means_of_influence.purpose
+        %td= means_of_influence.type_of_hospitality
+        %td= means_of_influence.gift
+        %td= means_of_influence.value
+        %td= link_to 'Show', means_of_influence
+        %td= link_to 'Edit', edit_means_of_influence_path(means_of_influence)
+        %td= link_to 'Destroy', means_of_influence, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Means of influence', new_means_of_influence_path

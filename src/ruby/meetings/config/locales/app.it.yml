@@ -1,0 +1,35 @@
+---
+it:
+  hello: Ciao mondo
+  show: Spettacolo
+  edit: Modifica
+  back: Indietro
+  update: Aggiornare
+  delete: Cancellare
+  save: Salva
+  home_page: Casa
+  application_name: ministerial_meetings
+  toggle_navigation: Navigazione Toggle
+  not_authorised: Accesso negato. Non sei autorizzato a fare questo
+  not_authenticated: Accesso negato. È necessario il login prima
+  login_or_sign_up: Effettua il login o registrati
+  site_access_rules: Per accedere a questo sito è necessario essere un utente autenticato
+    e solo alcuni utenti sono autorizzati a firmare
+  countries:
+    :en: Regno Unito
+    :de: Germania
+    :it: Italia
+    :fr: Francia
+    :he: Israele
+    :pt: Brasil
+    :sv: Svezia
+    :no: Norvegia
+    :pl: Polonia
+    :bs: Bosnia
+    :uk: Regno Unito
+    :br: Brasile
+    :ba: Bosnia
+    :us: Stati Uniti - Inglese
+    :up: Stati Uniti - Spagna
+    :ca: Canada - English
+    :cf: Canada - French

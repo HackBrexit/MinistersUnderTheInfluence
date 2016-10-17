@@ -1,0 +1,35 @@
+---
+de:
+  hello: Hallo Welt
+  show: Show
+  edit: Bearbeiten
+  back: Zurück
+  update: Aktualisierung
+  delete: Löschen
+  save: Speichern
+  home_page: Zuhause
+  application_name: ministerial_meetings
+  toggle_navigation: Toggle-Navigation
+  not_authorised: Zugriff verweigert. Du bist nicht berechtigt, dies zu tun
+  not_authenticated: Zugriff verweigert. Sie müssen sich zuerst einloggen
+  login_or_sign_up: Bitte loggen Sie sich ein oder registrieren
+  site_access_rules: Auf diese Site zugreifen müssen ein authentifizierter Benutzer
+    und nur einige Benutzer können sich anzumelden
+  countries:
+    :en: Vereinigtes Königreich
+    :de: Deutschland
+    :it: Italien
+    :fr: Frankreich
+    :he: Israel
+    :pt: Brasil
+    :sv: Schweden
+    :no: Norwegen
+    :pl: Polen
+    :bs: Bosnien
+    :uk: Großbritannien
+    :br: Brasilien
+    :ba: Bosnien
+    :us: United States - English
+    :up: USA - Spanisch
+    :ca: Kanada - English
+    :cf: Kanada - Französisch

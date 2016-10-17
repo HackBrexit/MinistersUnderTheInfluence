@@ -1,0 +1,2 @@
+module MeansOfInfluencesHelper
+end

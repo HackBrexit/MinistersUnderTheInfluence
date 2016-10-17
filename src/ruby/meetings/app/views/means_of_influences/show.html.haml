@@ -1,0 +1,30 @@
+%p#notice= notice
+
+%p
+  %b Type:
+  = @means_of_influence.type
+%p
+  %b Day:
+  = @means_of_influence.day
+%p
+  %b Month:
+  = @means_of_influence.month
+%p
+  %b Year:
+  = @means_of_influence.year
+%p
+  %b Purpose:
+  = @means_of_influence.purpose
+%p
+  %b Type of hospitality:
+  = @means_of_influence.type_of_hospitality
+%p
+  %b Gift:
+  = @means_of_influence.gift
+%p
+  %b Value:
+  = @means_of_influence.value
+
+= link_to 'Edit', edit_means_of_influence_path(@means_of_influence)
+\|
+= link_to 'Back', means_of_influences_path

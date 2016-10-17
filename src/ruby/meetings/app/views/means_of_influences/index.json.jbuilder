@@ -1,0 +1,1 @@
+json.array! @means_of_influences, partial: 'means_of_influences/means_of_influence', as: :means_of_influence

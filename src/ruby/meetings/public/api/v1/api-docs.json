@@ -1,0 +1,20 @@
+{
+  "apiVersion": "1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "",
+  "apis": [
+    {
+      "path": "/api/v1/people.{format}",
+      "description": "People Management"
+    }
+  ],
+  "authorizations": null,
+  "info": {
+    "title": "Swagger Sample App",
+    "description": "This is a sample description.",
+    "termsOfServiceUrl": "http://helloreverb.com/terms/",
+    "contact": "apiteam@wordnik.com",
+    "license": "Apache 2.0",
+    "licenseUrl": "http://www.apache.org/licenses/LICENSE-2.0.html"
+  }
+}

@@ -1,0 +1,35 @@
+---
+fr:
+  hello: Bonjour le monde
+  show: Spectacle
+  edit: "Éditer"
+  back: Arrière
+  update: Mettre à jour
+  delete: Effacer
+  save: Enregistrer
+  home_page: Maison
+  application_name: ministerial_meetings
+  toggle_navigation: Basculer la navigation
+  not_authorised: Accès refusé. Vous n&#39;êtes pas autorisé à le faire
+  not_authenticated: Accès refusé. Vous devez d&#39;abord vous connecter
+  login_or_sign_up: Se il vous plaît connectez-vous ou inscrivez-vous
+  site_access_rules: Pour accéder à ce site vous devez être un utilisateur authentifié,
+    et seuls certains utilisateurs sont autorisés à se inscrire
+  countries:
+    :en: Royaume-Uni
+    :de: Allemagne
+    :it: Italie
+    :fr: France
+    :he: Israël
+    :pt: Brasil
+    :sv: Suède
+    :no: Norvège
+    :pl: Pologne
+    :bs: Bosnie-
+    :uk: Royaume-Uni
+    :br: Brésil
+    :ba: Bosnie-
+    :us: "États-Unis - Anglais"
+    :up: "États-Unis - Espagnol"
+    :ca: Canada - English
+    :cf: Canada - Français

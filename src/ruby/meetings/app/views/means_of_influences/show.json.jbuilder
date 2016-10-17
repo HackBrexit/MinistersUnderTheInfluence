@@ -1,0 +1,1 @@
+json.partial! "means_of_influences/means_of_influence", means_of_influence: @means_of_influence
