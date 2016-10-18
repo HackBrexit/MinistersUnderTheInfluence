@@ -30,13 +30,15 @@ def remove_boilerplate(lines):
     footer_line_1 = ['Does not normally include meetings with Government bodies such as other Government Departments, NDPBs, Non-Ministerial Departments, Agencies, Government reviews and representatives of devolved or foreign governments', '', '', '']
     footer_line_2 = ['Note', '', '', '']
     footer_line_3 = ['Does not normally include meetings with Government bodies such as other Government departments, NDPBs, Non-Ministerial Departments, Agencies, Government reviews and representatives of Parliament, devolved or foreign governments.', '', '', '']
+    footer_line_4 = ['Does not normally include meetings with Government bodies such as other Government Departments, NDPBs, Non-Ministerial Departments, Agencies, Government reviews and representatives of devolved or foreign governments.', '', '', '']
 
     lines = remove_line(header_line, lines)
     lines = remove_line(header_line_2, lines)
     lines = remove_line(footer_line_1, lines)
     lines = remove_line(footer_line_2, lines)
     lines = remove_line(footer_line_3, lines)
-
+    lines = remove_line(footer_line_4, lines)
+    
     return lines
 
 def cleanse_csv_data(file_contents):

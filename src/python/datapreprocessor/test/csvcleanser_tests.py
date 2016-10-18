@@ -47,7 +47,8 @@ class CsvCleanserTest(unittest.TestCase):
             ['Minister', 'Date', 'Name of Organisation', 'Purpose of meeting'],
             ['Does not normally include meetings with Government bodies such as other Government Departments, NDPBs, Non-Ministerial Departments, Agencies, Government reviews and representatives of devolved or foreign governments', '', '', ''],
             ['Note', '', '', ''],
-            ['Does not normally include meetings with Government bodies such as other Government departments, NDPBs, Non-Ministerial Departments, Agencies, Government reviews and representatives of Parliament, devolved or foreign governments.', '', '', '']
+            ['Does not normally include meetings with Government bodies such as other Government departments, NDPBs, Non-Ministerial Departments, Agencies, Government reviews and representatives of Parliament, devolved or foreign governments.', '', '', ''],
+            ['Does not normally include meetings with Government bodies such as other Government Departments, NDPBs, Non-Ministerial Departments, Agencies, Government reviews and representatives of devolved or foreign governments.', '', '', '']
         ]
 
         cleansed_data = cleanse_csv_data(test_csv_data)
