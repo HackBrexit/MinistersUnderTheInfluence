@@ -1,7 +1,8 @@
 import argparse
-from csvreader import *
-from datanormaliser import *
-from csvcleanser import *
+import os
+import csvreader
+import datanormaliser
+import csvcleanser
 
 # This script reads in one or many csv files containing information about minstry meetings.
 # It assumes that the files have the following four ordered columns:
@@ -31,10 +32,9 @@ def print_lines(lines):
 
 
 def get_csv_file_lines(filename):
-    file_contents = read_file(filename)
-    file_contents = cleanse_csv_data(file_contents)
-    file_contents = clean_minister_column(file_contents, filename)
-    file_contents = clean_dates(file_contents)
+    file_contents = csvreader.read_file(filename)
+    file_contents = csvcleanser.cleanse_csv_data(file_contents)
+    file_contents = datanormaliser.normalise(file_contents)
     return file_contents
 
 

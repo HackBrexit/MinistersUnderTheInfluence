@@ -5,7 +5,7 @@ import re
 # Some csv files have the minister only in the first row and not in subsequent rows
 # In this case, copy the minister's name whilst iterating down until the field is no
 # longer blank
-def clean_minister_column(lines, filename):
+def clean_minister_column(lines):
     minister_name = lines[0][0]
     for l in lines:
         if (l[0] == ''):
@@ -50,3 +50,8 @@ def clean_dates(lines):
         lines[idx][1]=datestring
 
     return lines
+
+def normalise(file_contents):
+    file_contents = clean_minister_column(file_contents)
+    file_contents = clean_dates(file_contents)
+    return file_contents
