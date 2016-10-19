@@ -1,0 +1,33 @@
+---
+en:
+  hello: "Hello world"
+  show: 'Show'
+  edit: 'Edit'
+  back: 'Back'
+  update: "Update"
+  delete: 'Delete'
+  save: 'Save'
+  home_page: Home
+  application_name: ministerial_meetings
+  toggle_navigation: Toggle navigation
+  not_authorised: "Access denied. You're not authorised to do this"
+  not_authenticated: "Access denied. You must log in first"
+  login_or_sign_up: "Please log in or sign up"
+  site_access_rules: "To access this site you must be an authenticated user and only some users are allowed to sign up"
+  countries:
+    :en: United Kingdom
+    :uk: United Kingdom
+    :us: United States - English
+    :up: United States - Spanish
+    :ca: Canada - English
+    :cf: Canada - French
+    :de: Germany
+    :it: Italy
+    :fr: France
+    :he: Israel
+    :br: Brazil
+    :sv: Sweden
+    :no: Norway
+    :pl: Poland
+    :ba: Bosnia 
+    :es: Spain

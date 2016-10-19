@@ -1,0 +1,2 @@
+json.extract! means_of_influence, :id, :type, :day, :month, :year, :purpose, :type_of_hospitality, :gift, :value, :created_at, :updated_at
+json.url means_of_influence_url(means_of_influence, format: :json)

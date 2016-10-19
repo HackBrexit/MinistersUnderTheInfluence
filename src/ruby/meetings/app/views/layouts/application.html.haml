@@ -1,0 +1,30 @@
+!!! 5
+%html{lang: I18n.locale,class: 'creative'}
+  %head
+    %meta{name:"viewport", content:"width=device-width, initial-scale=1"}
+    %title
+      -if content_for?(:title)
+        = yield :title
+      -else
+        = t('application_name')
+    = stylesheet_link_tag "application"
+    = javascript_include_tag "application" , "data-turbolinks-track" => true 
+    = yield :js
+    = csrf_meta_tags 
+  %body{id:controller.controller_name,class: 'container-fluid'}
+    .container
+      = render 'layouts/navbar'
+    - if notice || alert
+      .row
+        %div{class: 'col-md-6 col-md-offset-3'}
+          - if notice
+            %div{class: 'alert alert-success', role: 'alert'}
+              %p.notice= notice
+          - if alert
+            %div{class: 'alert alert-danger', role: 'alert'}
+              %p.alert= alert
+    %main.container
+      -if content_for?(:content)
+        = yield :content
+      -else  
+        = yield

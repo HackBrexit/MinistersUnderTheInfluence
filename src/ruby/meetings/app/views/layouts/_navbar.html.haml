@@ -1,0 +1,21 @@
+%nav.navbar.navbar-light.bg-faded
+  .navbar-header
+    =link_to t(:home_page),root_path,class: 'navbar-brand',id: 'link-to-homepage'
+  %ul.nav.navbar-nav
+    %li.nav-item
+      =link_to 'People',people_path,class:'nav-link'
+    %li.nav-item
+      =link_to 'Organisations',organisations_path,class:'nav-link'
+    %li.nav-item
+      =link_to 'Meetings',meetings_path,class:'nav-link'
+  %ul.nav.nav-inline.pull-xs-right
+    %li.nav.item.dropdown#flags
+      =link_to '#',class: 'nav-link dropdown-toggle', 'data-toggle'=>'dropdown' do
+        = image_tag("#{extract_locale_key}.png")
+        = t("countries.#{extract_locale_key}")
+        %span.caret
+      .dropdown-menu
+        - I18n.available_locales.each do |locale_key|
+          =link_to url_for_locale(locale_key),{id: "link_to_#{locale_key}",class: 'dropdown-item'} do
+            = image_tag("#{locale_key}.png")
+            = t("countries.#{locale_key}")
