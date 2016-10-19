@@ -87,3 +87,44 @@ class DataNormaliserTest(unittest.TestCase):
         self.assertEqual('XXXX-10-XX', normalised[9][1])
         self.assertEqual('XXXX-11-XX', normalised[10][1])
         self.assertEqual('XXXX-12-XX', normalised[11][1])
+
+
+    def test_date_where_month_is_in_short_format(self):
+        test_data = [
+            ['Minister name', 'Jan', 'People', 'Purpose'],
+            ['Minister name', 'Feb', 'People', 'Purpose'],
+            ['Minister name', 'Mar', 'People', 'Purpose'],
+            ['Minister name', 'Apr', 'People', 'Purpose'],
+            ['Minister name', 'May', 'People', 'Purpose'],
+            ['Minister name', 'Jun', 'People', 'Purpose'],
+            ['Minister name', 'Jul', 'People', 'Purpose'],
+            ['Minister name', 'Aug', 'People', 'Purpose'],
+            ['Minister name', 'Sep', 'People', 'Purpose'],
+            ['Minister name', 'Oct', 'People', 'Purpose'],
+            ['Minister name', 'Nov', 'People', 'Purpose'],
+            ['Minister name', 'Dec', 'People', 'Purpose'],
+        ]
+
+        normalised = normalise(test_data)
+
+        self.assertEqual('XXXX-01-XX', normalised[0][1])
+        self.assertEqual('XXXX-02-XX', normalised[1][1])
+        self.assertEqual('XXXX-03-XX', normalised[2][1])
+        self.assertEqual('XXXX-04-XX', normalised[3][1])
+        self.assertEqual('XXXX-05-XX', normalised[4][1])
+        self.assertEqual('XXXX-06-XX', normalised[5][1])
+        self.assertEqual('XXXX-07-XX', normalised[6][1])
+        self.assertEqual('XXXX-08-XX', normalised[7][1])
+        self.assertEqual('XXXX-09-XX', normalised[8][1])
+        self.assertEqual('XXXX-10-XX', normalised[9][1])
+        self.assertEqual('XXXX-11-XX', normalised[10][1])
+        self.assertEqual('XXXX-12-XX', normalised[11][1])
+
+    def test_date_where_month_is_sept(self):
+        test_data = [
+            ['Minister name', 'Sept', 'People', 'Purpose']
+        ]
+
+        normalised = normalise(test_data)
+
+        self.assertEqual('XXXX-09-XX', normalised[0][1])
