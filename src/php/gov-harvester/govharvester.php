@@ -1,5 +1,5 @@
 #!/usr/bin/php
-<?
+<?php
 // *************************************************************************************************
 // * script tp harvest documents from from the https://www.gov.uk/government/publications
 // * requires: php-cli, libxml
@@ -45,12 +45,12 @@ function openPageAsDom($url)
 	// attempt open url
 	if(!$content = file_get_contents ($url))
 	{
-		echo "cannot parse $url\n";	
-	
+		echo "cannot parse $url\n";
+
 		// return false if wew can't
 		return false;
-	}		
-	
+	}
+
 	// create a DOM object
 	$domdoc = new DOMDocument();
 
@@ -81,7 +81,7 @@ function indexPageParse($domdoc)
 			$urlarray[] = ('https://www.gov.uk' .$element->getAttribute('href'));
 		}
 	}
-	
+
 	// look for a next page link
 	$elements = $xpath->query('//nav[@id="show-more-documents"]/ul/li[@class="next"]/a');
 
@@ -171,7 +171,7 @@ function docParsePage($domdoc)
 
 			continue;
 		}
-	}	
+	}
 }
 
 
