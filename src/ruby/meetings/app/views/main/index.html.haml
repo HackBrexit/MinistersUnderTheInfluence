@@ -1,2 +1,6 @@
-%h1 Main#index
-%p Find me in app/views/main/index.html.haml
+.row
+  .col-md-10.center-block
+    %h1 Main
+    =link_to 'Api Docs',api_v1_docs_path
+    =link_to 'Swagger Docs',swagger_docs_path,target: '_blank'
+

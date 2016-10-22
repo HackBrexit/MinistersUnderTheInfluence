@@ -1,0 +1,26 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  username: A valid user name 
+  password: A valid user password
+  host: localhost
+
+development:
+  <<: *default
+  database: meetings_development
+
+test: &test
+  <<: *default
+  database: meetings_test
+
+staging:
+  <<: *default
+  database: meetings_staging
+
+production:
+  <<: *default
+  database: meetings_production
+
+cucumber:
+  <<: *test

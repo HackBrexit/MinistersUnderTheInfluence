@@ -17,5 +17,8 @@
 .byebug_history
 *.swp
 /public/assets/
-/config/*.yml
+/config/database.yml
+/config/secrets.yml
+/config/deploy.yml
+/config/environment_params.yml
 /doc/
