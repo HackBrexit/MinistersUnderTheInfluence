@@ -4,9 +4,7 @@ Ministers: Under the Influence is a project that came out of the [\#HackBrexit](
 
 ## The Project
 
-The aim of [Ministers: Under the Influence](https://www.youtube.com/watch?v=bVbTzTd2ZRs) is to unearth public-but-obscure ministerial data and make it readily available and visually friendly to a common user. We hope to use the project to track spheres of influence within ministerial meetings to encourage transparency in policy-making.
-
-We hope this will help concerned citizens and activists alike get the full picture of whose interests their government is representing.
+The aim of [Ministers: Under the Influence](https://www.youtube.com/watch?v=bVbTzTd2ZRs) is to unearth public-but-obscure information about who ministers are meeting. By making this data more accessible we can hope to better hold our government to account. We hope this will feed into a wider project about tracking who is influencing our elected politicians. 
 
 
 # Want to get involved?
