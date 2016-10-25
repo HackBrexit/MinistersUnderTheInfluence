@@ -10,4 +10,5 @@ class InfluenceOfficePerson < ApplicationRecord
   belongs_to :hospitality, foreign_key: 'means_of_influence_id'
   belongs_to :gift, foreign_key: 'means_of_influence_id'
   belongs_to :travel, foreign_key: 'means_of_influence_id'
+  belongs_to :person
 end

@@ -3,14 +3,23 @@ require 'rails_helper'
 RSpec.describe "Api::V1::People", type: :request do
   describe "GET /api/v1/people" do
     let(:person){create(:person)}
+    let(:headers){{'HTTP_ACCEPT' => "application/vnd.api+json"}}
     it "it returns a 200" do
-      get api_v1_person_path(person),headers:{'HTTP_ACCEPT' => "application/vnd.api+json"}
+      get api_v1_person_path(person),headers: headers
       expect(response).to have_http_status(200)
     end
 
     it 'should be a json-api response' do
-      get api_v1_person_path(person),headers:{'HTTP_ACCEPT' => "application/vnd.api+json"}
+      get api_v1_person_path(person),headers: headers
       expect(response.body).to be_jsonapi_response_for('people')
+    end
+
+    it 'should allow filtering by name' do
+      people = create_list(:person,3)
+      last_person = people.last
+      get api_v1_people_path, params: {'filter[name]'=>last_person.name}, headers: headers
+      person_json = JSON.parse(response.body)
+      expect(person_json['data'].size).to eq(1)
     end
   end
 

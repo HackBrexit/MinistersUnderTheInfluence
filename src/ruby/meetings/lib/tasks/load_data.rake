@@ -15,11 +15,11 @@ task seed_ministerial_meeting_data: :environment do
       year_number  = 2013
       purpose_of_meeting = row['Purpose of meeting']
       meeting = Meeting.create(month:month_number,year: year_number,purpose: purpose_of_meeting)
-      g_office = GovernmentOffice.find_or_create_by(name: office_name)
-      person = Person.find_or_create_by(name: person_name)
+      g_office = GovernmentOffice.find_or_create_by(name: office_name.strip)
+      person = Person.find_or_create_by(name: person_name.strip)
       InfluenceGovernmentOfficePerson.create(means_of_influence_id:meeting.id, person_id: person.id, office_id: g_office.id)
       row['Name of Organisation'].split(/;|,/).each do | org_name |
-        organisation = Organisation.find_or_create_by(name: org_name)
+        organisation = Organisation.find_or_create_by(name: org_name.strip)
         InfluenceOrganisationPerson.create(means_of_influence_id:meeting.id, office_id: organisation.id)
       end
     end
