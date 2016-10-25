@@ -1,0 +1,51 @@
+= This is the Readme doc for Ministers Under the Influence
+It describes the system dependencies and how to set up the project 
+== Dependencies
+1. Ruby version at least 2.2.2, it was developed in Ruby 2.3.1
+2. Postgresql
+== Setup
+Ideally you should have RVM (Ruby Version Manager) set up, this will recognise two files in the root directory
+1. .ruby-version
+2. .ruby-gemset
+and prompt you to build the correct version of Ruby. It'll go and get the files it needs and install everything for you.
+To get RVM onto your system go to (https://rvm.io/rvm/install) and follow the instructions
+
+If you're using system Ruby, in say a Vagrant box then you'll have to get the right version and install it yourself.
+
+Once you've done that cd into the rails root directory. If you're using RVM cd-ing into the directory will create an RVM configuration. 
+
+Then run these commands
+  gem install bundler
+That installs a utility to bundle the gems (Ruby shared libraries) together for the project
+  bundle
+That calls the utility, which reads a file of dependencies, Gemfile, and goes to get the gems from https://rubygems.org and Github
+
+Once that's done you're nearly ready to create the database and set up the data structure. 
+1. You need to let Rails know what username and password to use to connect to your Postgresl database. Assuming you've set up a user with permission
+   to create databases. Go to {Rails Root}/config, copy database.yml.example to database.yml and edit as required. 
+2. Also within the /config directly copy secrets.yml.example to secrets.yml and add your own secrets. You can get new secrets by typing
+  rake secret
+on the command line
+
+Once you've got database.yml and secrets.yml in place and configured then run
+  rails db:create:all
+This will create the databases for each Rails environment, development, test, staging and producion. As you'll be using development and test these are the only
+ones you need to be concerned with.
+
+Then run
+  rails db:migrate
+This will set up the tables in the development database
+
+Then run
+  rake
+This will copy the data structure into the test database and run the tests. This runs the Rspec specs, you'll see a few pending tests, ignore those. 
+Then it runs Cucumber smoke test to see that the basic web site it working. Running the Cucumber smoke test might fail if 
+a. You're running inside Vagrant 
+b. You don't have Firefox configured on your system
+If Rspec specs pass then ignore the Cucumber failures and run
+  rails db:seed
+This will seed the development database with data extracted from some of the ministerial meetings csv files.
+
+And finally type
+  rails s
+This will start up Rails on port 3000 so go to http://localhost:3000, or http://{ip-address of the vagrant box}:3000

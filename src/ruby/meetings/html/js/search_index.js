@@ -1,0 +1,1 @@
+var search_data = {"index":{"searchIndex":["readme"],"longSearchIndex":[""],"info":[["README","","README_rdoc.html","","<p>This is the Readme doc for Ministers Under the Influence\n<p>It describes the system dependencies and how …\n"]]}}

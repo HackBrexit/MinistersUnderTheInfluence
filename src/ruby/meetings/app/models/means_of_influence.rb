@@ -6,8 +6,8 @@ class MeansOfInfluence < ApplicationRecord
   has_many :influence_government_office_people
   has_many :influence_organisation_people
   has_many :organisations,through: :influence_organisation_people
-  has_many :organisation_people,through: :influence_organisation_people,class_name: 'Person'
-  has_many :government_people,through: :influence_government_office_people,class_name: 'Person'
+  has_many :organisation_people,through: :influence_organisation_people,source: 'person'
+  has_many :government_people,through: :influence_government_office_people,source: 'person'
   has_many :government_offices,through: :influence_government_office_people
 
   self.types.each do |klass|

@@ -19,6 +19,31 @@ require 'rails_helper'
 RSpec.describe Meeting, type: :model do
   it{ should have_db_column(:purpose).of_type(:string)}
   it{should validate_presence_of(:purpose)}
+
+  # verify that these complex through relationships are working 
+  it 'should link to a government person' do
+   link_record = create(:influence_government_office_person)
+   meeting = link_record.meeting
+   expect(meeting.government_people).not_to be_empty
+  end
+
+  it 'should link to a government office' do
+   link_record = create(:influence_government_office_person)
+   meeting = link_record.meeting
+   expect(meeting.government_offices).not_to be_empty
+  end
+
+  it 'should link to organisations' do
+   link_record = create(:influence_organisation_person)
+   meeting = link_record.meeting
+   expect(meeting.organisations).not_to be_empty
+  end
+
+  it 'should link to organisations' do
+   link_record = create(:influence_organisation_person)
+   meeting = link_record.meeting
+   expect(meeting.organisation_people).not_to be_empty
+  end
 end
 
 RSpec.describe Travel, type: :model do
