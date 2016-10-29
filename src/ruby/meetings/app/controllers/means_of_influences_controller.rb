@@ -1,10 +1,11 @@
 class MeansOfInfluencesController < ApplicationController
+  before_action :set_type
   before_action :set_means_of_influence, only: [:show, :edit, :update, :destroy]
 
   # GET /means_of_influences
   # GET /means_of_influences.json
   def index
-    @means_of_influences = MeansOfInfluence.all
+    @means_of_influences = type_class.all
   end
 
   # GET /means_of_influences/1
@@ -14,7 +15,7 @@ class MeansOfInfluencesController < ApplicationController
 
   # GET /means_of_influences/new
   def new
-    @means_of_influence = MeansOfInfluence.new
+    @means_of_influence = type_class.new
   end
 
   # GET /means_of_influences/1/edit
@@ -24,7 +25,7 @@ class MeansOfInfluencesController < ApplicationController
   # POST /means_of_influences
   # POST /means_of_influences.json
   def create
-    @means_of_influence = MeansOfInfluence.new(means_of_influence_params)
+    @means_of_influence = type_class.new(means_of_influence_params)
 
     respond_to do |format|
       if @means_of_influence.save
@@ -62,13 +63,25 @@ class MeansOfInfluencesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_means_of_influence
-      @means_of_influence = MeansOfInfluence.find(params[:id])
-    end
+  def set_type
+    @type = type
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def means_of_influence_params
-      params.require(:means_of_influence).permit(:type, :day, :month, :year, :purpose, :type_of_hospitality, :gift, :value)
-    end
+  def type
+    params[:type] || "MeansOfInfluence"
+  end
+
+  def type_class
+    @type_class = type.constantize
+  end
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_means_of_influence
+    @means_of_influence = type_class.find(params[:id]).decorate
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def means_of_influence_params
+    params.require(:means_of_influence).permit(:type, :day, :month, :year, :purpose, :type_of_hospitality, :gift, :value)
+  end
 end

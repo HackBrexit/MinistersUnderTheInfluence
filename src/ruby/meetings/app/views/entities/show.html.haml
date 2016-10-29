@@ -1,29 +1,79 @@
-%p#notice= notice
-
 %p
   %b Name:
   = @entity.name
 %p
   %b Wikipedia entry:
   = @entity.wikipedia_entry
-
-%table.table.table-inverse.table-striped
-  %thead
-    %tr
-      %th Month
-      %th Year
-      %th Purpose
-      %th Organisations
-
-  %tbody
-    - @entity.meetings.each do |meeting|
+= link_to 'Back', send("#{@type.underscore.pluralize.downcase}_path")
+-if @entity.meetings.count > 0
+  %table.table.table-inverse.table-striped
+    %caption=Meeting.model_name.human(count: 2).capitalize
+    %thead
       %tr
-        %td= meeting.month
-        %td= meeting.year
-        %td= meeting.purpose
-        %td= meeting.organisations.map(&:name).join(', ')
+        %th{width: '10%'} Date
+        %th Purpose
+        %th Organisations
+        %th
 
-%br
-= link_to 'Edit', edit_entity_path(@entity)
-\|
-= link_to 'Back', entities_path
+    %tbody
+      - @entity.meetings.decorate.each do |meeting|
+        %tr
+          %td= meeting.date_string
+          %td= meeting.purpose
+          %td= meeting.organisation_side
+          %td= link_to 'Show', meeting_path(meeting)
+
+-if @entity.travels.count > 0
+  %table.table.table-inverse.table-striped
+    %caption=Travel.model_name.human(count: 2).capitalize
+    %thead
+      %tr
+        %th{width: '10%'} Date
+        %th Purpose
+        %th Organisations
+        %th
+
+    %tbody
+      - @entity.travels.decorate.each do |travel|
+        %tr
+          %td= travel.date_string
+          %td= travel.purpose
+          %td= travel.organisation_side
+          %td= link_to 'Show', travel_path(travel)
+
+-if @entity.hospitalities.count > 0
+  %table.table.table-inverse.table-striped
+    %caption=Hospitality.model_name.human(count: 2).capitalize
+    %thead
+      %tr
+        %th{width: '10%'} Date
+        %th Type of Hospitality 
+        %th Organisations
+        %th
+
+    %tbody
+      - @entity.hospitalities.decorate.each do |hospitality|
+        %tr
+          %td= hospitality.date_string
+          %td= hospitality.type_of_hospitality
+          %td= hospitality.organisation_side
+          %td= link_to 'Show', hospitality_path(hospitality)
+-if @entity.gifts.count > 0
+  %table.table.table-inverse.table-striped
+    %caption=Gift.model_name.human(count: 2).capitalize
+    %thead
+      %tr
+        %th{width: '10%'} Date
+        %th Gift
+        %th Value
+        %th Organisations
+        %th
+
+    %tbody
+      - @entity.gifts.decorate.each do |gift|
+        %tr
+          %td= gift.date_string
+          %td= gift.gift
+          %td= gift.value
+          %td= gift.organisation_side
+          %td= link_to 'Show', gift_path(gift)

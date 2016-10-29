@@ -1,30 +1,42 @@
-%p#notice= notice
+%h1= @type_class.model_name.human(count: 1).capitalize
+%p
+  %b Date:
+  = @means_of_influence.date_string
+-case @type
+  -when 'Meeting','Travel'
+    %p
+      %b Purpose:
+      = @means_of_influence.purpose
+  -when 'Hospitality'
+    %p
+      %b Type of hospitality:
+      = @means_of_influence.type_of_hospitality
+  -when 'Gift'
+    %p
+      %b Gift:
+      = @means_of_influence.gift
+    %p
+      %b Value:
+      = @means_of_influence.value
+= link_to @type.pluralize, send("#{@type.underscore.downcase.pluralize}_path")
 
-%p
-  %b Type:
-  = @means_of_influence.type
-%p
-  %b Day:
-  = @means_of_influence.day
-%p
-  %b Month:
-  = @means_of_influence.month
-%p
-  %b Year:
-  = @means_of_influence.year
-%p
-  %b Purpose:
-  = @means_of_influence.purpose
-%p
-  %b Type of hospitality:
-  = @means_of_influence.type_of_hospitality
-%p
-  %b Gift:
-  = @means_of_influence.gift
-%p
-  %b Value:
-  = @means_of_influence.value
-
-= link_to 'Edit', edit_means_of_influence_path(@means_of_influence)
-\|
-= link_to 'Back', means_of_influences_path
+%table.table.table-inverse.table-striped
+  %caption Government Representation
+  %thead
+    %tr
+      %th Name
+      %th Office
+  %tbody
+    - @means_of_influence.influence_government_office_people.each do |igp|
+      %tr
+        %th= link_to igp.person.name, igp.person
+        %th= link_to igp.government_office.name, igp.government_office
+%table.table.table-inverse.table-striped
+  %caption Organisation Representation
+  %thead
+    %tr
+      %th Organisation
+  %tbody
+    - @means_of_influence.influence_organisation_people.each do |iop|
+      %tr
+        %th= link_to  iop.organisation.name, iop.organisation

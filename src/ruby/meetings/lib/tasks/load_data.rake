@@ -9,7 +9,7 @@ task seed_ministerial_meeting_data: :environment do
     puts file_name
     CSV.open(file_name,headers: true).each do | row |
       break unless row['Minister']
-      office_name    = row['Minister'].split(',')[0]
+      office_name  = row['Minister'].split(',')[0]
       person_name  = row['Minister'].split(',')[1]
       month_number = Date::ABBR_MONTHNAMES.index(row['Date']) || Date::MONTHNAMES.index(row['Date'])
       year_number  = 2013

@@ -1,13 +1,10 @@
-%h1 Listing entities
+%h1= @type_class.model_name.human(count: 2).capitalize
 
 %table.table.table-inverse.table-striped
   %thead
     %tr
       %th Name
       %th Wikipedia entry
-      %th Type
-      %th
-      %th
       %th
 
   %tbody
@@ -15,11 +12,4 @@
       %tr
         %td= entity.name
         %td= entity.wikipedia_entry
-        %td= entity.type
         %td= link_to 'Show', entity
-        %td= link_to 'Edit', edit_entity_path(entity)
-        %td= link_to 'Destroy', entity, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
-%br
-
-= link_to 'New Entity', new_entity_path

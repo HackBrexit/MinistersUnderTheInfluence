@@ -58,6 +58,7 @@ gem 'draper', github: 'drapergem/draper'
 gem 'haml-rails'
 gem 'country_select'
 gem 'kaminari'
+gem "htmlentities"
 gem 'factory_girl_rails'
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'activemodel-serializers-xml'
@@ -73,6 +74,8 @@ group :development, :test do
   gem 'awesome_print'
   gem 'webmock'
   gem 'capistrano-git-submodule-strategy', '~> 0.1', :github => 'ekho/capistrano-git-submodule-strategy'
+  gem 'faraday'
+  gem 'jsonpath'
 end
 
 group :test do

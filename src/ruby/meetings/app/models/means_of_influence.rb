@@ -13,4 +13,7 @@ class MeansOfInfluence < ApplicationRecord
   self.types.each do |klass|
     scope klass.underscore.downcase.pluralize.to_sym,->{where(type: klass)}
   end
+
+  default_scope -> { order(year: :asc,month: :asc) }
+
 end

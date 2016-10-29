@@ -1,35 +1,34 @@
-%h1 Listing means_of_influences
+%h1= @type_class.model_name.human(count: 2).capitalize
 
-%table
+%table.table.table-inverse.table-striped
   %thead
     %tr
-      %th Type
-      %th Day
-      %th Month
-      %th Year
-      %th Purpose
-      %th Type of hospitality
-      %th Gift
-      %th Value
-      %th
-      %th
+      %th{width: '10%'} Date
+      -case @type
+        -when 'Meeting','Travel'
+          %th Purpose
+        -when 'Hospitality'
+          %th Type of hospitality
+        -when 'Gift'
+          %th Gift
+          %th Value
+      %th Department
+      %th Organisation 
       %th
 
   %tbody
-    - @means_of_influences.each do |means_of_influence|
+    - @means_of_influences.decorate.each do |means_of_influence|
       %tr
-        %td= means_of_influence.type
-        %td= means_of_influence.day
-        %td= means_of_influence.month
-        %td= means_of_influence.year
-        %td= means_of_influence.purpose
-        %td= means_of_influence.type_of_hospitality
-        %td= means_of_influence.gift
-        %td= means_of_influence.value
+        %td= means_of_influence.date_string
+        -case @type
+          -when 'Meeting','Travel'
+            %td= means_of_influence.purpose
+          -when 'Hospitality' 
+            %td= means_of_influence.type_of_hospitality
+          -when 'Gift'
+            %td= means_of_influence.gift
+            %td= means_of_influence.value
+        %td= means_of_influence.government_side
+        %td= means_of_influence.organisation_side
         %td= link_to 'Show', means_of_influence
-        %td= link_to 'Edit', edit_means_of_influence_path(means_of_influence)
-        %td= link_to 'Destroy', means_of_influence, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
-%br
-
-= link_to 'New Means of influence', new_means_of_influence_path
