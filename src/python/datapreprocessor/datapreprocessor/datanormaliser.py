@@ -27,41 +27,30 @@ def has_month(date, newdate):
     else:
         return None
 
-def has_day(date):
+def has_day(date, newdate):
     numbers_present = [int(n) for n in date.split() if n.isdigit()]
-    # if (len(numbers_present) == 2):
-    #     print "new lajaljalsdkfjlasdjfkd"
-    #     print newdate.day
-    #     return newdate.day
-    # else:
-    #     return None
-    if (len(numbers_present) != 2):
+    if (len(numbers_present) == 2):
+        return newdate.day
+    else:
         return None
 
 def clean_dates(lines):
     # IMPORTANT: This method currently only expects dates of months with or without a year (does not expect days)
     # Edge case included: Sept is not recognized so changed to Sep
     SEPT_PATTERN = re.compile("^sept$", flags=re.IGNORECASE) #RegEx to find "Sept" abbreviation
-    DEFAULT = datetime(1000,12,01)  #Default date for dateutil to fill in missing gaps, year 1000
+    DEFAULT = datetime(1000,12,01,0,0)  #Default date for dateutil to fill in missing gaps, year 1000
 
     for idx,line in enumerate(lines):
         date = line[1]
         date = re.sub(SEPT_PATTERN,"Sep",line[1])
         dateInfo = {}
 
-        # parse date using dateutil lib
-        try:
+        if(len(date)==0):
+            lines[idx][1]= {'Year': None, 'Month': None, 'Day': None}
+        else:
             newdate = parse(date.replace("-"," of "),default=DEFAULT,dayfirst=True)
-        except:
-            newdate = ""
-
-        if(len(str(newdate))==0 or len(date)==0):
-            dateInfo = {'Year': None, 'Month': None, 'Day': None}
-            lines[idx][1]=""
-            return lines
-
-        dateInfo = {'Year': has_year(newdate), 'Month': has_month(date, newdate), 'Day': has_day(date)}
-        lines[idx][1]=dateInfo
+            dateInfo = {'Year': has_year(newdate), 'Month': has_month(date, newdate), 'Day': has_day(date, newdate)}
+            lines[idx][1] = dateInfo
 
     return lines
 

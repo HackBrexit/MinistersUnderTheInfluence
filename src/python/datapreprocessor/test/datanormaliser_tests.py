@@ -8,12 +8,12 @@ class DataNormaliserTest(unittest.TestCase):
         another_minister_name = "Frodo Baggins"
 
         test_data = [
-            [minister_name, 'A date', 'An attendee', 'A purpose'],
-            ['', 'A date', 'An attendee', 'A purpose'],
-            ['', 'A date', 'An attendee', 'A purpose'],
-            ['', 'A date', 'An attendee', 'A purpose'],
-            [another_minister_name, 'A date', 'An attendee', 'A purpose'],
-            ['', 'A date', 'An attendee', 'A purpose'],
+            [minister_name, 'Jan', 'An attendee', 'A purpose'],
+            ['', 'Jan', 'An attendee', 'A purpose'],
+            ['', 'Jan', 'An attendee', 'A purpose'],
+            ['', 'Jan', 'An attendee', 'A purpose'],
+            [another_minister_name, 'Jan', 'An attendee', 'A purpose'],
+            ['', 'Jan', 'An attendee', 'A purpose'],
         ]
 
         normalised = normalise(test_data)
@@ -138,12 +138,22 @@ class DataNormaliserTest(unittest.TestCase):
 
         self.assertEqual({'Year': 2011, 'Month': None, 'Day': None}, normalised[0][1])
 
-    # def test_date_with_year_month_day(self):
-    #
-    #     test_data = [
-    #         ['Minister name', 'February 2011 13', 'People', 'Purpose']
-    #     ]
-    #
-    #     normalised = normalise(test_data)
-    #
-    #     self.assertEqual({'Year': 2011, 'Month': 2, 'Day': 13}, normalised[0][1])
+    def test_date_when_there_is_no_date_info(self):
+
+        test_data = [
+            ['Minister name', '', 'People', 'Purpose']
+        ]
+
+        normalised = normalise(test_data)
+
+        self.assertEqual({'Year': None, 'Month': None, 'Day': None}, normalised[0][1])
+
+    def test_date_with_year_month_day(self):
+        #date has to be in format day month year
+        test_data = [
+            ['Minister name', '13 January 2012', 'People', 'Purpose']
+        ]
+
+        normalised = normalise(test_data)
+
+        self.assertEqual({'Year': 2012, 'Month': 1, 'Day': 13}, normalised[0][1])
