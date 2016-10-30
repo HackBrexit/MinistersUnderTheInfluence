@@ -14,16 +14,40 @@ def clean_minister_column(lines):
             minister_name = l[0]
     return lines
 
+def has_year(newdate):
+    if newdate.year != 1000:
+        return newdate.year
+    else:
+        return None
+
+def has_month(date, newdate):
+    month_info = date.join(re.findall("[a-zA-Z]+", date))
+    if len(month_info) != 0:
+        return newdate.month
+    else:
+        return None
+
+def has_day(date):
+    numbers_present = [int(n) for n in date.split() if n.isdigit()]
+    # if (len(numbers_present) == 2):
+    #     print "new lajaljalsdkfjlasdjfkd"
+    #     print newdate.day
+    #     return newdate.day
+    # else:
+    #     return None
+    if (len(numbers_present) != 2):
+        return None
+
 def clean_dates(lines):
-    # IMPORTANT: This method currently only expects dates of months with or without a year (does not expect days, does not expect empty months !!!)
-    # Edge case not included: Jan/Feb/Mar - we must decide how to handle
+    # IMPORTANT: This method currently only expects dates of months with or without a year (does not expect days)
     # Edge case included: Sept is not recognized so changed to Sep
     SEPT_PATTERN = re.compile("^sept$", flags=re.IGNORECASE) #RegEx to find "Sept" abbreviation
-    DEFAULT = datetime(1000,12,01,0,0)  #Default date for dateutil to fill in missing gaps, year 1000
+    DEFAULT = datetime(1000,12,01)  #Default date for dateutil to fill in missing gaps, year 1000
 
     for idx,line in enumerate(lines):
         date = line[1]
         date = re.sub(SEPT_PATTERN,"Sep",line[1])
+        dateInfo = {}
 
         # parse date using dateutil lib
         try:
@@ -31,23 +55,13 @@ def clean_dates(lines):
         except:
             newdate = ""
 
-        # If no data or date
         if(len(str(newdate))==0 or len(date)==0):
-            datestring="XXXX-XX-XX"
-        else:
-            datestring=""
-            # YEAR - if default then missing
-            if(newdate.year==1000):
-                datestring+="XXXX-"
-            else:
-                datestring+=str(newdate.year)+"-"
-            # MONTH AND DAY - assumed always present and missing respectively (for now)
-            datestring += str(newdate.month).zfill(2) + "-XX"
+            dateInfo = {'Year': None, 'Month': None, 'Day': None}
+            lines[idx][1]=""
+            return lines
 
-        # print date + " parsed: " + str(newdate) + " is " + datestring
-
-        #Replace date in data
-        lines[idx][1]=datestring
+        dateInfo = {'Year': has_year(newdate), 'Month': has_month(date, newdate), 'Day': has_day(date)}
+        lines[idx][1]=dateInfo
 
     return lines
 
