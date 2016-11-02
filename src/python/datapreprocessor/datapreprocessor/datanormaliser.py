@@ -29,13 +29,13 @@ def has_month(date, newdate):
 
 def has_day(date, newdate):
     numbers_present = [int(n) for n in date.split() if n.isdigit()]
-    if (len(numbers_present) == 2):
+    if ((newdate.year != 1000  and (len(numbers_present) == 2)) or (newdate.year == 1000 and (len(numbers_present) == 1))):
         return newdate.day
     else:
         return None
 
 def clean_dates(lines):
-    # IMPORTANT: This method currently only expects dates of months with or without a year (does not expect days)
+    # IMPORTANT: This method currently only expects dates of months with or without a year
     # Edge case included: Sept is not recognized so changed to Sep
     SEPT_PATTERN = re.compile("^sept$", flags=re.IGNORECASE) #RegEx to find "Sept" abbreviation
     DEFAULT = datetime(1000,12,01,0,0)  #Default date for dateutil to fill in missing gaps, year 1000
