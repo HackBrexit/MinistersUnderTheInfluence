@@ -157,3 +157,13 @@ class DataNormaliserTest(unittest.TestCase):
         normalised = normalise(test_data)
 
         self.assertEqual({'Year': 2012, 'Month': 1, 'Day': 13}, normalised[0][1])
+
+    def test_date_with_abbreviated_month_with_day_and_year(self):
+        
+        test_data = [
+            ['Minister name', '13 Jan 2012', 'People', 'Purpose']
+        ]
+
+        normalised = normalise(test_data)
+
+        self.assertEqual({'Year': 2012, 'Month': 1, 'Day': 13}, normalised[0][1])
