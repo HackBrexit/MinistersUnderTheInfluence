@@ -18,6 +18,7 @@
     "@n3dst4/build-stylesheets": "^1.0.1",
     "babel-polyfill": "6.9.1",
     "browser-sync": "^2.12.3",
+    "d3": "^4.3.0",
     "gulp": "^3.9.1",
     "gulp-csso": "^2.0.0",
     "gulp-if": "^2.0.0",
