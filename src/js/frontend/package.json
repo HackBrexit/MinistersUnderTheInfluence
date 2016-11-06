@@ -25,7 +25,7 @@
     "gulp-plumber": "^1.1.0",
     "gulp-rework": "^1.2.0",
     "immutable": "^3.8.1",
-    "radium": "^0.17.1",
+    "radium": "^0.18.0",
     "react": "^15.1.0",
     "react-addons-pure-render-mixin": "^15.1.0",
     "react-dom": "^15.1.0",
