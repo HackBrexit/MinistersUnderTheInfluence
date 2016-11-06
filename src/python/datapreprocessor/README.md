@@ -19,3 +19,11 @@ For a specific file:
 Running tests:
 You may need to install nosetests on your system first.
 From the directory `src/python/datapreprocessor` run the command `nosetests`
+
+Integration Tests:
+There are integration tests which have a dependency on the meetings api. By default these tests are skipped.
+To run these tests:
+- Run the meetings api following the instructions laid out in src/ruby/meetings
+- Run the command: `export INTEGRATION_TESTS=1` to set the INTEGRATION_TESTS environment variable
+- Run the command: `nosetests` to run the tests as usual, including the integration tests
+To stop running them, quit your shell session - this removes the environment variable `INTEGRATION_TESTS`.
