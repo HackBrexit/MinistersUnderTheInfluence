@@ -2,11 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./components/app";
 import {Router, Route, hashHistory} from 'react-router';
-import immutableStorageDecorator from "./immutable-storage-decorator"
+import immutableStorageDecorator from "./Redux/immutable-storage-decorator"
 import {createStore, applyMiddleware} from "redux"
 import {Provider} from "react-redux";
 import thunkMiddleware from "redux-thunk"
-import {rootReducer} from "./reducer"
+import {rootReducer} from "./Redux/reducer"
 import * as storage from "redux-storage"
 import createEngine from "redux-storage-engine-localstorage"
 import storageDebounce from 'redux-storage-decorator-debounce'
