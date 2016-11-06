@@ -3,6 +3,8 @@ import Radium from "radium"
 import ImmutablePropTypes from "react-immutable-proptypes"
 import pureRenderMixin from "react-addons-pure-render-mixin"
 
+var Chart = require('./Chart');
+
 export default Radium(React.createClass({
 
   displayName: "App",
@@ -13,21 +15,17 @@ export default Radium(React.createClass({
   },
 
   getInitialState () {
-    return {text: ""}
-  },
-
-  onInputChange (event) {
-    this.setState({text: event.target.value})
-  },
-
-  onButtonClick (event) {
-    this.setState({text: ""})
+    return {
+      data: [
+          {cx: 40, cy: 40, r: 15},
+          {cx: 150, cy: 100, r: 40}
+      ]
+    };
   },
 
   render () {
     return <div>
-        <input value={this.state.text} onChange={this.onInputChange} />
-        <button onClick={this.onButtonClick}>Add</button>
+      <Chart data={this.state.data} />
     </div>
   }
 }))
