@@ -76,3 +76,6 @@ src/python/org_fetcher/orgs.csv
 
 # Vagrant
 .vagrant/
+
+# IntelliJ
+.idea/
