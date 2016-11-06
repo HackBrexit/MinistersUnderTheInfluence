@@ -65,7 +65,8 @@ gulp.task('webserver', function() {
     reloadDelay: 0,
     ghostMode: false,
     reloadOnRestart: false,
-    notify: false
+    notify: false,
+    open: false
   })
 })
 
