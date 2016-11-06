@@ -52,7 +52,7 @@ gulp.task("build-stylesheets", () => {
     pipe(bs.stream({match: "**/*.css"}))
 })
 
-gulp.task("watch", ["build-scripts", "build-html"], function() {
+gulp.task("watch", ["build-html"], function() {
   browserBundle({watch: true})
   gulp.watch(['config.json'], ['build-scripts', 'build-html'])
   gulp.watch(["pages/**/*.html"], ['build-html'])
