@@ -1,4 +1,6 @@
 from abc import ABCMeta, abstractmethod
+import requests
+import json
 
 class IPersonClient:
     """This abstract client provides an interface for interacting with the meetings api to create, retrieve and

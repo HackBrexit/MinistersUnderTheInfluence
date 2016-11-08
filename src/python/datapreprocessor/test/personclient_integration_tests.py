@@ -11,7 +11,7 @@ class PersonClientTest(unittest.TestCase):
     def test_person_lifecycle(self):
         """This test verifies that a person can be created, retrieved and deleted"""
         person_name = "Freddy the Frog"
-        client = Client('http://localhost:3000/api/v1/')
+        client = PersonClient('http://localhost:3000/api/v1/')
 
         # Initial Retrieve (when person does not exist)
         no_person = client.get_by_name(person_name)

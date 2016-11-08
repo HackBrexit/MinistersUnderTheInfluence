@@ -1,5 +1,3 @@
-import requests
-import json
 from ipersonclient import IPersonClient
 
 class PersonClient(IPersonClient):
@@ -10,7 +8,7 @@ class PersonClient(IPersonClient):
 
 
     def get_by_name(self, person_name):
-        people = self.get_people()
+        people = self.get_all()
         person = filter((lambda p: p['attributes']['name'] == person_name), people)
         if person:
             return person[0]
@@ -19,7 +17,7 @@ class PersonClient(IPersonClient):
 
 
     def add(self, person_name):
-        if self.get_person(person_name):
+        if self.get_by_name(person_name):
             return None
         else:
             data = {'data': {'type': 'people', 'attributes': {'name': person_name}}}
@@ -28,7 +26,7 @@ class PersonClient(IPersonClient):
 
 
     def delete(self, person_name):
-        person = self.get_person(person_name)
+        person = self.get_by_name(person_name)
         if person:
             return self._delete(person['links']['self'])
         else:
