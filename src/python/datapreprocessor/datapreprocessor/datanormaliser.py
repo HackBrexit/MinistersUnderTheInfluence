@@ -77,5 +77,6 @@ def extract_info_from_filename(filename, type_strings=DATA_TYPES):
         raise MultipleTypesFoundException(type_keys)
 
     return {
-        'type': type_keys[0]
+        'date': None,
+        'type': type_keys[0],
     }
