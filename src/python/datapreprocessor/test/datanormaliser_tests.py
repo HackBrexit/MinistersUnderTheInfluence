@@ -205,11 +205,11 @@ class ExtractInfoFromFilenameTestCase(unittest.TestCase):
         self.assertIn('key1', mtfe.exception.type_keys)
         self.assertIn('key2', mtfe.exception.type_keys)
 
-    def test_title_with_no_date_string_returns_None_as_date(self):
+    def test_title_with_no_year_string_returns_None_as_date(self):
         KEY_STRINGS = ['key1', 'key2']
-        title = 'icontainkey1butnodate.csv'
+        title = 'icontainkey1butnoyear.csv'
 
         info = extract_info_from_filename(title, type_strings=KEY_STRINGS)
 
-        self.assertEqual(None, info['date'])
+        self.assertEqual(None, info['year'])
 
