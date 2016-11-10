@@ -7,6 +7,11 @@ DATA_TYPES = ['gifts', 'hospitality', 'meetings', 'travel']
 class TypeNotFoundException(Exception):
     pass
 
+class MultipleTypesFoundException(Exception):
+    
+    def __init__(self, type_keys):
+        self.type_keys = type_keys
+
 # Some csv files have the minister only in the first row and not in subsequent rows
 # In this case, copy the minister's name whilst iterating down until the field is no
 # longer blank
@@ -65,9 +70,12 @@ def normalise(file_contents):
     return file_contents
 
 def extract_info_from_filename(filename, type_strings=DATA_TYPES):
-    for type_ in type_strings:
-        if type_ in filename:
-            return {
-                'type': type_
-            }
-    raise TypeNotFoundException()
+    type_keys = [type_ for type_ in type_strings if type_ in filename]
+    if not type_keys:
+        raise TypeNotFoundException()
+    elif len(type_keys) > 1:
+        raise MultipleTypesFoundException(type_keys)
+
+    return {
+        'type': type_keys[0]
+    }
