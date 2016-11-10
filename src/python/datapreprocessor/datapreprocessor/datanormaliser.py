@@ -82,6 +82,11 @@ def extract_info_from_filename(filename, type_strings=DATA_TYPES):
     if matches:
         date_ = 2000 + int(matches.group(0))
 
+    matches = re.search(r'((19|20)\d{2})', filename)
+
+    if matches:
+        date_ = int(matches.group(0))
+
     return {
         'year': date_,
         'type': type_keys[0],
