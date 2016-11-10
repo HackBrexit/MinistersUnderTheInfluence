@@ -25,7 +25,7 @@ class MeetingApiClient():
 
 
     def _build_entity_from_response(self, content):
-        data = EntityData(content['attributes']['name'], content['attributes']['wikipedia-entry'])
+        data = EntityData(self._entity_type, content['attributes']['name'], content['attributes']['wikipedia-entry'])
         id = content['id']
         entity_url = content['links']['self']
         return self.build_entity(data, id, entity_url)
