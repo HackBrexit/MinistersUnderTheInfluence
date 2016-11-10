@@ -61,3 +61,6 @@ docs/_build/
 # PyBuilder
 target/
 
+# Python virtual environments
+src/python/datapreprocessor/env/
+src/python/datapreprocessor/test_env/
