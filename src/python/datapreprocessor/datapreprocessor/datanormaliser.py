@@ -76,7 +76,13 @@ def extract_info_from_filename(filename, type_strings=DATA_TYPES):
     elif len(type_keys) > 1:
         raise MultipleTypesFoundException(type_keys)
 
+    date_ = None
+    matches = re.search(r'\d{2}', filename)
+
+    if matches:
+        date_ = 2000 + int(matches.group(0))
+
     return {
-        'year': None,
+        'year': date_,
         'type': type_keys[0],
     }

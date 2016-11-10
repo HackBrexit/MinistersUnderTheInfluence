@@ -213,3 +213,11 @@ class ExtractInfoFromFilenameTestCase(unittest.TestCase):
 
         self.assertEqual(None, info['year'])
 
+    def test_title_with_a_two_digit_year_returns_digits_plus_2000(self):
+        KEY_STRINGS = ['key1', 'key2']
+        title = 'icontainkey1from07.csv'
+
+        info = extract_info_from_filename(title, type_strings=KEY_STRINGS)
+
+        self.assertEqual(2007, info['year'])
+
