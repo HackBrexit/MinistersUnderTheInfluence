@@ -4,6 +4,9 @@ import re
 
 DATA_TYPES = ['gifts', 'hospitality', 'meetings', 'travel']
 
+class TypeNotFoundException(Exception):
+    pass
+
 # Some csv files have the minister only in the first row and not in subsequent rows
 # In this case, copy the minister's name whilst iterating down until the field is no
 # longer blank
@@ -67,3 +70,4 @@ def extract_info_from_filename(filename, type_strings=DATA_TYPES):
             return {
                 'type': type_
             }
+    raise TypeNotFoundException()

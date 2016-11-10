@@ -187,3 +187,10 @@ class ExtractInfoFromFilenameTestCase(unittest.TestCase):
         info = extract_info_from_filename(title, type_strings=KEY_STRINGS)
 
         self.assertEqual('key1', info['type'])
+
+    def test_title_with_no_key_strings_raises_TypeNotFoundException(self):
+        KEY_STRINGS = ['key1', 'key2']
+        title = 'idonotcontainkey-1orkey-2.csv'
+
+        with self.assertRaises(TypeNotFoundException):
+            extract_info_from_filename(title, type_strings=KEY_STRINGS)
