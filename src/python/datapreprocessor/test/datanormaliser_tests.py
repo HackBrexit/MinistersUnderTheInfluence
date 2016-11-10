@@ -178,3 +178,12 @@ class DataNormaliserTest(unittest.TestCase):
         normalised = normalise(test_data)
 
         self.assertEqual({'Year': None, 'Month': 1, 'Day': 3}, normalised[0][1])
+
+class ExtractInfoFromFilenameTestCase(unittest.TestCase):
+
+    def test_title_containing_key_string_returns_string_as_type(self):
+        KEY_STRINGS = ['key1', 'key2']
+        title = 'icontainkey1butnotkey-2.csv'
+        info = extract_info_from_filename(title, type_strings=KEY_STRINGS)
+
+        self.assertEqual('key1', info['type'])

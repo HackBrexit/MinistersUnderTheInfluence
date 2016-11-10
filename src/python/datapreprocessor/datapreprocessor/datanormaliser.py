@@ -2,6 +2,8 @@ from dateutil.parser import *
 from datetime import *
 import re
 
+DATA_TYPES = ['gifts', 'hospitality', 'meetings', 'travel']
+
 # Some csv files have the minister only in the first row and not in subsequent rows
 # In this case, copy the minister's name whilst iterating down until the field is no
 # longer blank
@@ -58,3 +60,10 @@ def normalise(file_contents):
     file_contents = clean_minister_column(file_contents)
     file_contents = clean_dates(file_contents)
     return file_contents
+
+def extract_info_from_filename(filename, type_strings=DATA_TYPES):
+    for type_ in type_strings:
+        if type_ in filename:
+            return {
+                'type': type_
+            }
