@@ -76,34 +76,34 @@ def extract_info_from_filename(filename, type_strings=DATA_TYPES):
     elif len(type_keys) > 1:
         raise MultipleTypesFoundException(type_keys)
 
-    date_ = None
-    dates = []
+    year = None
+    years = []
 
     # Match four digit runs at the start that begin with 19 or 20
     matches = re.findall(r'\A((?:19|20)\d{2})(?:\Z|\D)', filename)
     if matches:
-        dates += [int(match) for match in matches]
+        years += [int(match) for match in matches]
 
     # Match four digit runs not at the start (must have a non-digit in front)
     # that begin with 19 or 20
     matches = re.findall(r'(?:\D)((?:19|20)\d{2})(?:\Z|\D)', filename)
     if matches:
-        dates += [int(match) for match in matches]
+        years += [int(match) for match in matches]
 
     # Match two digit runs at the start
     matches = re.findall(r'\A(\d{2})(?:\Z|\D)', filename)
     if matches:
-        dates += [2000 + int(match) for match in matches]
+        years += [2000 + int(match) for match in matches]
 
     # Match two digit runs not at the start (must have a non-digit in front)
     matches = re.findall(r'(?:\D)(\d{2})(?:\Z|\D)', filename)
     if matches:
-        dates += [2000 + int(match) for match in matches]
+        years += [2000 + int(match) for match in matches]
 
-    if len(dates) == 1:
-        date_ = dates[0]
+    if len(years) == 1:
+        year = years[0]
 
     return {
-        'year': date_,
+        'year': year,
         'type': type_keys[0],
     }
