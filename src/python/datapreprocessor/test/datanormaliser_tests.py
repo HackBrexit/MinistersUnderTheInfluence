@@ -213,7 +213,7 @@ class ExtractInfoFromFilenameTestCase(unittest.TestCase):
 
         self.assertEqual(None, info['year'])
 
-    def test_title_with_a_two_digit_year_returns_them_plus_2000_as_year(self):
+    def test_title_with_a_two_digit_year_returns_them_as_four_digit_year(self):
         KEY_STRINGS = ['key1', 'key2']
         title = 'icontainkey1from07.csv'
 
@@ -226,6 +226,13 @@ class ExtractInfoFromFilenameTestCase(unittest.TestCase):
         info = extract_info_from_filename(title, type_strings=KEY_STRINGS)
 
         self.assertEqual(2015, info['year'])
+
+        # Test should be good until we hit data from 2099!
+        title = '99istheyearkey1isthetype.csv'
+
+        info = extract_info_from_filename(title, type_strings=KEY_STRINGS)
+
+        self.assertEqual(1999, info['year'])
 
     def test_title_with_a_four_digit_year_returns_them_as_year(self):
         KEY_STRINGS = ['key1', 'key2']

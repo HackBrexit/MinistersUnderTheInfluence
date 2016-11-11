@@ -123,6 +123,8 @@ def extract_info_from_filename(filename, type_strings=DATA_TYPES):
 
     if len(years) == 1:
         year = years[0]
+        if year > date.today().year:
+            year -= 100
 
     return {
         'year': year,
