@@ -221,6 +221,7 @@ class CleanDateTestCase(unittest.TestCase):
 
         self.assertIsNone(date_dict['Year'])
 
+
 class ExtractInfoFromFilenameTestCase(unittest.TestCase):
 
     def test_title_with_1_key_string_returns_string_as_type(self):
