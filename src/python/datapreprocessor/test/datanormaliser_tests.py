@@ -178,3 +178,92 @@ class DataNormaliserTest(unittest.TestCase):
         normalised = normalise(test_data)
 
         self.assertEqual({'Year': None, 'Month': 1, 'Day': 3}, normalised[0][1])
+
+class ExtractInfoFromFilenameTestCase(unittest.TestCase):
+
+    def test_title_with_1_key_string_returns_string_as_type(self):
+        KEY_STRINGS = ['key1', 'key2']
+        title = 'icontainkey1butnotkey-2.csv'
+        info = extract_info_from_filename(title, type_strings=KEY_STRINGS)
+
+        self.assertEqual('key1', info['type'])
+
+    def test_title_with_0_key_strings_raises_TypeNotFoundException(self):
+        KEY_STRINGS = ['key1', 'key2']
+        title = 'idonotcontainkey-1orkey-2.csv'
+
+        with self.assertRaises(TypeNotFoundException):
+            extract_info_from_filename(title, type_strings=KEY_STRINGS)
+
+    def test_title_with_2_key_strings_raises_MultipleTypesFoundException(self):
+        KEY_STRINGS = ['key1', 'key2']
+        title = 'icontainbothkey1andkey2.csv'
+
+        with self.assertRaises(MultipleTypesFoundException) as mtfe:
+            extract_info_from_filename(title, type_strings=KEY_STRINGS)
+
+        self.assertIn('key1', mtfe.exception.type_keys)
+        self.assertIn('key2', mtfe.exception.type_keys)
+
+    def test_title_with_no_year_string_returns_None_as_date(self):
+        KEY_STRINGS = ['key1', 'key2']
+        title = 'icontainkey1butnoyear.csv'
+
+        info = extract_info_from_filename(title, type_strings=KEY_STRINGS)
+
+        self.assertEqual(None, info['year'])
+
+    def test_title_with_a_two_digit_year_returns_them_as_four_digit_year(self):
+        KEY_STRINGS = ['key1', 'key2']
+        title = 'icontainkey1from07.csv'
+
+        info = extract_info_from_filename(title, type_strings=KEY_STRINGS)
+
+        self.assertEqual(2007, info['year'])
+
+        title = '15istheyearkey1isthetype.csv'
+
+        info = extract_info_from_filename(title, type_strings=KEY_STRINGS)
+
+        self.assertEqual(2015, info['year'])
+
+        # Test should be good until we hit data from 2099!
+        title = '99istheyearkey1isthetype.csv'
+
+        info = extract_info_from_filename(title, type_strings=KEY_STRINGS)
+
+        self.assertEqual(1999, info['year'])
+
+    def test_title_with_a_four_digit_year_returns_them_as_year(self):
+        KEY_STRINGS = ['key1', 'key2']
+        title = 'icontainkey1from2016.csv'
+
+        info = extract_info_from_filename(title, type_strings=KEY_STRINGS)
+
+        self.assertEqual(2016, info['year'])
+
+        title = '2010istheyearkey1isthetype.csv'
+
+        info = extract_info_from_filename(title, type_strings=KEY_STRINGS)
+
+        self.assertEqual(2010, info['year'])
+
+    def test_title_with_multiple_year_strings_returns_None_as_date(self):
+        KEY_STRINGS = ['key1', 'key2']
+        title = 'icontainkey1andyears12and14.csv'
+
+        info = extract_info_from_filename(title, type_strings=KEY_STRINGS)
+
+        self.assertEqual(None, info['year'])
+
+        title = 'icontainkey1andyears2012and2014.csv'
+
+        info = extract_info_from_filename(title, type_strings=KEY_STRINGS)
+
+        self.assertEqual(None, info['year'])
+
+        title = 'icontainkey1andyears2012and14.csv'
+
+        info = extract_info_from_filename(title, type_strings=KEY_STRINGS)
+
+        self.assertEqual(None, info['year'])
