@@ -32,9 +32,10 @@ def print_lines(lines):
 
 
 def get_csv_file_lines(filename):
+    file_info = datanormaliser.extract_info_from_filename(filename)
     file_contents = csvreader.read_file(filename)
     file_contents = csvcleanser.cleanse_csv_data(file_contents)
-    file_contents = datanormaliser.normalise(file_contents)
+    file_contents = datanormaliser.normalise(file_contents, file_info['year'])
     return file_contents
 
 

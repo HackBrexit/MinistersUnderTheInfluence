@@ -3,6 +3,7 @@ from datetime import *
 import re
 
 DATA_TYPES = ['gifts', 'hospitality', 'meetings', 'travel']
+DEFAULT_YEAR = 1000 #  Dummy year that should never appear in actual data
 
 class TypeNotFoundException(Exception):
     pass
@@ -25,7 +26,7 @@ def clean_minister_column(lines):
     return lines
 
 def has_year(newdate):
-    if newdate.year != 1000:
+    if newdate.year != DEFAULT_YEAR:
         return newdate.year
     else:
         return None
@@ -39,34 +40,55 @@ def has_month(date, newdate):
 
 def has_day(date, newdate):
     numbers_present = [int(n) for n in date.split() if n.isdigit()]
-    if ((newdate.year != 1000  and (len(numbers_present) == 2)) or (newdate.year == 1000 and (len(numbers_present) == 1))):
+    if ((newdate.year != DEFAULT_YEAR  and (len(numbers_present) == 2)) or (newdate.year == DEFAULT_YEAR and (len(numbers_present) == 1))):
         return newdate.day
     else:
         return None
 
-def clean_dates(lines):
-    # IMPORTANT: This method currently only expects dates of months with or without a year
-    # Edge case included: Sept is not recognized so changed to Sep
-    SEPT_PATTERN = re.compile("^sept$", flags=re.IGNORECASE) #RegEx to find "Sept" abbreviation
-    DEFAULT = datetime(1000,12,01,0,0)  #Default date for dateutil to fill in missing gaps, year 1000
+def clean_dates(lines, year_hint=None):
 
-    for idx,line in enumerate(lines):
-        date = line[1]
-        date = re.sub(SEPT_PATTERN,"Sep",line[1])
-        dateInfo = {}
-
-        if(len(date)==0):
-            lines[idx][1]= {'Year': None, 'Month': None, 'Day': None}
-        else:
-            newdate = parse(date.replace("-"," of "),default=DEFAULT,dayfirst=True)
-            dateInfo = {'Year': has_year(newdate), 'Month': has_month(date, newdate), 'Day': has_day(date, newdate)}
-            lines[idx][1] = dateInfo
+    for line in lines:
+        line[1] = clean_date(line[1], year_hint)
 
     return lines
 
-def normalise(file_contents):
+def clean_date(date_string, year_hint=None):
+    """
+    Turn a string representation of a date into a dictionary
+
+    Takes a string that is supposed to represent a date containing any of:
+    - a two digit year
+    - a four digit year
+    - a month represented by digits
+    - a month name that's been abbreviated
+    - a month name in full
+    - a day in digits
+    Also takes an optional year as a hint to be used for the year if one cannot
+    be found in the string.
+
+    Returns:
+    A dict containing:
+    - Year: The year found in the string (or the hint year if none found)
+    - Month: The month found in the string
+    - Day: The day found in the string
+    """
+    if year_hint is None:
+        year_hint = DEFAULT_YEAR
+    # IMPORTANT: This method currently only expects dates of months with or without a year
+    # Edge case included: Sept is not recognized so changed to Sep
+    SEPT_PATTERN = re.compile("^sept$", flags=re.IGNORECASE) #RegEx to find "Sept" abbreviation
+    DEFAULT = datetime(year_hint, 12, 01, 0, 0)  #  Default date for dateutil to fill in missing gaps
+
+    if(len(date_string)==0):
+        return {'Year': None, 'Month': None, 'Day': None}
+    else:
+        date_ = re.sub(SEPT_PATTERN, "Sep", date_string)
+        newdate = parse(date_.replace("-"," of "), default=DEFAULT, dayfirst=True)
+        return {'Year': has_year(newdate), 'Month': has_month(date_, newdate), 'Day': has_day(date_, newdate)}
+
+def normalise(file_contents, year_hint=None):
     file_contents = clean_minister_column(file_contents)
-    file_contents = clean_dates(file_contents)
+    file_contents = clean_dates(file_contents, year_hint)
     return file_contents
 
 def extract_info_from_filename(filename, type_strings=DATA_TYPES):
