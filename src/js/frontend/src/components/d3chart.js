@@ -17,13 +17,27 @@ d3Chart.create = function(el, props, state) {
 d3Chart.update = function(el, state) {
     var g = d3.select(el).select('.d3-points');
 
+    // var xScale = d3.scaleLinear()
+    //     .domain([])
+    //     .range();
+
+
     g.selectAll("circle")
         .data(state.data)
         .enter()
         .append("circle")
-        .attr("cx", function(d) {return d.cx;})
-        .attr("cy", function(d) {return d.cy;})
-        .attr("r", function(d) {return d.r;});
+        .attr("cx", function(d, i) {return i * 250;})
+        .attr("cy", function(d, i) {return 200;})
+        .attr("r", function(d) {return d.meetingCount * 10;});
+
+    g.selectAll("text")
+        .data(state.data)
+        .enter()
+        .append("text")
+        .attr("x", function(d, i) {return i * 250;})
+        .attr("y", function(d, i) {return 200;})
+        .attr("fill", "red")
+        .text(function(d) {return d.entity;});
 };
 
 module.exports = d3Chart;
