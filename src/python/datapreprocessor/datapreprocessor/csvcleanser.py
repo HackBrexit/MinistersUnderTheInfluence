@@ -17,11 +17,12 @@ def remove_empty_columns(lines):
     return data
 
 
-def remove_whitespace(lines):
-    for line_idx, line in enumerate(lines):
-        for field_idx, field in enumerate(line):
-            lines[line_idx][field_idx] = lines[line_idx][field_idx].strip()
-    return lines
+def remove_extra_whitespace_from_row(row):
+    return [cell.strip() for cell in row]
+
+
+def remove_whitespace(rows):
+    return [remove_extra_whitespace_from_row(row) for row in rows]
 
 
 def remove_special_chars(lines):
