@@ -3,12 +3,12 @@ UNWANTED_SPECIAL_CHARS = "".join([
 ])
 
 
-def remove_empty_lines(lines):
-    data = []
-    for line in lines:
-        if ''.join(line) != '':
-            data.append(line)
-    return data
+def is_row_empty(row):
+    return not any(row)
+
+
+def remove_empty_lines(rows):
+    return [row for row in rows if not is_row_empty(row)]
 
 
 def remove_empty_columns(lines):
@@ -52,6 +52,7 @@ def is_row_boilerplate(row):
 
 def remove_boilerplate(rows):
     return remove_line(is_row_boilerplate, rows)
+
 
 def cleanse_csv_data(file_contents):
     file_contents = remove_empty_lines(file_contents)
