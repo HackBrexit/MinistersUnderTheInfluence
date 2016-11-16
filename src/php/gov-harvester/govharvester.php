@@ -181,7 +181,7 @@ function indexPageParse($domdoc)
 	if($elements->length > 0 )
 	{
 		// open it as dom
-		$nextdomdoc = openPageAsDom('https://www.gov.uk' . $elements[0]->getAttribute('href'));
+		$nextdomdoc = openPageAsDom('https://www.gov.uk' . $elements->item(0)->getAttribute('href'));
 
 		// get it's url list
 		$nextpageurlarray = indexPageParse($nextdomdoc);
@@ -206,19 +206,19 @@ function docParsePage($domdoc)
 	$xpath = new DOMXpath($domdoc);
 
 	// the type
-	$type = $xpath->query('//div[@class="inner-heading"]/p[@class="type"]')[0]->nodeValue;
+	$type = $xpath->query('//div[@class="inner-heading"]/p[@class="type"]')->item(0)->nodeValue;
 
 	// the title
-	$title = $domdoc->getElementsByTagName('title')[0]->nodeValue;
+	$title = $domdoc->getElementsByTagName('title')->item(0)->nodeValue;
 
 	// the organization
-	$organization = $xpath->query('//a[@class="organisation-link"]')[0]->nodeValue;
+	$organization = $xpath->query('//a[@class="organisation-link"]')->item(0)->nodeValue;
 
 	// the collection
-	$collection = $xpath->query('//a[@class="collection-link"]')[0]->nodeValue;
+	$collection = $xpath->query('//a[@class="collection-link"]')->item(0)->nodeValue;
 
 	// date and time published
-	$datatimepublished = $xpath->query('//time[@class="date"]')[0]->getAttribute('datetime');
+	$datatimepublished = $xpath->query('//time[@class="date"]')->item(0)->getAttribute('datetime');
 
 	// document sections
 	$docsections =  $xpath->query('//section[@class="attachment embedded"]');
@@ -234,18 +234,18 @@ function docParsePage($domdoc)
 		$link = $xpath->query('div[@class="attachment-details"]/h2[@class="title"]/a',$docsection);
 
 		// if there is a node
-		if($link[0])
+		if($link->item(0))
 		{
-			echo "\tsaving data for " . basename($link[0]->getAttribute('href'))."\n";
+			echo "\tsaving data for " . basename($link->item(0)->getAttribute('href'))."\n";
 
 			// add to csv data array
-			$csvdata[] = 'https://www.gov.uk' . $link[0]->getAttribute('href');
+			$csvdata[] = 'https://www.gov.uk' . $link->item(0)->getAttribute('href');
 
 			// write line to output file
 			fputcsv($fp,$csvdata);
 
 			// download the file
-			downloadfile($link[0]->getAttribute('href'));
+			downloadfile($link->item(0)->getAttribute('href'));
 
 			continue;
 		}
@@ -254,18 +254,18 @@ function docParsePage($domdoc)
 		$link = $xpath->query('div[@class="attachment-details"]/p[@class="metadata"]/span[@class="download"]/a',$docsection);
 
 		// if there is a node
-		if($link[0])
+		if($link->item(0))
 		{
-			echo "\tsaving data for " . basename($link[0]->getAttribute('href'))."\n";
+			echo "\tsaving data for " . basename($link->item(0)->getAttribute('href'))."\n";
 
 			// add to csv data array
-			$csvdata[] = 'https://www.gov.uk' . $link[0]->getAttribute('href');
+			$csvdata[] = 'https://www.gov.uk' . $link->item(0)->getAttribute('href');
 
 			// write line to output file
 			fputcsv($fp,$csvdata);
 
 			// download the file
-			downloadfile($link[0]->getAttribute('href'));
+			downloadfile($link->item(0)->getAttribute('href'));
 
 
 			continue;
