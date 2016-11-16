@@ -17,8 +17,8 @@ export default Radium(React.createClass({
   getInitialState () {
     return {
       data: [
-          {cx: 40, cy: 40, r: 15},
-          {cx: 150, cy: 100, r: 40}
+          {entity: "Lobbyists-are-us", meetingCount: 10},
+          {entity: "Defenders of freendome", meetingCount: 2}
       ]
     };
   },

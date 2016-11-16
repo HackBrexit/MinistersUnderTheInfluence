@@ -13,7 +13,7 @@ var Chart = React.createClass({
             el,
             {
                 width: '100%',
-                height: '300px'
+                height: '100vh'
             },
             this.getChartState());
     },
