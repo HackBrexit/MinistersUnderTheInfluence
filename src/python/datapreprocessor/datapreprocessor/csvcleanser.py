@@ -1,3 +1,8 @@
+UNWANTED_SPECIAL_CHARS = "".join([
+    '\xb1', '\xb2'
+])
+
+
 def remove_empty_lines(lines):
     data = []
     for line in lines:
@@ -25,11 +30,12 @@ def remove_whitespace(rows):
     return [remove_extra_whitespace_from_row(row) for row in rows]
 
 
-def remove_special_chars(lines):
-    for line_idx, line in enumerate(lines):
-        for field_idx, field in enumerate(line):
-            lines[line_idx][field_idx] = lines[line_idx][field_idx].replace('\xb2', '').replace('\xb1', '')
-    return lines
+def remove_special_chars_from_row(row):
+    return [cell.translate(None, UNWANTED_SPECIAL_CHARS) for cell in row]
+
+
+def remove_special_chars(rows):
+    return [remove_special_chars_from_row(row) for row in rows]
 
 
 def remove_line(predicate, lines):
