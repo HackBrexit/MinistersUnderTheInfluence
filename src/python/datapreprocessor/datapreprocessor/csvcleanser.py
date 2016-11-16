@@ -11,15 +11,12 @@ def remove_empty_lines(rows):
     return [row for row in rows if not is_row_empty(row)]
 
 
-def remove_empty_columns(lines):
-    data = []
-    for line in lines:
-        if (len(line) >= 4):
-            trunc_line = []
-            for i in range(0, 4):
-                trunc_line.append(line[i])
-            data.append(trunc_line)
-    return data
+def remove_excess_columns_from_row(row):
+    return row[:4]
+
+
+def remove_empty_columns(rows):
+    return [remove_excess_columns_from_row(row) for row in rows]
 
 
 def remove_extra_whitespace_from_row(row):
