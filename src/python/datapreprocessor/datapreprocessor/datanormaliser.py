@@ -13,17 +13,31 @@ class MultipleTypesFoundException(Exception):
     def __init__(self, type_keys):
         self.type_keys = type_keys
 
+
+def clean_minister_column_for_row(row, previous_minister=None):
+    """
+    If no minister is in the current row then fill with the last minister seen
+
+    Some csv files list a minister once then assume all rows immediately below
+    are for the same minister until a non-empty row is encountered. Thus if an
+    empty row is encounter fill it with the last minister seen and return both
+    the cleaned row and the minister allocated to it.
+    """
+    row[0] = row[0] or previous_minister
+    return row, row[0]
+
 # Some csv files have the minister only in the first row and not in subsequent rows
 # In this case, copy the minister's name whilst iterating down until the field is no
 # longer blank
-def clean_minister_column(lines):
-    minister_name = lines[0][0]
-    for l in lines:
-        if (l[0] == ''):
-            l[0] = minister_name
-        else:
-            minister_name = l[0]
-    return lines
+def clean_minister_column(rows):
+    current_minister = None
+    new_rows = []
+    for row in rows:
+        new_row, current_minister = clean_minister_column_for_row(
+            row, current_minister
+        )
+        new_rows.append(new_row)
+    return new_rows
 
 def has_year(newdate):
     if newdate.year != DEFAULT_YEAR:
