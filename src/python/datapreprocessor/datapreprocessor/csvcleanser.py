@@ -1,17 +1,17 @@
 # List of characters to be removed from data
-UNWANTED_SPECIAL_CHARS = "".join([
+_UNWANTED_SPECIAL_CHARS = "".join([
     '\xb1', '\xb2'
 ])
 
 
-def is_row_empty(row):
+def _is_row_empty(row):
     """
     Check to see if the row contains nothing but empty cells.
     """
     return not any(row)
 
 
-def remove_excess_columns_from_row(row):
+def _remove_excess_columns_from_row(row):
     """
     Remove padding from the end of rows.
 
@@ -24,28 +24,28 @@ def remove_excess_columns_from_row(row):
     return row[:4]
 
 
-def remove_extra_whitespace_from_row(row):
+def _remove_extra_whitespace_from_row(row):
     """
     Trim any leading or trailing whitespace from the cells in a row.
     """
     return [cell.strip() for cell in row]
 
 
-def remove_special_chars_from_row(row):
+def _remove_special_chars_from_row(row):
     """
     Remove any characters we don't want to see from the cells in a row.
 
     Uses the python translate function for removing characters.
     The list of characters to be removed comes from the constant declared
-    at the top of the file `UNWANTED_SPECIAL_CHARS`.
+    at the top of the file `_UNWANTED_SPECIAL_CHARS`.
 
     See https://docs.python.org/2/library/string.html#string.translate for more
     info on the translate function.
     """
-    return [cell.translate(None, UNWANTED_SPECIAL_CHARS) for cell in row]
+    return [cell.translate(None, _UNWANTED_SPECIAL_CHARS) for cell in row]
 
 
-def is_row_boilerplate(row):
+def _is_row_boilerplate(row):
     """
     Check if the row is boilerplate (a heading or footer row mostly)
 
@@ -59,7 +59,7 @@ def is_row_boilerplate(row):
     )
 
 
-def cleanse_row(row):
+def _cleanse_row(row):
     """
     Cleanse a row from excess characters and indicate if it's useful
 
@@ -67,11 +67,11 @@ def cleanse_row(row):
     the data if deemed useful (not empty and not boilerplate) otherwise
     return None if the row is not useful.
     """
-    row_data = remove_excess_columns_from_row(row)
-    row_data = remove_special_chars_from_row(row_data)
-    row_data = remove_extra_whitespace_from_row(row_data)
+    row_data = _remove_excess_columns_from_row(row)
+    row_data = _remove_special_chars_from_row(row_data)
+    row_data = _remove_extra_whitespace_from_row(row_data)
 
-    if is_row_empty(row_data) or is_row_boilerplate(row_data):
+    if _is_row_empty(row_data) or _is_row_boilerplate(row_data):
         return None
     return row_data
 
@@ -80,4 +80,4 @@ def cleanse_csv_data(file_contents):
     """
     Take a list of rows from a file and return a list of cleaned data rows.
     """
-    return filter(None, (cleanse_row(row) for row in file_contents))
+    return filter(None, (_cleanse_row(row) for row in file_contents))
