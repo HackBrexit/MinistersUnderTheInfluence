@@ -41,12 +41,17 @@ def remove_special_chars(rows):
 def remove_line(predicate, lines):
     return [l for l in lines if not predicate(l)]
 
-def remove_boilerplate(lines):
-    lines = remove_line(lambda l: l == ['Minister', 'Date', 'Name of Organisation', 'Purpose of meeting'], lines)
-    lines = remove_line(lambda l: l == ['Minister', 'Date', 'Name of External Organisation', 'Purpose of meeting'], lines)
-    lines = remove_line(lambda l: 'Does not normally include' in l[0], lines)
-    lines = remove_line(lambda l: l[0] == 'Note', lines)
-    return lines
+
+def is_row_boilerplate(row):
+    return (
+        (row[0] == 'Minister' and row[1] == 'Date') or
+        row[0] == 'Note' or
+        'Does not normally include' in row[0]
+    )
+
+
+def remove_boilerplate(rows):
+    return remove_line(is_row_boilerplate, rows)
 
 def cleanse_csv_data(file_contents):
     file_contents = remove_empty_lines(file_contents)
