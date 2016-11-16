@@ -26,19 +26,6 @@ def clean_minister_column_for_row(row, previous_minister=None):
     row[0] = row[0] or previous_minister
     return row, row[0]
 
-# Some csv files have the minister only in the first row and not in subsequent rows
-# In this case, copy the minister's name whilst iterating down until the field is no
-# longer blank
-def clean_minister_column(rows):
-    current_minister = None
-    new_rows = []
-    for row in rows:
-        new_row, current_minister = clean_minister_column_for_row(
-            row, current_minister
-        )
-        new_rows.append(new_row)
-    return new_rows
-
 def has_year(newdate):
     if newdate.year != DEFAULT_YEAR:
         return newdate.year
@@ -68,9 +55,6 @@ def clean_date_for_row(row, year_hint=None):
     """
     row[1] = clean_date(row[1], year_hint)
     return row
-
-def clean_dates(rows, year_hint=None):
-    return [clean_date_for_row(row, year_hint) for row in rows]
 
 def clean_date(date_string, year_hint=None):
     """
@@ -106,10 +90,25 @@ def clean_date(date_string, year_hint=None):
         newdate = parse(date_.replace("-"," of "), default=DEFAULT, dayfirst=True)
         return {'Year': has_year(newdate), 'Month': has_month(date_, newdate), 'Day': has_day(date_, newdate)}
 
+def normalise_row(row, year_hint=None, previous_minister=None):
+    """
+    Clean up the minister column and dates for a row
+    """
+    row_data, current_minister = clean_minister_column_for_row(
+        row, previous_minister
+    )
+    row_data = clean_date_for_row(row_data, year_hint)
+    return row_data, current_minister
+
 def normalise(file_contents, year_hint=None):
-    file_contents = clean_minister_column(file_contents)
-    file_contents = clean_dates(file_contents, year_hint)
-    return file_contents
+    current_minister = None
+    new_rows = []
+    for row in file_contents:
+        new_row, current_minister = normalise_row(
+            row, year_hint, current_minister
+        )
+        new_rows.append(new_row)
+    return new_rows
 
 def extract_info_from_filename(filename, type_strings=DATA_TYPES):
     """
