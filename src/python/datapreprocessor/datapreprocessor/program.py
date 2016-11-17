@@ -55,4 +55,6 @@ if __name__ == '__main__':
         run_file(args.f)
     else:
         for fn in os.listdir('../../../resources/csv'):
+            if not fn.endswith('.csv'):
+                continue
             run_file('../../../resources/csv/%s' % fn)
