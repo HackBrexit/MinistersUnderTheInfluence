@@ -59,7 +59,7 @@ def _is_row_boilerplate(row):
     )
 
 
-def _cleanse_row(row):
+def cleanse_row(row):
     """
     Cleanse a row from excess characters and indicate if it's useful
 
@@ -80,4 +80,4 @@ def cleanse_csv_data(file_contents):
     """
     Take a list of rows from a file and return a list of cleaned data rows.
     """
-    return filter(None, (_cleanse_row(row) for row in file_contents))
+    return filter(None, (cleanse_row(row) for row in file_contents))

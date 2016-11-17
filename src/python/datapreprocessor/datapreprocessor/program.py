@@ -31,18 +31,25 @@ def print_lines(lines):
         print l
 
 
-def get_csv_file_lines(filename):
+def process_csv_file(filename):
     file_info = datanormaliser.extract_info_from_filename(filename)
-    file_contents = csvreader.read_file(filename)
-    file_contents = csvcleanser.cleanse_csv_data(file_contents)
-    file_contents = datanormaliser.normalise(file_contents, file_info['year'])
-    return file_contents
+    current_minister = None
+    new_rows = []
+    for row in csvreader.read_file(filename):
+        clean_row_data = csvcleanser.cleanse_row(row)
+        if clean_row_data is None:
+            # row didn't contain useful data.
+            continue
+        new_row, current_minister = datanormaliser.normalise_row(
+            clean_row_data, file_info['year'], current_minister
+        )
+        yield row
 
 
 if __name__ == '__main__':
 
     def run_file(filename):
-        lines = get_csv_file_lines(filename)
+        lines = process_csv_file(filename)
         print_lines(lines)
 
     parser = argparse.ArgumentParser()
