@@ -43,7 +43,7 @@ def process_csv_file(filename):
         new_row, current_minister = datanormaliser.normalise_row(
             clean_row_data, file_info['year'], current_minister
         )
-        yield row
+        yield new_row
 
 
 if __name__ == '__main__':
