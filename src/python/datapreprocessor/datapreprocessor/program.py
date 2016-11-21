@@ -54,14 +54,22 @@ def process_csv_file(filename, error_collection):
                 'filename': filename,
                 'row_index': row_index,
                 'row_data': row,
-                'exception': repr(e)
+                'exception': repr(e),
+                'type': 'row_error',
             })
 
 
 def process_files(filenames, error_collection):
     for filename in filenames:
-        lines = process_csv_file(filename, errors)
-        print_lines(lines)
+        try:
+            lines = process_csv_file(filename, errors)
+            print_lines(lines)
+        except Exception, e:
+            error_collection.append({
+                'filename': filename,
+                'exception': repr(e),
+                'type': 'file_error',
+            })
 
 
 if __name__ == '__main__':
