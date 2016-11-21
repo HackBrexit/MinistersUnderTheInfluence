@@ -67,3 +67,7 @@ src/python/datapreprocessor/test_env/
 
 # Local logs
 src/python/datapreprocessor/logs
+
+# Extracted data files
+src/php/gov-harvester/datafiles
+src/php/gov-harvester/govharvester_listfile.csv
