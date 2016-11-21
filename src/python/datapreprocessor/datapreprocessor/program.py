@@ -58,14 +58,16 @@ def process_csv_file(filename, error_collection):
             })
 
 
+def process_files(filenames, error_collection):
+    for filename in filenames:
+        lines = process_csv_file(filename, errors)
+        print_lines(lines)
+
+
 if __name__ == '__main__':
 
     processing_start = datetime.now() 
     errors = []
-
-    def run_file(filename):
-        lines = process_csv_file(filename, errors)
-        print_lines(lines)
 
     parser = argparse.ArgumentParser()
     parser.add_argument('-f')
@@ -73,13 +75,16 @@ if __name__ == '__main__':
 
     print args
 
+    filenames = []
     if args.f:
-        run_file(args.f)
+        filenames.append(args.f)
     else:
-        for fn in os.listdir('../../../resources/csv'):
-            if not fn.endswith('.csv'):
-                continue
-            run_file('../../../resources/csv/%s' % fn)
+        filenames += [
+            '../../../resources/csv/{}'.format(filename)
+            for filename in os.listdir('../../../resources/csv')
+            if filename.endswith('.csv')
+        ]
+    process_files(filenames, errors)
 
     if errors:
         error_log_filename = 'processing_errors_{:%Y%m%d%H%M%S}.json'.format(
