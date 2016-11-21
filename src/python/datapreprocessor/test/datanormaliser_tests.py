@@ -1,7 +1,7 @@
 import unittest
 from datapreprocessor.datanormaliser import *
 
-class DataNormaliserTest(unittest.TestCase):
+class CleanMinisterColumnTestCase(unittest.TestCase):
 
     def test_missing_minister_names_are_filled_in(self):
         minister_name = "Harry Potter"
@@ -25,6 +25,8 @@ class DataNormaliserTest(unittest.TestCase):
 
         self.assertEqual(another_minister_name, normalised[4][0])
         self.assertEqual(another_minister_name, normalised[5][0])
+
+class CleanDateTestCase(unittest.TestCase):
 
     def test_dates_which_have_whole_month_name_and_year(self):
         test_data = [
@@ -178,6 +180,47 @@ class DataNormaliserTest(unittest.TestCase):
         normalised = normalise(test_data)
 
         self.assertEqual({'Year': None, 'Month': 1, 'Day': 3}, normalised[0][1])
+
+    def test_year_hint_used_for_year_when_year_not_found(self):
+
+        date_string = '13 Jun'
+        year_hint = 1947
+        expected_year = year_hint
+
+        date_dict = clean_date(date_string, year_hint)
+
+        self.assertEqual(year_hint, date_dict['Year'])
+
+    def test_year_hint_not_used_for_year_when_year_found(self):
+
+        date_string = '13 Jun 2000'
+        year_hint = 1947
+        expected_year = 2000
+
+        date_dict = clean_date(date_string, year_hint)
+
+        self.assertEqual(expected_year, date_dict['Year'])
+
+    def test_year_hint_can_be_None_when_year_found(self):
+
+        date_string = '13 Jun 2000'
+        year_hint = None
+        expected_year = 2000
+
+        date_dict = clean_date(date_string, year_hint)
+
+        self.assertEqual(expected_year, date_dict['Year'])
+
+    def test_None_returned_when_year_hint_None_and_year_not_found(self):
+
+        date_string = '13 Jun'
+        year_hint = None
+        expected_year = None
+
+        date_dict = clean_date(date_string, year_hint)
+
+        self.assertIsNone(date_dict['Year'])
+
 
 class ExtractInfoFromFilenameTestCase(unittest.TestCase):
 
