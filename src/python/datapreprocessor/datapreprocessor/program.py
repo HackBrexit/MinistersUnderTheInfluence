@@ -1,8 +1,10 @@
 import argparse
+import json
 import os
 import csvreader
 import datanormaliser
 import csvcleanser
+from datetime import datetime
 
 # This script reads in one or many csv files containing information about minstry meetings.
 # It assumes that the files have the following four ordered columns:
@@ -31,19 +33,49 @@ def print_lines(lines):
         print l
 
 
-def get_csv_file_lines(filename):
+def process_csv_file(filename, error_collection):
     file_info = datanormaliser.extract_info_from_filename(filename)
-    file_contents = csvreader.read_file(filename)
-    file_contents = csvcleanser.cleanse_csv_data(file_contents)
-    file_contents = datanormaliser.normalise(file_contents, file_info['year'])
-    return file_contents
+    current_minister = None
+    new_rows = []
+    row_index = 0
+    for row in csvreader.read_file(filename):
+        try:
+            row_index += 1
+            clean_row_data = csvcleanser.cleanse_row(row)
+            if clean_row_data is None:
+                # row didn't contain useful data.
+                continue
+            new_row, current_minister = datanormaliser.normalise_row(
+                clean_row_data, file_info['year'], current_minister
+            )
+            yield new_row
+        except Exception, e:
+            error_collection.append({
+                'filename': filename,
+                'row_index': row_index,
+                'row_data': row,
+                'exception': repr(e),
+                'type': 'row_error',
+            })
+
+
+def process_files(filenames, error_collection):
+    for filename in filenames:
+        try:
+            lines = process_csv_file(filename, errors)
+            print_lines(lines)
+        except Exception, e:
+            error_collection.append({
+                'filename': filename,
+                'exception': repr(e),
+                'type': 'file_error',
+            })
 
 
 if __name__ == '__main__':
 
-    def run_file(filename):
-        lines = get_csv_file_lines(filename)
-        print_lines(lines)
+    processing_start = datetime.now() 
+    errors = []
 
     parser = argparse.ArgumentParser()
     parser.add_argument('-f')
@@ -51,8 +83,22 @@ if __name__ == '__main__':
 
     print args
 
+    filenames = []
     if args.f:
-        run_file(args.f)
+        filenames.append(args.f)
     else:
-        for fn in os.listdir('../../../resources/csv'):
-            run_file('../../../resources/csv/%s' % fn)
+        filenames += [
+            '../../../resources/csv/{}'.format(filename)
+            for filename in os.listdir('../../../resources/csv')
+            if filename.endswith('.csv')
+        ]
+    process_files(filenames, errors)
+
+    if errors:
+        error_log_filename = 'processing_errors_{:%Y%m%d%H%M%S}.json'.format(
+            processing_start
+        )
+        if not os.path.exists('logs'):
+            os.mkdir('logs')
+        with open(os.path.join('logs', error_log_filename), 'w') as file_handle:
+            json.dump(errors, file_handle, indent=2)

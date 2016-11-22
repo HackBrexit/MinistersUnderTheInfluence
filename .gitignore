@@ -64,3 +64,6 @@ target/
 # Python virtual environments
 src/python/datapreprocessor/env/
 src/python/datapreprocessor/test_env/
+
+# Local logs
+src/python/datapreprocessor/logs
