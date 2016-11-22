@@ -8,7 +8,6 @@ def read_file(filename):
     try:
         reader = csv.reader(f)
         for row in reader:
-            lines.append(row)
+            yield row
     finally:
             f.close()
-    return lines

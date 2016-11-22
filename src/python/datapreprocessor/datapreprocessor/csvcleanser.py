@@ -1,50 +1,83 @@
-def remove_empty_lines(lines):
-    data = []
-    for line in lines:
-        if ''.join(line) != '':
-            data.append(line)
-    return data
+# List of characters to be removed from data
+_UNWANTED_SPECIAL_CHARS = "".join([
+    '\xb1', '\xb2'
+])
 
 
-def remove_empty_columns(lines):
-    data = []
-    for line in lines:
-        if (len(line) >= 4):
-            trunc_line = []
-            for i in range(0, 4):
-                trunc_line.append(line[i])
-            data.append(trunc_line)
-    return data
+def _is_row_empty(row):
+    """
+    Check to see if the row contains nothing but empty cells.
+    """
+    return not any(row)
 
 
-def remove_whitespace(lines):
-    for line_idx, line in enumerate(lines):
-        for field_idx, field in enumerate(line):
-            lines[line_idx][field_idx] = lines[line_idx][field_idx].strip()
-    return lines
+def _remove_excess_columns_from_row(row):
+    """
+    Remove padding from the end of rows.
+
+    Sometimes a csv will have been padded out with extra cells beyond the
+    limit of those the data is put in. This just removes them.
+
+    Note:
+    For meetings the number of cells we expect to see is 4
+    """
+    return row[:4]
 
 
-def remove_special_chars(lines):
-    for line_idx, line in enumerate(lines):
-        for field_idx, field in enumerate(line):
-            lines[line_idx][field_idx] = lines[line_idx][field_idx].replace('\xb2', '').replace('\xb1', '')
-    return lines
+def _remove_extra_whitespace_from_row(row):
+    """
+    Trim any leading or trailing whitespace from the cells in a row.
+    """
+    return [cell.strip() for cell in row]
 
 
-def remove_line(predicate, lines):
-    return [l for l in lines if not predicate(l)]
+def _remove_special_chars_from_row(row):
+    """
+    Remove any characters we don't want to see from the cells in a row.
 
-def remove_boilerplate(lines):
-    lines = remove_line(lambda l: l == ['Minister', 'Date', 'Name of Organisation', 'Purpose of meeting'], lines)
-    lines = remove_line(lambda l: l == ['Minister', 'Date', 'Name of External Organisation', 'Purpose of meeting'], lines)
-    lines = remove_line(lambda l: 'Does not normally include' in l[0], lines)
-    lines = remove_line(lambda l: l[0] == 'Note', lines)
-    return lines
+    Uses the python translate function for removing characters.
+    The list of characters to be removed comes from the constant declared
+    at the top of the file `_UNWANTED_SPECIAL_CHARS`.
+
+    See https://docs.python.org/2/library/string.html#string.translate for more
+    info on the translate function.
+    """
+    return [cell.translate(None, _UNWANTED_SPECIAL_CHARS) for cell in row]
+
+
+def _is_row_boilerplate(row):
+    """
+    Check if the row is boilerplate (a heading or footer row mostly)
+
+    Inspects the data in the row to determine if it's a useful data row or just
+    some text that can be ignored.
+    """
+    return (
+        (row[0] == 'Minister' and row[1] == 'Date') or
+        row[0] == 'Note' or
+        'Does not normally include' in row[0]
+    )
+
+
+def cleanse_row(row):
+    """
+    Cleanse a row from excess characters and indicate if it's useful
+
+    Removes extra columns, special characters and whitespace then returns
+    the data if deemed useful (not empty and not boilerplate) otherwise
+    return None if the row is not useful.
+    """
+    row_data = _remove_excess_columns_from_row(row)
+    row_data = _remove_special_chars_from_row(row_data)
+    row_data = _remove_extra_whitespace_from_row(row_data)
+
+    if _is_row_empty(row_data) or _is_row_boilerplate(row_data):
+        return None
+    return row_data
+
 
 def cleanse_csv_data(file_contents):
-    file_contents = remove_empty_lines(file_contents)
-    file_contents = remove_empty_columns(file_contents)
-    file_contents = remove_whitespace(file_contents)
-    file_contents = remove_special_chars(file_contents)
-    file_contents = remove_boilerplate(file_contents)
-    return file_contents
+    """
+    Take a list of rows from a file and return a list of cleaned data rows.
+    """
+    return filter(None, (cleanse_row(row) for row in file_contents))
