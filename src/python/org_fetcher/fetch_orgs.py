@@ -7,17 +7,27 @@ PATH_TO_DATAFILES = os.path.join(
 )
 
 
+def is_csv_file(filename):
+    return filename.endswith('.csv')
+
+
+def is_a_meetings_file(filename):
+    return 'meetings' in filename
+
+
+def is_not_a_gifts_files(filename):
+    return 'gift' not in filename
+
+
+CAN_PROCESS_CHECKS = [is_csv_file, is_a_meetings_file, is_not_a_gifts_files]
+def file_can_be_processed(filename):
+    filename_lower = filename.lower()
+    return all(check(filename_lower) for check in CAN_PROCESS_CHECKS)
+
+
 orgs = defaultdict(lambda: 0)
 for filename in os.listdir(PATH_TO_DATAFILES):
-    filename_lower = filename.lower()
-    if not filename_lower.endswith('.csv'):
-        # Skip the file if it's not a csv
-        continue
-    if not 'meetings' in filename_lower:
-        # Skip the file if it doesn't contain a meeting of some sort
-        continue
-    if 'gift' in filename_lower:
-        # Skip the file if it also contains gift information
+    if not file_can_be_processed(filename):
         continue
     with open(os.path.join(PATH_TO_DATAFILES, filename), 'rU') as file_handle:
         reader = csv.reader(file_handle)
