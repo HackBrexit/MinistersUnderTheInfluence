@@ -26,7 +26,7 @@ CAN_PROCESS_FILE_CHECKS = [
 ]
 
 
-def file_can_be_processed(filename):
+def can_process_file(filename):
     filename_lower = filename.lower()
     return all(check(filename_lower) for check in CAN_PROCESS_FILE_CHECKS)
 
@@ -94,7 +94,7 @@ def clean_organisation_string(organisation_string):
 
 orgs = defaultdict(lambda: 0)
 for filename in os.listdir(PATH_TO_DATAFILES):
-    if not file_can_be_processed(filename):
+    if not can_process_file(filename):
         continue
     with open(os.path.join(PATH_TO_DATAFILES, filename), 'rU') as file_handle:
         reader = csv.reader(file_handle)
