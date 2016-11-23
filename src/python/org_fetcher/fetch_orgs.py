@@ -22,7 +22,7 @@ def is_not_a_gifts_files(filename):
 CAN_PROCESS_FILE_CHECKS = [
     is_csv_file,
     is_a_meetings_file,
-    is_not_a_gifts_files
+    is_not_a_gifts_files,
 ]
 
 
@@ -31,28 +31,57 @@ def file_can_be_processed(filename):
     return all(check(filename_lower) for check in CAN_PROCESS_FILE_CHECKS)
 
 
+def row_is_long_enough(row):
+    """
+    Check we have enough entries to be a data or header row.
+
+    If there's fewer than three columns this row is unlikely to be useful
+    Mostly we'd want 4 but sometimes it's meetings for XXX followed by a
+    three column version with the other details.
+    """
+    return len(row) >= 3
+
+
+def header_row_contains_more_than_one_value(row):
+    """
+    Check that at least the first two columns of a header have values
+    """
+    return is_header_row and row[1]
+
+
+CAN_PROCESS_HEADER_ROW_CHECKS = [
+    row_is_long_enough,
+    header_row_contains_more_than_one_value,
+]
+
+
+CAN_PROCESS_DATA_ROW_CHECKS = [
+    row_is_long_enough,
+]
+
+
+def can_process_row(row, is_header_row):
+    if is_header_row:
+        return all(check(row) for check in CAN_PROCESS_HEADER_ROW_CHECKS)
+    else:
+        return all(check(row) for check in CAN_PROCESS_DATA_ROW_CHECKS)
+
+
 orgs = defaultdict(lambda: 0)
 for filename in os.listdir(PATH_TO_DATAFILES):
     if not file_can_be_processed(filename):
         continue
     with open(os.path.join(PATH_TO_DATAFILES, filename), 'rU') as file_handle:
         reader = csv.reader(file_handle)
-        first_row = True
+        is_header_row = True
         org_col = None
         for row in reader:
-            if len(row) < 3:
-                # If there's fewer than three columns this row is unlikely to be useful
-                # Mostly we'd want 4 but sometimes it's meetings for XXX followed by a
-                # three column version with the other details.
+            if not can_process_row(row, is_header_row):
                 continue
-            if first_row and not row[1]:
-                # If the first row isn't full of headings then skip it and treat the
-                # next as if it's a heading
-                continue
-            if first_row:
+            if is_header_row:
                 # When looking at the heading row, scan across to find the column with
                 # the organisations in.
-                first_row = False
+                is_header_row = False
                 for index, col in enumerate(row):
                     if 'Health' in col:
                         # Special case, there's one file where this is in the minister
