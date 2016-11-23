@@ -105,7 +105,8 @@ for filename in os.listdir(PATH_TO_DATAFILES):
             if org_col is None:
                 org_col = find_organisation_column_index(row)
                 if org_col is None:
-                    # If there wasn't an 'organisation' column then skip to the next file
+                    # If there wasn't an 'organisation' column then skip to
+                    # the next file
                     break
             else:
                 org = clean_organisation_string(row[org_col])
