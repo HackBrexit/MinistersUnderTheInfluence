@@ -15,14 +15,14 @@ def is_a_meetings_file(filename):
     return 'meetings' in filename
 
 
-def is_not_a_gifts_files(filename):
+def is_not_a_gifts_file(filename):
     return 'gift' not in filename
 
 
 CAN_PROCESS_FILE_CHECKS = [
     is_csv_file,
     is_a_meetings_file,
-    is_not_a_gifts_files,
+    is_not_a_gifts_file,
 ]
 
 
