@@ -19,10 +19,16 @@ def is_not_a_gifts_files(filename):
     return 'gift' not in filename
 
 
-CAN_PROCESS_CHECKS = [is_csv_file, is_a_meetings_file, is_not_a_gifts_files]
+CAN_PROCESS_FILE_CHECKS = [
+    is_csv_file,
+    is_a_meetings_file,
+    is_not_a_gifts_files
+]
+
+
 def file_can_be_processed(filename):
     filename_lower = filename.lower()
-    return all(check(filename_lower) for check in CAN_PROCESS_CHECKS)
+    return all(check(filename_lower) for check in CAN_PROCESS_FILE_CHECKS)
 
 
 orgs = defaultdict(lambda: 0)
