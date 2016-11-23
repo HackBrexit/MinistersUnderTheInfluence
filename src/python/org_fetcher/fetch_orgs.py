@@ -67,6 +67,17 @@ def can_process_row(row, is_header_row):
         return all(check(row) for check in CAN_PROCESS_DATA_ROW_CHECKS)
 
 
+def find_organisation_column_index(row):
+    for index, col in enumerate(row):
+        if 'Health' in col:
+            # Special case, there's one file where this is in the minister
+            # heading too.
+            continue
+        if 'organisation' in col.lower() or 'organization' in col.lower():
+            return index
+    return None
+
+
 orgs = defaultdict(lambda: 0)
 for filename in os.listdir(PATH_TO_DATAFILES):
     if not file_can_be_processed(filename):
@@ -79,20 +90,11 @@ for filename in os.listdir(PATH_TO_DATAFILES):
             if not can_process_row(row, is_header_row):
                 continue
             if is_header_row:
-                # When looking at the heading row, scan across to find the column with
-                # the organisations in.
-                is_header_row = False
-                for index, col in enumerate(row):
-                    if 'Health' in col:
-                        # Special case, there's one file where this is in the minister
-                        # heading too.
-                        continue
-                    if 'organisation' in col.lower() or 'organization' in col.lower():
-                        org_col = index
-                        break
+                org_col = find_organisation_column_index(row)
                 if org_col is None:
                     # If there wasn't an 'organisation' column then skip to the next file
                     break
+                is_header_row = False
                 continue
             if org_col < len(row) and row[org_col]:
                 # If the current row has enough columns extract the organisation
