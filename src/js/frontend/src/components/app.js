@@ -12,9 +12,7 @@ export default React.createClass({
 
   render () {
     return (
-      <div className="main-container">
         <PageLayout/>
-      </div>
     )
   }
 })
