@@ -1,8 +1,9 @@
 import React from "react"
+import Radium from "radium"
 
 var Chart = require('./Chart');
 
-export default class ChartContainer extends React.Component{
+class ChartContainer extends React.Component{
 
   constructor(props) {
     super(props);
@@ -15,6 +16,21 @@ export default class ChartContainer extends React.Component{
   }
 
   render () {
-    return <Chart data={this.state.data} />
+    return <div
+    className="chart-container"
+    style={[
+      styles.base,
+    ]}>
+      <Chart
+      data={this.state.data} />
+    </div>
   }
 }
+
+var styles = {
+  base: {
+    height: "85vh"
+  }
+}
+
+export default Radium(ChartContainer);
