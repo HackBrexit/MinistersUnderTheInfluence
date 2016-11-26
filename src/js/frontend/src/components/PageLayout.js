@@ -1,6 +1,7 @@
 import React from "react"
 import Radium from "radium"
 import ChartContainer from "./ChartContainer"
+import HeaderContainer from "./HeaderContainer"
 
 export default class PageLayout extends React.Component{
 
@@ -9,6 +10,11 @@ export default class PageLayout extends React.Component{
   }
 
   render () {
-    return <ChartContainer/>
+    return (
+      <div className="app-container">
+        <HeaderContainer/>
+        <ChartContainer/>
+      </div>
+    )
   }
 }
