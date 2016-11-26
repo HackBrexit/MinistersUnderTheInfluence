@@ -11,6 +11,10 @@ export default React.createClass({
   mixins: [pureRenderMixin],
 
   render () {
-    return <PageLayout/>
+    return (
+      <div className="main-container">
+        <PageLayout/>
+      </div>
+    )
   }
 })

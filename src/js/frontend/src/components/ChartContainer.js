@@ -15,9 +15,6 @@ export default class ChartContainer extends React.Component{
   }
 
   render () {
-    return
-    <div>
-      <Chart data={this.state.data} />
-    </div>
+    return <Chart data={this.state.data} />
   }
 }
