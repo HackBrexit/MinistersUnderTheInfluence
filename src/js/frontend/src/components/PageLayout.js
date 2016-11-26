@@ -3,7 +3,7 @@ import Radium from "radium"
 import ChartContainer from "./ChartContainer"
 import HeaderContainer from "./HeaderContainer"
 
-export default class PageLayout extends React.Component{
+class PageLayout extends React.Component{
 
   constructor(props) {
     super(props);
@@ -11,10 +11,27 @@ export default class PageLayout extends React.Component{
 
   render () {
     return (
-      <div className="app-container">
+      <div
+      style={[
+        styles.base,
+      ]}
+      className="app-container">
         <HeaderContainer/>
         <ChartContainer/>
       </div>
     )
   }
 }
+
+var styles = {
+  base: {
+    position:"absolute",
+    top: "0",
+    bottom: "0",
+    right: "0",
+    left: "0",
+    overflow:"hidden"
+  }
+}
+
+export default Radium(PageLayout)
