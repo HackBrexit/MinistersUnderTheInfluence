@@ -2,17 +2,19 @@ import React, { PropTypes } from "react"
 import Radium from "radium"
 import ImmutablePropTypes from "react-immutable-proptypes"
 import pureRenderMixin from "react-addons-pure-render-mixin"
-import ChartContainer from 'ChartContainer'
+import PageLayout from './PageLayout'
 
-export default Radium(React.createClass({
+export default React.createClass({
 
   displayName: "App",
 
   mixins: [pureRenderMixin],
 
   render () {
-    return <div>
-      <ChartContainer/>
-    </div>
+    return (
+      <div className="main-container">
+        <PageLayout/>
+      </div>
+    )    
   }
-}))
+})
