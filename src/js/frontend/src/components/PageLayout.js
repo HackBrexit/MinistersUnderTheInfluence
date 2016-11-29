@@ -12,6 +12,9 @@ class PageLayout extends React.Component{
   render () {
     return (
       <div
+      style={[
+        styles.base,
+      ]}
       className="app-container">
         <HeaderContainer/>
         <ChartContainer/>

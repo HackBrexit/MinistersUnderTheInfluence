@@ -1,6 +1,8 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import Radium from "radium"
+
+
 var d3Chart = require('./d3Chart');
 
 var Chart = React.createClass({
@@ -46,6 +48,7 @@ var Chart = React.createClass({
         )
     }
 });
+
 
 var styles = {
   base: {

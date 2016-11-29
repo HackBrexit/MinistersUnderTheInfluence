@@ -24,6 +24,4 @@ class ChartContainer extends React.Component{
   }
 }
 
-
-
 export default Radium(ChartContainer);
