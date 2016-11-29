@@ -73,3 +73,9 @@ src/php/gov-harvester/datafiles
 src/php/gov-harvester/govharvester_listfile.csv
 
 src/python/org_fetcher/orgs.csv
+
+# Vagrant
+.vagrant/
+
+# IntelliJ
+.idea/
