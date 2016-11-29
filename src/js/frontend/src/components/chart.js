@@ -1,5 +1,6 @@
 import React from "react"
 import ReactDOM from "react-dom"
+import Radium from "radium"
 var d3Chart = require('./d3Chart');
 
 var Chart = React.createClass({
@@ -36,9 +37,20 @@ var Chart = React.createClass({
 
     render: function() {
         return (
-            <div className="Chart"></div>
+            <div
+            style={[
+              styles.base,
+            ]}
+            className="Chart">
+            </div>
         )
     }
 });
 
-module.exports = Chart;
+var styles = {
+  base: {
+    height: "85vh"
+  }
+}
+
+module.exports = Radium(Chart);

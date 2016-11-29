@@ -17,20 +17,13 @@ class ChartContainer extends React.Component{
 
   render () {
     return <div
-    className="chart-container"
-    style={[
-      styles.base,
-    ]}>
+    className="chart-container">
       <Chart
       data={this.state.data} />
     </div>
   }
 }
 
-var styles = {
-  base: {
-    height: "85vh"
-  }
-}
+
 
 export default Radium(ChartContainer);
