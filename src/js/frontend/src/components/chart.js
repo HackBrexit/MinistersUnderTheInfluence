@@ -49,7 +49,6 @@ var Chart = React.createClass({
     }
 });
 
-
 var styles = {
   base: {
     height: "85vh"

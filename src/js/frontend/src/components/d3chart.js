@@ -14,6 +14,10 @@ d3Chart.create = function(el, props, state) {
     this.update(el, state);
 };
 
+d3Chart.translate = (x,y) => {
+  return "translate(" + x + "," + y + ")";
+}
+
 d3Chart.update = function(el, state) {
     var g = d3.select(el).select('.d3-points');
 
@@ -21,23 +25,18 @@ d3Chart.update = function(el, state) {
     //     .domain([])
     //     .range();
 
+    var bubbles = g.selectAll('g.bubble')
+                      .data(state.data)
+                      .enter()
+                        .append("g")
+                        .attr("class", "bubble")
+                        .attr("transform", function(d,i) {return d3Chart.translate(i * 250, 200)});
 
-    g.selectAll("circle")
-        .data(state.data)
-        .enter()
-        .append("circle")
-        .attr("cx", function(d, i) {return i * 250;})
-        .attr("cy", function(d, i) {return 200;})
-        .attr("r", function(d) {return d.meetingCount * 10;});
+    bubbles.append("circle")
+            .attr("r", function(d) {return d.meetingCount * 10;});
 
-    g.selectAll("text")
-        .data(state.data)
-        .enter()
-        .append("text")
-        .attr("x", function(d, i) {return i * 250;})
-        .attr("y", function(d, i) {return 200;})
-        .attr("fill", "red")
-        .text(function(d) {return d.entity;});
+    bubbles.append("text")
+            .text(function(d) {return d.category;});
 };
 
 module.exports = d3Chart;
