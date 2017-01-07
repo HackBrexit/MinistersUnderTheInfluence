@@ -1,16 +1,8 @@
 import * as actionTypes from "./action-types"
 
 // example of a regular action
-export const addMessage = (message) => {
+export const toggleAbout = () => {
   return {
-    type: actionTypes.ADD_MESSAGE,
-    payload: message
+    type: actionTypes.TOGGLE_ABOUT,
   }
-}
-
-// example of a thunk action
-export const addMessageAsync = (message) => (dispatch) => {
-  setTimeout(() => {
-    dispatch(addMessage(message))
-  }, 1000)
 }

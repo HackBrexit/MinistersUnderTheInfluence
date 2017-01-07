@@ -6,7 +6,7 @@ import immutableStorageDecorator from "./Redux/immutable-storage-decorator"
 import {createStore, applyMiddleware} from "redux"
 import {Provider} from "react-redux";
 import thunkMiddleware from "redux-thunk"
-import {rootReducer} from "./Redux/reducer"
+import {rootReducer, aboutReducer} from "./Redux/reducer"
 import * as storage from "redux-storage"
 import createEngine from "redux-storage-engine-localstorage"
 import storageDebounce from 'redux-storage-decorator-debounce'
@@ -18,6 +18,8 @@ import createLogger from 'redux-logger'
 // wrap our main reducer in a storage reducer - this intercepts LOAD actions and
 // calls the merger function to merge in the new state
 const reducer = storage.reducer(rootReducer, (oldState, newState) => newState)
+// const reducer = aboutReducer;
+
 // create a storage engine, with decorators to convert plain JS into Immutable
 // and "debounce" storage so it's not happening all the time
 const engine = storageDebounce(immutableStorageDecorator(createEngine("muti-frontend")), 2000)
@@ -29,12 +31,17 @@ const loggerMiddleware = createLogger({
   // you can filter out certain actions from logging
   //predicate: (getState, action) => action.type !== CALCULATION_NEEDS_REFRESH
 })
+
 // now create our redux store, applying all our middleware
-const store = createStore(reducer, applyMiddleware(
-  thunkMiddleware, // first, so function results get transformed
-  loggerMiddleware, // now log everything at this state
-  storageMiddleware // finally the storage middleware
-))
+// const store = createStore(reducer, applyMiddleware(
+//   thunkMiddleware, // first, so function results get transformed
+//   loggerMiddleware, // now log everything at this state
+//   storageMiddleware // finally the storage middleware
+// ))
+
+
+const store = createStore(aboutReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+
 // now everything is set up, create a loader and use it to load the store
 const load = storage.createLoader(engine)
 const loaded = load(store)

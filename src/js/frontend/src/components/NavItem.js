@@ -9,13 +9,13 @@ class NavItem extends React.Component{
 
   render() {
     return (
-      <li style={[
+      <a href="#"><li onClick={this.props.onClick} style={[
         styles.base,
       ]}>
         <img style={[
           styles.img,
         ]} height='30px' src={this.props.iconData} />
-      </li>
+      </li></a>
     )
   }
 }

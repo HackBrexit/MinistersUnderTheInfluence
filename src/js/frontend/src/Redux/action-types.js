@@ -1,1 +1,1 @@
-export const ADD_MESSAGE = "ADD_MESSAGE"
+export const TOGGLE_ABOUT = "TOGGLE_ABOUT"
