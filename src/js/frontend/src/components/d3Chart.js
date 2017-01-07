@@ -10,6 +10,9 @@ var d3Chart = {
     svg.append('g')
       .attr('class', 'd3-points');
 
+    this.getSvgDimensions();
+    this.initBubbleCoordsRadius(state.data, this.svg_el);
+
     this.update(el, state);
   },
 
@@ -41,9 +44,6 @@ var d3Chart = {
   },
 
   update: function(el, state) {
-    this.getSvgDimensions();
-    this.initBubbleCoordsRadius(state.data, this.svg_el);
-
     var g = d3.select(el).select('.d3-points');
 
     // var xScale = d3.scaleLinear()
