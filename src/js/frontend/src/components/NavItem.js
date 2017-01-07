@@ -33,6 +33,4 @@ var styles = {
   }
 };
 
-
-
 export default Radium(NavItem);

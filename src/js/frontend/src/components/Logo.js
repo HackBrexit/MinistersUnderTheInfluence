@@ -23,6 +23,7 @@ var styles = {
   base: {
     fontWeight:'normal',
     float:'left',
+    marginLeft:'20px',
     display: 'inline',
     lineHeight:"12vh",
   }

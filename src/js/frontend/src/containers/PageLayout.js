@@ -1,5 +1,6 @@
 import React from "react";
 import Radium from "radium";
+import { connect } from 'react-redux';
 import ChartContainer from "./ChartContainer";
 import Header from "../components/Header";
 import About from "../components/About"
@@ -17,7 +18,7 @@ class PageLayout extends React.Component {
       ]}
       className="app-container">
         <Header />
-        <About />
+        {this.props.showAboutScreen && <About />}
         <ChartContainer/>
       </div>
     )
@@ -31,4 +32,10 @@ var styles = {
   }
 }
 
-export default Radium(PageLayout)
+const mapStateToProps = (state) => {
+    return {
+        showAboutScreen: state.showAboutScreen,
+    };
+};
+
+export default connect(mapStateToProps, null)(Radium(PageLayout));
