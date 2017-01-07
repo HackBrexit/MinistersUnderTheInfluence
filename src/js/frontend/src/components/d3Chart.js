@@ -13,6 +13,8 @@ var d3Chart = {
     this.getSvgDimensions();
     this.initBubbleCoordsRadius(state.data, this.svg_el);
 
+    this.force = this.initForceSimulation(state.data);
+
     this.update(el, state);
   },
 
@@ -24,6 +26,8 @@ var d3Chart = {
     this.svg_el = this.svg.node();
     this.svg_el.pixelWidth = this.svg.style("width").replace("px", "");
     this.svg_el.pixelHeight = this.svg.style("height").replace("px", "");
+    this.svg_el.centreX = this.svg_el.pixelWidth / 2;
+    this.svg_el.centreY = this.svg_el.pixelHeight / 2;
   },
 
   initBubbleCoordsRadius: function(data, svg_el) {
@@ -37,6 +41,27 @@ var d3Chart = {
   positionBubble: function(d, i) {
     var svg_el = d3Chart.svg_el;
     return d3Chart.translate(d.x, d.y);
+  },
+
+  bubbleRadius: function(d, i) {
+    return d.radius + 2;
+  },
+
+  initForceSimulation: function(data) {
+    return d3.forceSimulation(data)
+      //.force("charge", d3.forceManyBody().strength(-1000))
+      .force("centerX", d3.forceX(d3Chart.svg_el.centreX))
+      .force("centerY", d3.forceY(d3Chart.svg_el.centreY))
+      .force("collide", d3.forceCollide()
+                          .radius(d3Chart.bubbleRadius)
+                          .iterations(3))
+      .force("center", d3.forceCenter(d3Chart.svg_el.centreX,
+                                      d3Chart.svg_el.centreY))
+      .on("tick", this.tickHandler);
+  },
+
+  tickHandler: function() {
+    d3Chart.updateBubblePositions();
   },
 
   updateBubblePositions: function() {
