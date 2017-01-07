@@ -37,8 +37,8 @@ var d3Chart = {
   },
 
   update: function(el, state) {
-    d3Chart.getSvgDimensions();
-    d3Chart.initBubbleCoordsRadius(state.data, this.svg_el);
+    this.getSvgDimensions();
+    this.initBubbleCoordsRadius(state.data, this.svg_el);
 
     var g = d3.select(el).select('.d3-points');
 
@@ -50,7 +50,7 @@ var d3Chart = {
         .data(state.data)
         .enter().append("g")
         .attr("class", "bubble")
-        .attr("transform", d3Chart.positionBubble);
+        .attr("transform", this.positionBubble);
 
     bubbles.append("circle")
       .attr("r", function(d) {return d.meetingCount * 10;});
