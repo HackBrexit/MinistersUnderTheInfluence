@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./components/app";
+import App from "./components/App";
 import {Router, Route, hashHistory} from 'react-router';
 import immutableStorageDecorator from "./Redux/immutable-storage-decorator"
 import {createStore, applyMiddleware} from "redux"
