@@ -21,9 +21,10 @@ class Logo extends React.Component{
 
 var styles = {
   base: {
+    fontWeight:'normal',
     float:'left',
     display: 'inline',
-    lineHeight:"15vh",
+    lineHeight:"12vh",
   }
 };
 

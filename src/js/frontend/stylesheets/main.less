@@ -6,13 +6,43 @@
   padding: 0;
 }
 
+
+
 body {
   color: @primary-colour;
-  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-family: "Noto Sans", Arial, sans-serif;
   font-weight: light;
+}
+
+h1, h2, h3, h4 {
+  font-family: "Roboto Slab", Arial, sans-serif;
+}
+
+h2 {
+  margin: 10px 0;
+}
+
+ul, ol {
+  padding: 5px 0 5px 20px;
 }
 
 g.bubble text {
   text-anchor: middle;
   fill: white;
+}
+
+
+::-webkit-scrollbar {
+    width: 7px;
+    padding-top: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #f4f2f2;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #ddd;
 }

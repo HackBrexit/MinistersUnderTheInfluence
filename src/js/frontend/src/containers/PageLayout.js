@@ -1,7 +1,8 @@
-import React from "react"
-import Radium from "radium"
-import ChartContainer from "./ChartContainer"
-import Header from "../components/Header"
+import React from "react";
+import Radium from "radium";
+import ChartContainer from "./ChartContainer";
+import Header from "../components/Header";
+import About from "../components/About"
 
 class PageLayout extends React.Component {
   constructor(props) {
@@ -16,6 +17,7 @@ class PageLayout extends React.Component {
       ]}
       className="app-container">
         <Header />
+        <About />
         <ChartContainer/>
       </div>
     )
@@ -25,7 +27,7 @@ class PageLayout extends React.Component {
 var styles = {
   base: {
     height:"100vh",
-    overflow:"hidden"
+    overflow: 'hidden',
   }
 }
 

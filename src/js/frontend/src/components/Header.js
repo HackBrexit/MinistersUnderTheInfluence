@@ -24,7 +24,7 @@ class Header extends React.Component {
 var styles = {
   base: {
     // backgroundColor: '#F5F5ED',
-    height: "15vh",
+    height: "12vh",
   }
 };
 

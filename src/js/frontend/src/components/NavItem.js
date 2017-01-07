@@ -23,7 +23,7 @@ class NavItem extends React.Component{
 var styles = {
   base: {
     display:'inline',
-    padding:'15px 9px',
+    padding:'15px 10px',
     margin: '7px',
     backgroundColor:'#119DA4',
     borderRadius: '50%',
@@ -32,5 +32,7 @@ var styles = {
     verticalAlign:'middle',
   }
 };
+
+
 
 export default Radium(NavItem);
