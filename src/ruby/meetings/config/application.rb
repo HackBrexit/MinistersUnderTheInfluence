@@ -18,11 +18,11 @@ Bundler.require(*Rails.groups)
 
 module Meetings
   class Application < Rails::Application
-        config.generators do |g|
-       g.template_engine :haml
-       g.test_framework :rspec, :fixtures => true, :views => true
-       g.fixture_replacement :factory_girl, :dir => "spec/factories"
-       g.stylesheet_engine :sass
+    config.generators do |g|
+      g.template_engine :haml
+      g.test_framework :rspec, :fixtures => true, :views => true
+      g.fixture_replacement :factory_girl, :dir => "spec/factories"
+      g.stylesheet_engine :sass
     end
 
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
