@@ -18,6 +18,10 @@ d3Chart.translate = (x, y) => {
   return "translate(" + x + "," + y + ")";
 }
 
+d3Chart.positionBubble = function(d, i) {
+  return d3Chart.translate(i * 250, 200);
+}
+
 d3Chart.update = function(el, state) {
   var g = d3.select(el).select('.d3-points');
 
@@ -29,7 +33,7 @@ d3Chart.update = function(el, state) {
       .data(state.data)
     .enter().append("g")
       .attr("class", "bubble")
-      .attr("transform", function(d, i) {return d3Chart.translate(i * 250, 200)});
+      .attr("transform", d3Chart.positionBubble);
 
   bubbles.append("circle")
     .attr("r", function(d) {return d.meetingCount * 10;});
