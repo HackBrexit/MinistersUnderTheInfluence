@@ -1,5 +1,9 @@
 {
   "name": "muti-frontend",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/HackBrexit/MinistersUnderTheInfluence.git"
+  },
   "version": "1.0.0",
   "description": "Visualisations for the Ministers Under the Influence project",
   "main": "__build/muti-frontend.js",
