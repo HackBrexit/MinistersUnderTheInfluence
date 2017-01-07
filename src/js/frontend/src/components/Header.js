@@ -23,14 +23,8 @@ class Header extends React.Component {
 
 var styles = {
   base: {
+    // backgroundColor: '#F5F5ED',
     height: "15vh",
-    lineHeight:"15vh",
-    color: "#733a70",
-    textAlign: "center",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "15vh 15vh",
-    backgroundPosition :"10%",
-    borderBottom: "1px solid #733a70"
   }
 };
 

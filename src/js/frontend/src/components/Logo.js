@@ -10,7 +10,9 @@ class Logo extends React.Component{
 
   render() {
     return (
-      <h1>
+      <h1 style={[
+        styles.base,
+      ]}>
         Ministers Under The Influence
       </h1>
     )
@@ -19,7 +21,9 @@ class Logo extends React.Component{
 
 var styles = {
   base: {
-
+    float:'left',
+    display: 'inline',
+    lineHeight:"15vh",
   }
 };
 
