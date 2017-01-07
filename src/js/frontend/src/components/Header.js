@@ -1,8 +1,7 @@
- import React from "react"
+import React from "react"
 import Radium from "radium"
 
-class Header extends React.Component{
-
+class Header extends React.Component {
   constructor(props) {
     super(props)
   }
