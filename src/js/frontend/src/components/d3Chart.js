@@ -2,9 +2,9 @@ var d3 = require('d3');
 var d3Chart = {};
 
 d3Chart.create = function(el, props, state) {
-  var svg = d3.select(el)
-    .append('svg')
-    .attr('class', 'd3')
+  var svg = d3.select(el).append('svg');
+  this.svg = svg;
+  svg.attr('class', 'd3')
     .attr('width', props.width)
     .attr('height', props.height);
 
@@ -18,11 +18,29 @@ d3Chart.translate = (x, y) => {
   return "translate(" + x + "," + y + ")";
 }
 
+d3Chart.getSvgDimensions = function() {
+  this.svg_el = this.svg.node();
+  this.svg_el.pixelWidth = this.svg.style("width").replace("px", "");
+  this.svg_el.pixelHeight = this.svg.style("height").replace("px", "");
+}
+
+d3Chart.initBubbleCoordsRadius = function(data, svg_el) {
+  for (var i = 0; i < data.length; i++) {
+    data[i].radius = data[i].meetingCount * 10;
+    data[i].x = Math.random() * svg_el.pixelWidth;
+    data[i].y = Math.random() * svg_el.pixelHeight;
+  }
+}
+
 d3Chart.positionBubble = function(d, i) {
-  return d3Chart.translate(i * 250, 200);
+  var svg_el = d3Chart.svg_el;
+  return d3Chart.translate(d.x, d.y);
 }
 
 d3Chart.update = function(el, state) {
+  d3Chart.getSvgDimensions();
+  d3Chart.initBubbleCoordsRadius(state.data, this.svg_el);
+
   var g = d3.select(el).select('.d3-points');
 
   // var xScale = d3.scaleLinear()
