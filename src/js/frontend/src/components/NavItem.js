@@ -8,8 +8,11 @@ class NavItem extends React.Component{
   }
 
   render() {
+    const target = this.props.newTab ? "_blank" : '';
     return (
-      <a href="#"><li onClick={this.props.onClick} style={[
+      <a target={target}
+      onClick={this.props.onClick}
+      href={this.props.href}><li style={[
         styles.base,
       ]}>
         <img style={[
@@ -23,7 +26,7 @@ class NavItem extends React.Component{
 var styles = {
   base: {
     display:'inline',
-    padding:'15px 10px',
+    padding:'15px 11px',
     margin: '7px',
     backgroundColor:'#119DA4',
     borderRadius: '50%',

@@ -18,7 +18,7 @@ class Navigation extends React.Component{
           styles.ul,
         ]}>
           <HelpButton />
-          <NavItem iconData={gitHubIconData} />
+          <NavItem iconData={gitHubIconData} href='https://github.com/HackBrexit/MinistersUnderTheInfluence/' newTab={true}/>
         </ul>
       </div>
     )
@@ -28,7 +28,8 @@ class Navigation extends React.Component{
 var styles = {
   base: {
     lineHeight:"12vh",
-    float: 'right'
+    float: 'right',
+    marginRight: '20px',
   },
 };
 

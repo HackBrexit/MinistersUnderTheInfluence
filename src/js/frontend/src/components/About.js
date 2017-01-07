@@ -9,8 +9,11 @@ class About extends React.Component{
   }
 
   render() {
+    const aboutContainerClass = this.props.shouldDisplay ? '' : 'hiddenFlyover' ;
+
     return (
-      <div style={[
+      <div className={aboutContainerClass}
+      style={[
         styles.aboutContainer,
       ]}>
         <div style={[
@@ -70,7 +73,8 @@ var styles = {
     height:'87vh',
     position: 'fixed',
     padding: '15px',
-    backgroundColor: '#999',
+    transition: '0.5s ease all',
+    // backgroundColor: '#999',
   },
 
   aboutContent: {
@@ -79,9 +83,9 @@ var styles = {
     padding: '20px',
     backgroundColor: 'white',
     borderRadius:'10px',
-    WebkitBoxShadow: '0px 0px 15px 0px rgba(0,0,0,0.3)',
-    MozBoxShadow: '0px 0px 15px 0px rgba(0,0,0,0.3)',
-    boShadow: '0px 0px 15px 0px rgba(0,0,0,0.3)',
+    WebkitBoxShadow: '0px 0px 20px 8px rgba(0,0,0,0.3)',
+    MozBoxShadow: '0px 0px 20px 8px rgba(0,0,0,0.3)',
+    boxShadow: '0px 0px 20px 8px rgba(0,0,0,0.3)',
   }
 };
 

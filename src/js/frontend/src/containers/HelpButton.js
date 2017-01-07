@@ -17,7 +17,7 @@ class HelpButton extends React.Component{
 
   render() {
     return (
-      <NavItem iconData={questionMarkData} onClick={this._handleClick}/>
+      <NavItem iconData={questionMarkData} onClick={this._handleClick} href='#'/>
     )
   }
 }

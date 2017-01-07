@@ -18,7 +18,7 @@ class PageLayout extends React.Component {
       ]}
       className="app-container">
         <Header />
-        {this.props.showAboutScreen && <About />}
+        <About shouldDisplay={this.props.showAboutScreen} />
         <ChartContainer/>
       </div>
     )
