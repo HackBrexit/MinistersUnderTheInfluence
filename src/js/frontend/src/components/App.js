@@ -5,14 +5,13 @@ import pureRenderMixin from "react-addons-pure-render-mixin"
 import PageLayout from './PageLayout'
 
 export default React.createClass({
-
   displayName: "App",
 
   mixins: [pureRenderMixin],
 
   render () {
     return (
-        <PageLayout/>
+      <PageLayout/>
     )
   }
 })

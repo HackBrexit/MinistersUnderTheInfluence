@@ -3,8 +3,7 @@ import Radium from "radium"
 import ChartContainer from "./ChartContainer"
 import HeaderContainer from "./HeaderContainer"
 
-class PageLayout extends React.Component{
-
+class PageLayout extends React.Component {
   constructor(props) {
     super(props);
   }
