@@ -36,6 +36,10 @@ var d3Chart = {
     return d3Chart.translate(d.x, d.y);
   },
 
+  updateBubblePositions: function() {
+      this.bubbles.attr("transform", this.positionBubble);
+  },
+
   update: function(el, state) {
     this.getSvgDimensions();
     this.initBubbleCoordsRadius(state.data, this.svg_el);
@@ -46,16 +50,17 @@ var d3Chart = {
     //   .domain([])
     //   .range();
 
-    var bubbles = g.selectAll('g.bubble')
+    this.bubbles = g.selectAll('g.bubble')
         .data(state.data)
       .enter().append("g")
-        .attr("class", "bubble")
-        .attr("transform", this.positionBubble);
+        .attr("class", "bubble");
 
-    bubbles.append("circle")
+    this.updateBubblePositions();
+
+    this.bubbles.append("circle")
       .attr("r", function(d) {return d.meetingCount * 10;});
 
-    bubbles.append("text")
+    this.bubbles.append("text")
       .text(function(d) {return d.category;});
   }
 };
