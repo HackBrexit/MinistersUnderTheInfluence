@@ -5,6 +5,8 @@ import Radium from "radium"
 var d3Chart = require('./d3Chart');
 
 var Chart = React.createClass({
+  d3Chart: d3Chart,
+
   propTypes: {
     data: React.PropTypes.array
   },
