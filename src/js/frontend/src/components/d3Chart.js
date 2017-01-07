@@ -48,7 +48,7 @@ var d3Chart = {
 
     var bubbles = g.selectAll('g.bubble')
         .data(state.data)
-        .enter().append("g")
+      .enter().append("g")
         .attr("class", "bubble")
         .attr("transform", this.positionBubble);
 
