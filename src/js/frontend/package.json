@@ -9,7 +9,7 @@
   "main": "__build/muti-frontend.js",
   "scripts": {
     "test": "karma start --single-run",
-    "build": "gulp build",
+    "build": "gulp",
     "watch-build": "npm run build -- --watch",
     "watch-test": "karma start",
     "start": "gulp develop"

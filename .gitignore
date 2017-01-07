@@ -79,3 +79,5 @@ src/python/org_fetcher/orgs.csv
 
 # IntelliJ
 .idea/
+
+.lock
