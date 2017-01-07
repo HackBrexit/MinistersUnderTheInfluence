@@ -1,7 +1,7 @@
 import React from "react"
 import Radium from "radium"
 
-var Chart = require('./Chart');
+var Chart = require('../components/Chart');
 
 class ChartContainer extends React.Component {
   constructor(props) {

@@ -1,7 +1,7 @@
 import React from "react"
 import Radium from "radium"
 import ChartContainer from "./ChartContainer"
-import HeaderContainer from "./HeaderContainer"
+import Header from "../components/Header"
 
 class PageLayout extends React.Component {
   constructor(props) {
@@ -15,7 +15,7 @@ class PageLayout extends React.Component {
         styles.base,
       ]}
       className="app-container">
-        <HeaderContainer/>
+        <Header />
         <ChartContainer/>
       </div>
     )
