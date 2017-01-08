@@ -13,7 +13,9 @@ class Logo extends React.Component{
       <h1 style={[
         styles.base,
       ]}>
+
         Ministers Under <small>the</small> <span style={styles.highlightWord}>Influence</span>
+
       </h1>
     )
   }
