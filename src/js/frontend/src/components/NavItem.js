@@ -28,8 +28,13 @@ var styles = {
     display:'inline',
     padding:'15px 11px',
     margin: '7px',
-    backgroundColor:'#119DA4',
+    backgroundColor:'rgb(68, 196, 211)',
     borderRadius: '50%',
+    transition: 'all 0.05s linear',
+
+    ':hover': {
+      backgroundColor: '#119DA4'
+    },
   },
   img:{
     verticalAlign:'middle',
