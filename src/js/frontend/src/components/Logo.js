@@ -33,10 +33,7 @@ var styles = {
   highlightWord: {
     color: '#e65c5a',
     fontWeight: 'bold',
-    // float:'left',
-    // marginLeft:'20px',
-    // display: 'inline',
-    // lineHeight:"12vh",
+
   },
   span: {
     fontWeight:'bold',

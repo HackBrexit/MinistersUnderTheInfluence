@@ -3,11 +3,19 @@ import Radium from "radium";
 import { connect } from 'react-redux';
 import ChartContainer from "./ChartContainer";
 import Header from "../components/Header";
-import About from "../components/About"
+import About from "../components/About";
+import { toggleAbout } from '../Redux/actions';
+
 
 class PageLayout extends React.Component {
   constructor(props) {
     super(props);
+
+    this._closeFlyover = this._closeFlyover.bind(this);
+  }
+
+  _closeFlyover() {
+    this.props.toggleAbout();
   }
 
   render () {
@@ -18,7 +26,7 @@ class PageLayout extends React.Component {
       ]}
       className="app-container">
         <Header />
-        <About shouldDisplay={this.props.showAboutScreen} />
+        <About shouldDisplay={this.props.showAboutScreen} closeFlyover={this._closeFlyover}/>
         <ChartContainer/>
       </div>
     )
@@ -38,4 +46,12 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps, null)(Radium(PageLayout));
+const mapDispatchToProps = (dispatch) => {
+  return {
+    toggleAbout: () => {
+      dispatch(toggleAbout())
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Radium(PageLayout));
