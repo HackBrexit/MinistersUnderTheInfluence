@@ -8,12 +8,12 @@ class ChartContainer extends React.Component {
     super(props);
     this.state = {
       data: [
-        {category: "Health", meetingCount: 10},
-        {category: "Finance", meetingCount: 20},
-        {category: "Arms", meetingCount: 14},
-        {category: "IT", meetingCount: 1},
-        {category: "Charitable Sector", meetingCount: 8},
-        {category: "Media", meetingCount: 5}
+        {name: "Health", meetingCount: 10},
+        {name: "Finance", meetingCount: 20},
+        {name: "Arms", meetingCount: 14},
+        {name: "IT", meetingCount: 1},
+        {name: "Charitable Sector", meetingCount: 8},
+        {name: "Media", meetingCount: 5}
       ]
     }
   }
