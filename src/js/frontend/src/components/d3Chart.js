@@ -58,9 +58,16 @@ var d3Chart = {
       var meeting = data[i];
       var rels = meeting["relationships"];
       var targets = rels[meetingTargetType]["data"];
+      // For some reason, the same target can appear multiple times in
+      // the relationship data for a given meeting, so we have to
+      // de-duplicate here.
+      var targetCounts = {};
       for (var j = 0; j < targets.length; j++) {
         var target = targets[j];
-        counts[target["id"]] = (counts[target["id"]] || 0) + 1;
+        targetCounts[target["id"]] = (targetCounts[target["id"]] || 0) + 1;
+      }
+      for (var targetId in targetCounts) {
+        counts[targetId] = (counts[targetId] || 0) + 1;
       }
     }
 
@@ -102,7 +109,7 @@ var d3Chart = {
 
   initBubbleCoordsRadius: function(data, svg_el) {
     for (var i = 0; i < data.length; i++) {
-      data[i].radius = data[i].meetingCount;
+      data[i].radius = data[i].meetingCount * 10;
       data[i].x = Math.random() * svg_el.pixelWidth;
       data[i].y = Math.random() * svg_el.pixelHeight;
     }
