@@ -56,7 +56,7 @@ var styles = {
     overflowY: 'scroll',
     padding: '20px',
     backgroundColor: 'white',
-    borderRadius:'10px',
+    borderRadius:'3px',
     WebkitBoxShadow: '0px 0px 20px 8px rgba(0,0,0,0.3)',
     MozBoxShadow: '0px 0px 20px 8px rgba(0,0,0,0.3)',
     boxShadow: '0px 0px 20px 8px rgba(0,0,0,0.3)',

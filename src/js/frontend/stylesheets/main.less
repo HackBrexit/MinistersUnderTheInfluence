@@ -26,19 +26,34 @@ ul, ol, p {
   padding: 5px 0 5px 20px;
 }
 
+
+
 g.bubble text {
   text-anchor: middle;
   fill: white;
 }
 
+g.bubble circle {
+  fill: #FDA3AC;
+    stroke: #DB6169;
+    stroke-width: 1px;
+
+    &:hover {
+      fill: #DB6169;
+    }
+}
+
+
+
 .hiddenFlyover {
-  transform: translateY(50%);
+  transform: translateY(30%);
   opacity: 0;
+  pointer-events: none;
 }
 
 
 ::-webkit-scrollbar {
-    width: 7px;
+    width: 4px;
     padding-top: 10px;
 }
 
@@ -49,5 +64,5 @@ g.bubble text {
 
 ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background-color: #ddd;
+    background-color: #333;
 }

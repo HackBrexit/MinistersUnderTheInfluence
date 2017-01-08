@@ -26,11 +26,20 @@ var styles = {
     marginLeft: '20px',
     display: 'inline',
     lineHeight: "12vh",
-    color: '#119DA4'
+    color: '#119DA4',
+    margin: '0 0 0 20px',
   },
+
   highlightWord: {
     color: '#e65c5a',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    // float:'left',
+    // marginLeft:'20px',
+    // display: 'inline',
+    // lineHeight:"12vh",
+  },
+  span: {
+    fontWeight:'bold',
   }
 };
 
