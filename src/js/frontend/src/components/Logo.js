@@ -13,7 +13,7 @@ class Logo extends React.Component{
       <h1 style={[
         styles.base,
       ]}>
-        <span style={[styles.span]}>Ministers Under </span> the <span style={[styles.span]}>Influence</span>
+        <span >Ministers Under </span> the <span style={[styles.span]}>Influence</span>
       </h1>
     )
   }
