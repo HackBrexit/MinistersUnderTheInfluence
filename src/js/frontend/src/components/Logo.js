@@ -13,7 +13,7 @@ class Logo extends React.Component{
       <h1 style={[
         styles.base,
       ]}>
-        Ministers Under The Influence
+        Ministers Under <small>the</small> <span style={styles.highlightWord}>Influence</span>
       </h1>
     )
   }
@@ -21,11 +21,16 @@ class Logo extends React.Component{
 
 var styles = {
   base: {
-    fontWeight:'normal',
-    float:'left',
-    marginLeft:'20px',
+    fontWeight: 'normal',
+    float: 'left',
+    marginLeft: '20px',
     display: 'inline',
-    lineHeight:"12vh",
+    lineHeight: "12vh",
+    color: '#119DA4'
+  },
+  highlightWord: {
+    color: '#e65c5a',
+    fontWeight: 'bold'
   }
 };
 

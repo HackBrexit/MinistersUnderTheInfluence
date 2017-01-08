@@ -19,49 +19,23 @@ class About extends React.Component{
         <div style={[
           styles.aboutContent,
         ]}>
-        <h1>Hack Brexit Open Source Accelerator</h1>
-          <p>Join the Hack Brexit fortnightly Wednesday meetup group <a href="https://www.meetup.com/Hack-Brexit/" target="_blank">here</a></p>
-          <p>Join the Hack Brexit slack group <a href="https://hackbrexit.herokuapp.com/" target="_blank">here</a></p>
+        <h1>What is Ministers Under the Influence?</h1>
+          <p>The aim of Ministers: Under the Influence is to unearth public-but-obscure information about who ministers are meeting. By making this data more accessible we can hope to better hold our government to account. We hope this will feed into a wider project about tracking who is influencing our elected politicians.</p>
+          <p>Ministers: Under the Influence is a project that came out of the <a href="http://www.HackBrexit.org" target="_blank">#HackBrexit</a> Hackathon which took place over a weekend. The project has now been pushed into the Hack Brexit accelerator programme and will be developed further over the next few months.</p>
+          <h2>Hackathon History</h2>
+          <p>During the hackathon the team at Unlock Democracy was in attendance and presented their work to the attendees. They also challenged us to find a solution to the problem of obscure ministerial data and Ministers Under the Influence was born, influenced by the Under the Influence project.</p>
         <h2>What is the accelerator all about?</h2>
-        <ul>
-          <li>A three month programme that takes 2 of the 10 projects created during Hack Brexit weekend.</li>
-          <li>Run regular monthly meetings for the teams to present and discuss their projects progress, hosted by ThoughtWorks London.</li>
-          <li>Help source additional volunteers to work with the teams on the projects.</li>
-          <li>The organising committee will be on hand to provide planning and process assistance over the whole 3 months, and tap into expertise from ThoughtWorks and Code First: Girls community.</li>
-          <li>The organising committee will manage external communications for the open source accelerator to help spread the word.</li>
-          <li>At the end of 3 months we will run a final external presentation event with external attendees, we will analyse the progress and development of the project along with its future potential for continuing to grow.</li>
-          <li>Connect the team members to the wider Hack Brexit meetup community.</li>
-        </ul>
+        <p>
+          The accelerator is a three month programme that takes 2 of the 10 projects created during Hack Brexit weekend to push them to the next level The goal is to run regular monthly meetings for the teams to present and discuss their projects progress, hosted by <a href="https://www.thoughtworks.com/locations/london" target="_blank">ThoughtWorks London.</a> During this period we help source additional volunteers to work with the teams on the projects and connect the team members to the wider Hack Brexit meetup community.
+        </p>
         <h2>Why are we doing this?</h2>
-        <p>We want to continue from the success of the Hack Brexit hackathon on the 23-4 July to bring together technical and non-technical people to create tech solutions to drive dialog, unity and positive action beyond Brexit. We want to sustainably support and scale up projects that have a clear positive impact on society and respond to one of the three key themes we chose for the weekend:</p>
+        <p>We want to continue from the success of the <a href="http://www.HackBrexit.org" target="_blank">Hack Brexit</a> hackathon on the 23-4 July to bring together technical and non-technical people to create tech solutions to drive dialog, unity and positive action beyond Brexit. We want to sustainably support and scale up projects that have a clear positive impact on society and respond to one of the three key themes we chose for the weekend:
         <ol>
           <li>Truth, fiction, & accountability;</li>
           <li>Tolerance & prejudice;</li>
           <li>Effective organising & campaigning.</li>
-        </ol>
-        <h2>T&Cs for accelerator projects</h2>
-        <ul>
-          <li>An open source project publicly available & accessible to all.</li>
-          <li>Projects are created in a repository under the Hack Brexit public repository with an MIT License.</li>
-          <li>Projects have an IP that is open to all & can be used by anyone.</li>
-          <li>Projects speak to one of the three key themes identified at the Hack (Truth, Fiction & Accountability; Tolerance & prejudice; Effective organising & campaigning) or a future theme as agreed by the community.</li>
-          <li>Commitment to work with a group of volunteers on the project for a duration of 3 months.</li>
-          <li>Work alongside your project team volunteers & the Hack Brexit organisers to plan the outcomes for at least 3 months.</li>
-          <li>Be a project that has scope to continue to be worked on by others in the future.</li>
-        </ul>
-        <h2>Meetup agenda</h2>
-        <p>"Fortnightly meeting for the teams within Hack Brexit's accelerator programme to present and discuss their progress. We've taken forward two of the projects from July's hackathon to participate in our open-source accelerator programme:"</p>
-        <ul>
-          <li><p>What the fact <a href="https://github.com/HackBrexit/WhatTheFact/wiki/Accelerator---1st-Meetup----MVP-discussion" target="_blank"> read the wiki here</a></p></li>
+        </ol></p>
 
-          <li><p>Ministers under the influence <a href="https://github.com/HackBrexit/MinistersUnderTheInfluence/wiki/Accelerator-1st-Meetup-MVP-discussion" target="_blank"> read the wiki here</a></p></li>
-        </ul>
-
-        <p>We look forward to seeing you there!
-          <br>
-        </br>
-        <span>Hack Brexit Team</span>
-        </p>
         </div>
       </div>
     )
