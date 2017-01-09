@@ -51,7 +51,7 @@ var closeAboutData = "data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiB
 
 var styles = {
   aboutContainer: {
-    height:'87vh',
+    height:'83vh',
     position: 'fixed',
     padding: '15px',
     transition: '0.5s ease all',
@@ -60,9 +60,9 @@ var styles = {
 
   aboutContent: {
     position: 'relative',
-    height:'90%',
+    height:'100%',
     overflowY: 'scroll',
-    padding: '20px',
+    padding: '0 20px',
     backgroundColor: 'white',
     borderRadius:'3px',
     WebkitBoxShadow: '0px 0px 20px 8px rgba(0,0,0,0.3)',

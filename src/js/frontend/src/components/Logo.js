@@ -23,7 +23,7 @@ class Logo extends React.Component{
 
 var styles = {
   base: {
-    fontWeight: 'normal',
+    fontWeight: 'lighter',
     float: 'left',
     marginLeft: '20px',
     display: 'inline',
@@ -34,8 +34,7 @@ var styles = {
 
   highlightWord: {
     color: '#e65c5a',
-    fontWeight: 'bold',
-
+    fontWeight: 'normal',
   },
   span: {
     fontWeight:'bold',
