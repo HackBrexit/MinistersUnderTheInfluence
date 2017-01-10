@@ -11,7 +11,7 @@ body {
   // font-weight: light;
 }
 
-h1, h2, h3, h4 {
+h1, h2, h3, h4, h5, h6 {
   font-family: "Roboto Slab", Arial, sans-serif;
 }
 
@@ -49,6 +49,45 @@ g.bubble circle {
     &:hover {
       fill: @bubble-stroke;
     }
+}
+
+@arrow-width: 5px;
+@arrow-height: 10px;
+@tooltip-border-width: 1px;
+
+div.tooltip {
+  position: absolute;
+  padding: 5px;
+  // height: 28px;
+  font-size: 14px;
+  background: white;
+  border-bottom: @tooltip-border-width solid #000;
+  pointer-events: none;
+  font-family: "Roboto Slab", Arial, sans-serif;
+  font-weight: lighter;
+  box-shadow: rgba(0,0,0,0.3) 0 3px 10px 0;
+
+  &:after{
+    position: absolute;
+    left:@arrow-width;
+    bottom: -(@arrow-height + @tooltip-border-width);
+    content: "";
+    height: 0;
+    width: 0;
+    border-right: @arrow-width solid transparent;
+    border-top: @arrow-height solid #333;
+  }
+
+  &:before{
+    position: absolute;
+    left:0px;
+    bottom: -(@arrow-height + @tooltip-border-width);
+    content: "";
+    height: 0;
+    width: 0;
+    border-left: @arrow-width solid transparent;
+    border-top: @arrow-height solid #ccc;
+  }
 }
 
 
