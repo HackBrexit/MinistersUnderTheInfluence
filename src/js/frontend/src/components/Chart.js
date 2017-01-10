@@ -54,7 +54,8 @@ var Chart = React.createClass({
 var styles = {
   base: {
     height: "88vh",
-    backgroundColor: '#44C4D3',
+    backgroundColor: '#2C4258',
+    boxShadow: 'inset #001330 0 0px 300px -50px',
   }
 }
 

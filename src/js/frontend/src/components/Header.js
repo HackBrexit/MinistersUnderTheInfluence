@@ -30,8 +30,8 @@ var styles = {
     borderBottom: '5px solid white',
     WebkitBoxShadow: shadow,
     MozBoxShadow: shadow,
-    borderBottom: '2px solid #333',
     boxShadow: shadow,
+    borderBottom: '2px solid #333',
   }
 };
 

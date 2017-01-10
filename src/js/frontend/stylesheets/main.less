@@ -1,17 +1,14 @@
 @import "theme.less";
 
-
 * {
   margin: 0;
   padding: 0;
 }
 
-
-
 body {
   color: @primary-colour;
   font-family: "Noto Sans", Arial, sans-serif;
-  font-weight: light;
+  // font-weight: light;
 }
 
 h1, h2, h3, h4 {
@@ -26,24 +23,33 @@ ul, ol, p {
   padding: 5px 0 5px 20px;
 }
 
+a {
+  color: @secondary-colour;
 
+  &:hover {
+    text-decoration: none;
+  }
+}
 
 g.bubble text {
   text-anchor: middle;
   fill: white;
+  dominant-baseline: central;
   pointer-events: none;
+  font-family: "Roboto Slab", Arial, sans-serif;
+  font-weight: lighter;
+  // font-weight: lighter;
 }
 
 g.bubble circle {
-  fill: #FDA3AC;
-    stroke: #DB6169;
+  fill: lighten(@bubble-fill, 1%);
+    stroke: @bubble-stroke;
     stroke-width: 1px;
 
     &:hover {
-      fill: #DB6169;
+      fill: @bubble-stroke;
     }
 }
-
 
 
 .hiddenFlyover {

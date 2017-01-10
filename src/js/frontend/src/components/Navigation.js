@@ -27,7 +27,6 @@ class Navigation extends React.Component{
 
 var styles = {
   base: {
-    lineHeight:"12vh",
     float: 'right',
     marginRight: '20px',
   },

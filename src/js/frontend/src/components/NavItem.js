@@ -10,30 +10,46 @@ class NavItem extends React.Component{
   render() {
     const target = this.props.newTab ? "_blank" : '';
     return (
-      <a target={target}
-      onClick={this.props.onClick}
-      href={this.props.href}><li style={[
-        styles.base,
+      <li key={this.props.href} style={[
+        styles.li,
       ]}>
-        <img style={[
-          styles.img,
-        ]} height='30px' src={this.props.iconData} />
-      </li></a>
+        <a style={[
+          styles.a,
+        ]}
+        target={target}
+        onClick={this.props.onClick}
+        href={this.props.href}>
+          <img style={[
+            styles.img,
+          ]} height='30px' src={this.props.iconData} />
+        </a>
+      </li>
+
     )
   }
 }
 
 var styles = {
-  base: {
-    display:'inline',
-    padding:'15px 11px',
-    margin: '7px',
-    backgroundColor:'rgb(68, 196, 211)',
+  li: {
+    display:'block',
+    margin: '4vh 7px 0 0',
+    float:'left',
     borderRadius: '50%',
     transition: 'all 0.05s linear',
 
     ':hover': {
-      backgroundColor: '#119DA4'
+      margin: '3.5vh 7px 0 0',
+    },
+  },
+  a: {
+    padding:'15px 11px',
+    backgroundColor:'rgb(68, 196, 211)',
+    borderRadius: '50%',
+    transition: 'all 0.05s linear',
+    boxShadow: '#119DA4 0 0 0 0',
+
+    ':hover': {
+      boxShadow: '#119DA4 0 0.5vh 0 0',
     },
   },
   img:{
