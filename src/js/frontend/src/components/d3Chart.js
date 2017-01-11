@@ -156,7 +156,6 @@ var d3Chart = {
                 .attr("class", "tooltip")
                 .style("opacity", 0);
 
-    var tooltip
 
     this.bubbles = g.selectAll('g.bubble')
         .data(data)

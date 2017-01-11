@@ -19,7 +19,7 @@ class About extends React.Component{
         <div style={[
           styles.aboutContent,
         ]}>
-        <a href='#' onClick={this.props.closeFlyover}><img style={[styles.close]}src={closeAboutData}/></a>
+        <a href='#' onClick={this.props.closeFlyover}><img style={[styles.close]} src={closeAboutData}/></a>
         <h1>What is Ministers Under the Influence?</h1>
           <p>The aim of Ministers: Under the Influence is to unearth public-but-obscure information about who ministers are meeting. By making this data more accessible we can hope to better hold our government to account. We hope this will feed into a wider project about tracking who is influencing our elected politicians.</p>
           <p>Ministers: Under the Influence is a project that came out of the <a href="http://www.HackBrexit.org" target="_blank">#HackBrexit</a> Hackathon which took place over a weekend. The project has now been pushed into the Hack Brexit accelerator programme and will be developed further over the next few months.</p>

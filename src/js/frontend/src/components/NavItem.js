@@ -21,7 +21,7 @@ class NavItem extends React.Component{
         href={this.props.href}>
           <img style={[
             styles.img,
-          ]} height='30px' src={this.props.iconData} />
+          ]} src={this.props.iconData} />
         </a>
       </li>
 
@@ -53,6 +53,7 @@ var styles = {
     },
   },
   img:{
+    height:'30px',
     verticalAlign:'middle',
   }
 };
