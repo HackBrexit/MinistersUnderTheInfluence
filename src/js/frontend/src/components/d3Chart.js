@@ -186,7 +186,8 @@ var d3Chart = {
       .attr("r", function(d) {return d.radius;});
 
     this.bubbles.append("text")
-      .text(function(d) {return d.name;});
+      .text(function(d) {return d.name;})
+      .style("font-size", function(d) { return Math.min(2*d.radius, (2 * d.radius - 8) / this.getComputedTextLength() * 10) + "px"; })
   }
 };
 
