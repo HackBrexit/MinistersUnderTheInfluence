@@ -152,7 +152,7 @@ var d3Chart = {
     //   .domain([])
     //   .range();
 
-    var tooltip = d3.select("body").append("div")
+    var tooltip = d3.select(".chart").append("div")
                 .attr("class", "tooltip")
                 .style("opacity", 0);
 
@@ -167,12 +167,12 @@ var d3Chart = {
              .duration(200)
              .style("opacity", 1);
            tooltip.html("<strong>" + d.name + "</strong>"+ "<br /> " + "Meetings: " + d.meetingCount)
-             .style("left", (d3.event.pageX - 5) + "px")
-             .style("top", (d3.event.pageY - 63) + "px");
+             .style("left", (d3.event.pageX) + "px")
+             .style("top", (d3.event.pageY) + "px");
            })
         .on("mousemove", function() {
-          tooltip.style("left", (d3.event.pageX - 5) + "px")
-            .style("top", (d3.event.pageY - 63) + "px");
+          tooltip.style("left", (d3.event.pageX ) + "px")
+            .style("top", (d3.event.pageY) + "px");
         })
         .on("mouseout", function(d) {
            tooltip.transition()

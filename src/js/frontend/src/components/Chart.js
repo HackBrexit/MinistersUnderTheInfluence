@@ -45,7 +45,7 @@ var Chart = React.createClass({
         style={[
           styles.base,
         ]}
-        className="Chart">
+        className="chart">
       </div>
     )
   }
