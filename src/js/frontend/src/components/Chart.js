@@ -45,7 +45,7 @@ var Chart = React.createClass({
         style={[
           styles.base,
         ]}
-        className="Chart">
+        className="chart">
       </div>
     )
   }
@@ -53,7 +53,9 @@ var Chart = React.createClass({
 
 var styles = {
   base: {
-    height: "85vh"
+    height: "88vh",
+    backgroundColor: '#2C4258',
+    boxShadow: 'inset #001330 0 0px 300px -50px',
   }
 }
 

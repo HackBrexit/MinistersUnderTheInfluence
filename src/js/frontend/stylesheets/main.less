@@ -1,20 +1,19 @@
 @import "theme.less";
-
+@import "d3.less";
+@import "tooltip.less";
 
 * {
   margin: 0;
   padding: 0;
 }
 
-
-
 body {
   color: @primary-colour;
   font-family: "Noto Sans", Arial, sans-serif;
-  font-weight: light;
+  // font-weight: light;
 }
 
-h1, h2, h3, h4 {
+h1, h2, h3, h4, h5, h6 {
   font-family: "Roboto Slab", Arial, sans-serif;
 }
 
@@ -26,19 +25,23 @@ ul, ol, p {
   padding: 5px 0 5px 20px;
 }
 
-g.bubble text {
-  text-anchor: middle;
-  fill: white;
+a {
+  color: @secondary-colour;
+
+  &:hover {
+    text-decoration: none;
+  }
 }
 
 .hiddenFlyover {
-  transform: translateY(50%);
+  transform: translateY(30%);
   opacity: 0;
+  pointer-events: none;
 }
 
 
 ::-webkit-scrollbar {
-    width: 7px;
+    width: 4px;
     padding-top: 10px;
 }
 
@@ -49,5 +52,5 @@ g.bubble text {
 
 ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background-color: #ddd;
+    background-color: #333;
 }

@@ -152,10 +152,32 @@ var d3Chart = {
     //   .domain([])
     //   .range();
 
+    var tooltip = d3.select(".chart").append("div")
+                .attr("class", "tooltip")
+                .style("opacity", 0);
+
+
     this.bubbles = g.selectAll('g.bubble')
         .data(data)
       .enter().append("g")
-        .attr("class", "bubble");
+        .attr("class", "bubble")
+        .on("mouseover", function(d) {
+           tooltip.transition()
+             .duration(200)
+             .style("opacity", 1);
+           tooltip.html("<strong>" + d.name + "</strong>"+ "<br /> " + "Meetings: " + d.meetingCount)
+             .style("left", (d3.event.pageX) + "px")
+             .style("top", (d3.event.pageY) + "px");
+           })
+        .on("mousemove", function() {
+          tooltip.style("left", (d3.event.pageX ) + "px")
+            .style("top", (d3.event.pageY) + "px");
+        })
+        .on("mouseout", function(d) {
+           tooltip.transition()
+             .duration(200)
+             .style("opacity", 0);
+           });
 
     this.updateBubblePositions();
 
@@ -163,7 +185,8 @@ var d3Chart = {
       .attr("r", function(d) {return d.radius;});
 
     this.bubbles.append("text")
-      .text(function(d) {return d.name;});
+      .text(function(d) {return d.name;})
+      .style("font-size", function(d) { return Math.min(2*d.radius, (2 * d.radius - 8) / this.getComputedTextLength() * 10) + "px"; })
   }
 };
 
