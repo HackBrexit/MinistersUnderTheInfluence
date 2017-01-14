@@ -1,11 +1,15 @@
 #!/usr/bin/env python
+"""
+Script to push a cleaned data file to the MUTI API
+Requires a python environment with `requests` available in it.
+There's currently nothing preventing things from being added again if you run
+ the script more than once over the same meeting ids
+Meeting ids only have to be unique within the file currently being pushed.
+"""
 
 import csv
 import requests
-
-IMPORT_FILE_PATH = './BAE Data.csv'
-FROM_ID = 39
-TO_ID = 50
+from argparse import ArgumentParser
 
 
 BASE_API_URL = 'http://en.staging.meetings.vidhya.tv/api/v1'
@@ -151,14 +155,21 @@ def get_or_create_entity_id(type_, name):
 
 
 def main():
-    with open(IMPORT_FILE_PATH, 'rU') as fh:
+    parser = ArgumentParser()
+    parser.add_argument("file", help="Push data from FILE", metavar="FILE")
+    parser.add_argument("--from-id", dest="from_id", default=0, metavar="FROM_ID", help="Ignore rows with meeting id < FROM_ID")
+    parser.add_argument("--to-id", dest="to_id", default=1000000, metavar="TO_ID", help="Ignore rows with meeting id > TO_ID")
+    args = parser.parse_args()
+    print args.file, int(args.from_id), int(args.to_id)
+    return
+    with open(args.file, 'rU') as fh:
         reader = csv.reader(fh)
         skip = True
         for row in reader:
             if skip:
                 skip = False
                 continue
-            if int(row[0]) < FROM_ID or int(row[0]) > TO_ID:
+            if int(row[0]) < args.from_id or int(row[0]) > args.to_id:
                 continue
             meeting_ref = row[0]
             minister = row[1]
