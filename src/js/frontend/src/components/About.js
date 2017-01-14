@@ -34,12 +34,12 @@ class About extends React.Component{
           The accelerator is a three month programme that takes 2 of the 10 projects created during Hack Brexit weekend to push them to the next level The goal is to run regular monthly meetings for the teams to present and discuss their projects progress, hosted by <a href="https://www.thoughtworks.com/locations/london" target="_blank">ThoughtWorks London.</a> During this period we help source additional volunteers to work with the teams on the projects and connect the team members to the wider Hack Brexit meetup community.
         </p>
         <h2>Why are we doing this?</h2>
-        <p>We want to continue from the success of the <a href="http://www.HackBrexit.org" target="_blank">Hack Brexit</a> hackathon on the 23-4 July to bring together technical and non-technical people to create tech solutions to drive dialog, unity and positive action beyond Brexit. We want to sustainably support and scale up projects that have a clear positive impact on society and respond to one of the three key themes we chose for the weekend:
+        <p>We want to continue from the success of the <a href="http://www.HackBrexit.org" target="_blank">Hack Brexit</a> hackathon on the 23-4 July to bring together technical and non-technical people to create tech solutions to drive dialog, unity and positive action beyond Brexit. We want to sustainably support and scale up projects that have a clear positive impact on society and respond to one of the three key themes we chose for the weekend:</p>
         <ol>
           <li>Truth, fiction, & accountability;</li>
           <li>Tolerance & prejudice;</li>
           <li>Effective organising & campaigning.</li>
-        </ol></p>
+        </ol>
 
         </div>
       </div>
