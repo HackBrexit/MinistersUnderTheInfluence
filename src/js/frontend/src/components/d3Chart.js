@@ -102,10 +102,6 @@ var d3Chart = {
     d3Chart.update(d3Chart.reactComponent, meetingCounts);
   },
 
-  translate: function(x, y) {
-    return "translate(" + x + "," + y + ")";
-  },
-
   lookupTargetNames: function(meetingCounts, targets) {
     for (var i = 0; i < meetingCounts.length; i++) {
       var meetingCount = meetingCounts[i];
@@ -128,6 +124,10 @@ var d3Chart = {
       data[i].x = Math.random() * svg_el.pixelWidth;
       data[i].y = Math.random() * svg_el.pixelHeight;
     }
+  },
+
+  translate: function(x, y) {
+    return "translate(" + x + "," + y + ")";
   },
 
   positionBubble: function(d, i) {
