@@ -34,7 +34,8 @@ var d3Chart = {
       .attr('class', 'd3-points');
 
     if (USE_API) {
-      var url = API_URL + "organisations/194/meetings?include=" + MEETING_TARGET_TYPE;
+      var url = API_URL + MEETING_SOURCE_TYPE + "/" + MEETING_SOURCE_ID +
+          "/meetings?include=" + MEETING_TARGET_TYPE;
       d3.request(url)
         .mimeType("application/json")
         .header("Accept", "application/vnd.api+json")
