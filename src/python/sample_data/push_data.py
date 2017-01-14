@@ -3,7 +3,7 @@
 import csv
 import requests
 
-
+IMPORT_FILE_PATH = './BAE Data.csv'
 FROM_ID = 39
 TO_ID = 50
 
@@ -151,7 +151,7 @@ def get_or_create_entity_id(type_, name):
 
 
 def main():
-    with open('./BAE Data.csv', 'rU') as fh:
+    with open(IMPORT_FILE_PATH, 'rU') as fh:
         reader = csv.reader(fh)
         skip = True
         for row in reader:
