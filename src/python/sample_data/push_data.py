@@ -161,6 +161,8 @@ def main():
     parser.add_argument("--to-id", dest="to_id", default=1000000, metavar="TO_ID", help="Ignore rows with meeting id > TO_ID")
     args = parser.parse_args()
     print args.file, int(args.from_id), int(args.to_id)
+
+    count = 0
     with open(args.file, 'rU') as fh:
         reader = csv.reader(fh)
         skip = True
@@ -189,7 +191,10 @@ def main():
             rep_id = get_or_create_person_id(rep or 'Representative from {0}'.format(org))
             create_minister_link(meeting_id, minister_id, department_id)
             create_rep_link(meeting_id, rep_id, organisation_id)
-    
+            count += 1
+            if count % 100 == 0:
+                print("%d rows processed" % count)
+
 
 if __name__ == '__main__':
     main()
