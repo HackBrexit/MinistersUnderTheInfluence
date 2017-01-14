@@ -168,9 +168,14 @@ def main():
             if skip:
                 skip = False
                 continue
-            if int(row[0]) < args.from_id or int(row[0]) > args.to_id:
+            try:
+                meeting_ref = int(row[0])
+            except ValueError:
+                print("Couldn't parse meeting id; ignoring row:")
+                print(row)
                 continue
-            meeting_ref = row[0]
+            if int(meeting_ref) < args.from_id or int(meeting_ref) > args.to_id:
+                continue
             minister = row[1]
             department = row[3]
             date_ = row[4]
