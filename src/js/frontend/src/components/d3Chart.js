@@ -76,6 +76,22 @@ var d3Chart = {
     });
   },
 
+  // The "included" section of the JSON API's response is an array of
+  // objects, each representing the target of a meeting.  Transform
+  // this into an object keyed by target id, so we can efficiently map
+  // target ids to names or any other attributes of the target which
+  // we might want to visualise.
+  meetingTargets: function(included) {
+    var targets = {};
+    for (var i = 0; i < included.length; i++) {
+      var targetData = included[i];
+      var targetId = targetData["id"];
+      var targetName = targetData["attributes"]["name"];
+      targets[targetId] = {name: targetName};
+    }
+    return targets;
+  },
+
   dataLoaded: function(error, json) {
     if (error) {
       // FIXME: make this more elegant
@@ -84,7 +100,7 @@ var d3Chart = {
 
     var targets =
         USE_API ?
-          "not implemented yet"
+          d3Chart.meetingTargets(json["included"])
         : json["targets"];
 
     var meetingCounts =
