@@ -7,14 +7,24 @@ class ChartContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [
-        {name: "Health", meetingCount: 10},
-        {name: "Finance", meetingCount: 20},
-        {name: "Arms", meetingCount: 14},
-        {name: "IT", meetingCount: 1},
-        {name: "Charitable Sector", meetingCount: 8},
-        {name: "Media", meetingCount: 5}
-      ]
+      data: {
+        "meetingCounts" : [
+          {targetId: 0, meetingCount: 10},
+          {targetId: 1, meetingCount: 20},
+          {targetId: 2, meetingCount: 14},
+          {targetId: 3, meetingCount: 1},
+          {targetId: 4, meetingCount: 8},
+          {targetId: 5, meetingCount: 5}
+        ],
+        "targets" : {
+          0: {name: "Health"},
+          1: {name: "Finance"},
+          2: {name: "Arms"},
+          3: {name: "IT"},
+          4: {name: "Charitable Sector"},
+          5: {name: "Media"}
+        }
+      }
     }
   }
 
