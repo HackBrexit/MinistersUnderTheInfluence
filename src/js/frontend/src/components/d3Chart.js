@@ -71,9 +71,25 @@ var d3Chart = {
       }
     }
 
-    return Object.keys(counts).map(function(item, i) {
-      return { name: item, meetingCount: counts[item] };
+    return Object.keys(counts).map(function(targetId, i) {
+      return { targetId: targetId, meetingCount: counts[targetId] };
     });
+  },
+
+  // The "included" section of the JSON API's response is an array of
+  // objects, each representing the target of a meeting.  Transform
+  // this into an object keyed by target id, so we can efficiently map
+  // target ids to names or any other attributes of the target which
+  // we might want to visualise.
+  meetingTargets: function(included) {
+    var targets = {};
+    for (var i = 0; i < included.length; i++) {
+      var targetData = included[i];
+      var targetId = targetData["id"];
+      var targetName = targetData["attributes"]["name"];
+      targets[targetId] = {name: targetName};
+    }
+    return targets;
   },
 
   dataLoaded: function(error, json) {
@@ -82,10 +98,17 @@ var d3Chart = {
       alert("Error fetching data from API: " + error);
     }
 
+    var targets =
+        USE_API ?
+          d3Chart.meetingTargets(json["included"])
+        : json["targets"];
+
     var meetingCounts =
         USE_API ?
           d3Chart.countMeetingsByTarget(json, MEETING_TARGET_TYPE)
-        : json;
+        : json["meetingCounts"];
+
+    d3Chart.lookupTargetNames(meetingCounts, targets);
 
     d3Chart.getSvgDimensions();
     d3Chart.initBubbleCoordsRadius(meetingCounts, d3Chart.svg_el);
@@ -95,8 +118,12 @@ var d3Chart = {
     d3Chart.update(d3Chart.reactComponent, meetingCounts);
   },
 
-  translate: function(x, y) {
-    return "translate(" + x + "," + y + ")";
+  lookupTargetNames: function(meetingCounts, targets) {
+    for (var i = 0; i < meetingCounts.length; i++) {
+      var meetingCount = meetingCounts[i];
+      var target = targets[meetingCount["targetId"]];
+      meetingCount["targetName"] = target["name"];
+    }
   },
 
   getSvgDimensions: function() {
@@ -113,6 +140,10 @@ var d3Chart = {
       data[i].x = Math.random() * svg_el.pixelWidth;
       data[i].y = Math.random() * svg_el.pixelHeight;
     }
+  },
+
+  translate: function(x, y) {
+    return "translate(" + x + "," + y + ")";
   },
 
   positionBubble: function(d, i) {
@@ -165,7 +196,7 @@ var d3Chart = {
            tooltip.transition()
              .duration(200)
              .style("opacity", 1);
-           tooltip.html("<strong>" + d.name + "</strong>"+ "<br /> " + "Meetings: " + d.meetingCount)
+           tooltip.html("<strong>" + d.targetName + "</strong>"+ "<br /> " + "Meetings: " + d.meetingCount)
              .style("left", (d3.event.pageX) + "px")
              .style("top", (d3.event.pageY) + "px");
            })
@@ -185,7 +216,7 @@ var d3Chart = {
       .attr("r", function(d) {return d.radius;});
 
     this.bubbles.append("text")
-      .text(function(d) {return d.name;})
+      .text(function(d) {return d.targetName;})
       .style("font-size", function(d) { return Math.min(2*d.radius, (2 * d.radius - 8) / this.getComputedTextLength() * 10) + "px"; })
   }
 };

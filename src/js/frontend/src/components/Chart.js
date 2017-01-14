@@ -8,7 +8,7 @@ var Chart = React.createClass({
   d3Chart: d3Chart,
 
   propTypes: {
-    data: React.PropTypes.array
+    data: React.PropTypes.object
   },
 
   componentDidMount: function() {
