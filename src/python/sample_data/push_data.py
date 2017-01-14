@@ -161,7 +161,6 @@ def main():
     parser.add_argument("--to-id", dest="to_id", default=1000000, metavar="TO_ID", help="Ignore rows with meeting id > TO_ID")
     args = parser.parse_args()
     print args.file, int(args.from_id), int(args.to_id)
-    return
     with open(args.file, 'rU') as fh:
         reader = csv.reader(fh)
         skip = True
