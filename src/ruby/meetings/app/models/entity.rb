@@ -9,5 +9,4 @@ class Entity < ApplicationRecord
     scope klass.underscore.downcase.pluralize.to_sym,->{where(type: klass)}
   end
 
-
 end

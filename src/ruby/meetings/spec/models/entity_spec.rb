@@ -9,26 +9,26 @@ end
 
 RSpec.describe Person,type: :model do
   it{ should have_many(:influence_office_people)}
-  it{ should have_many(:meetings).through(:influence_office_people).class_name('Meeting')}
-  it{ should have_many(:hospitalities).through(:influence_office_people).class_name('Hospitality')}
-  it{ should have_many(:gifts).through(:influence_office_people).class_name('Gift')}
-  it{ should have_many(:travels).through(:influence_office_people).class_name('Travel')}
+  it{ should have_many(:meetings).through(:influence_office_people)}
+  it{ should have_many(:hospitalities).through(:influence_office_people)}
+  it{ should have_many(:gifts).through(:influence_office_people)}
+  it{ should have_many(:travels).through(:influence_office_people)}
 end
 
 RSpec.describe Organisation,type: :model do
   it{ should have_many(:influence_organisation_people)}
-  it{ should have_many(:meetings).through(:influence_organisation_people).class_name('Meeting')}
-  it{ should have_many(:hospitalities).through(:influence_organisation_people).class_name('Hospitality')}
-  it{ should have_many(:gifts).through(:influence_organisation_people).class_name('Gift')}
-  it{ should have_many(:travels).through(:influence_organisation_people).class_name('Travel')}
+  it{ should have_many(:meetings).through(:influence_organisation_people)}
+  it{ should have_many(:hospitalities).through(:influence_organisation_people)}
+  it{ should have_many(:gifts).through(:influence_organisation_people)}
+  it{ should have_many(:travels).through(:influence_organisation_people)}
 end
 
 RSpec.describe GovernmentOffice,type: :model do
   it{ should have_many(:influence_government_office_people)}
-  it{ should have_many(:meetings).through(:influence_government_office_people).class_name('Meeting')}
-  it{ should have_many(:hospitalities).through(:influence_government_office_people).class_name('Hospitality')}
-  it{ should have_many(:gifts).through(:influence_government_office_people).class_name('Gift')}
-  it{ should have_many(:travels).through(:influence_government_office_people).class_name('Travel')}
+  it{ should have_many(:meetings).through(:influence_government_office_people)}
+  it{ should have_many(:hospitalities).through(:influence_government_office_people)}
+  it{ should have_many(:gifts).through(:influence_government_office_people)}
+  it{ should have_many(:travels).through(:influence_government_office_people)}
 end
 
 RSpec.describe Entity,type: :model do

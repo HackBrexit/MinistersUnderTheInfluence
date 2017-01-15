@@ -8,12 +8,63 @@ en:
   delete: 'Delete'
   save: 'Save'
   home_page: Home
-  application_name: ministerial_meetings
-  toggle_navigation: Toggle navigation
+  application_name: 'Ministers Under the Influence' 
+  toggle_navigation: 'Toggle navigation'
   not_authorised: "Access denied. You're not authorised to do this"
   not_authenticated: "Access denied. You must log in first"
   login_or_sign_up: "Please log in or sign up"
   site_access_rules: "To access this site you must be an authenticated user and only some users are allowed to sign up"
+  documentation: Documentation
+  activerecord:
+    models:
+      meeting:
+        one: Meeting
+        other: Meetings
+      hospitality:
+        one: Hospitality
+        other: Hospitality
+      gift:
+        one: Gift
+        other: Gifts
+      travel:
+        one: Travel
+        other: Travels
+      person:
+        one: Person
+        other: People
+      government_office:
+        one: Government Office
+        other: Government Offices
+      organisation:
+        one: Organisation
+        other: Organisations
+    attributes:
+      means_of_influence: &means_of_influence
+        day: Day
+        month: Month
+        year: Year
+      meeting:
+        <<: *means_of_influence
+        purpose: Purpose of Meeting
+      travel:
+        <<: *means_of_influence
+        purpose: Purpose of Travel
+      hospitality:
+        <<: *means_of_influence
+        type_of_hospitality: Type of Hospitality
+      gift:
+        <<: *means_of_influence
+        gift: Gift
+        value: Value
+      entity: &entity
+        name: Name
+        wikipedia_entry: Wikipedia Entry
+      person:
+        <<: *entity
+      government_office:
+        <<: *entity
+      organisation:
+        <<: *entity
   countries:
     :en: United Kingdom
     :uk: United Kingdom

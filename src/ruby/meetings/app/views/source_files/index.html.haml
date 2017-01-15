@@ -1,0 +1,23 @@
+%h1 Listing source_files
+
+%table
+  %thead
+    %tr
+      %th Location
+      %th Uri
+      %th
+      %th
+      %th
+
+  %tbody
+    - @source_files.each do |source_file|
+      %tr
+        %td= source_file.location
+        %td= source_file.uri
+        %td= link_to 'Show', source_file
+        %td= link_to 'Edit', edit_source_file_path(source_file)
+        %td= link_to 'Destroy', source_file, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Source file', new_source_file_path
