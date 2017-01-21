@@ -73,7 +73,7 @@ class EntitiesController < ApplicationController
   end
 
   def type_class
-    type.constantize
+    @type_class = type.constantize
   end
 
   def set_entity
@@ -82,6 +82,6 @@ class EntitiesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def entity_params
-    params.require(type.underscore.to_sym).permit(:name, :wikipedia_entry, :type)
+    params.require(type.underscore.to_sym).permit(:name, :wikipedia_entry)
   end
 end

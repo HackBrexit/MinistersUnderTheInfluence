@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe "Meetings", type: :request do
+  before(:each){create(:meeting)}
+  let(:source_file){Meeting.last.source_file}
   describe "GET /meetings" do
-    before(:each){create(:meeting)}
     it "should return 200" do
       get meetings_path
       expect(response).to have_http_status(200)
@@ -17,7 +18,9 @@ RSpec.describe "Meetings", type: :request do
           "attributes" =>  {
             "purpose" =>  "A test meeting",
             "year" => '2016',
-            "month" => '3'
+            "month" => '3',
+            "source-file-id" => source_file.id,
+            "source-file-line-number" => 1
           }
         }
       }.to_json
