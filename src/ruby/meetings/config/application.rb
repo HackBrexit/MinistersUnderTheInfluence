@@ -18,6 +18,7 @@ Bundler.require(*Rails.groups)
 
 module Meetings
   class Application < Rails::Application
+    config.autoload_paths << Rails.root.join('lib')
     config.generators do |g|
       g.template_engine :haml
       g.test_framework :rspec, :fixtures => true, :views => true
