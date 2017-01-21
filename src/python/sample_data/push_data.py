@@ -203,12 +203,17 @@ def main():
     global BASE_API_URL
     parser = ArgumentParser()
     parser.add_argument("file", help="Push data from FILE", metavar="FILE")
-    parser.add_argument("--from-id", dest="from_id", default=0, metavar="FROM_ID", help="Ignore rows with meeting id < FROM_ID")
-    parser.add_argument("--to-id", dest="to_id", default=1000000, metavar="TO_ID", help="Ignore rows with meeting id > TO_ID")
-    parser.add_argument("--api-base", dest="base_api_url", default=BASE_API_URL, metavar="BASE_API_URL", help="Push data to api at BASE_API_URL")
+    parser.add_argument("--from-id", dest="from_id", type=int, default=0, metavar="FROM_ID",
+                        help="Ignore rows with meeting id < FROM_ID")
+    parser.add_argument("--to-id", dest="to_id", type=int, default=1000000, metavar="TO_ID",
+                        help="Ignore rows with meeting id > TO_ID")
+    parser.add_argument("--api-base", dest="base_api_url",
+                        default=BASE_API_URL, metavar="BASE_API_URL",
+                        help="Push data to api at BASE_API_URL")
     args = parser.parse_args()
     BASE_API_URL = args.base_api_url
-    print args.file, int(args.from_id), int(args.to_id)
+    print("Reading from %s, min id: %d, max id: %d" %
+          (args.file, args.from_id, args.to_id))
 
     count = 0
     with open(args.file, 'rU') as fh:
