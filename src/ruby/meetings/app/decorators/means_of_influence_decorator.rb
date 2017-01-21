@@ -6,11 +6,15 @@ class MeansOfInfluenceDecorator < Draper::Decorator
   end
 
   def government_side
-     influence_government_office_people.map{|ip| "#{ip.government_office.name}: #{ip.person.name}"}.join(',')
+    influence_government_office_people.map do |ip|
+      government_office_name = ip.government_office.try(:name)
+      person_name = ip.person.try(:name)
+      [government_office_name, person_name].compact.join ": "
+    end.join(',')
   end
 
   def organisation_side
-     influence_organisation_people.map do |ip| 
+     influence_organisation_people.map do |ip|
        if ip.person
          "#{ip.organisation.name}: #{ip.person.name}"
        else
