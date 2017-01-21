@@ -113,21 +113,22 @@ def create_rep_link(meeting_id, rep_id, organisation_id):
                         "id": meeting_id
                     }
                 },
-                "organisation": {
-                    "data": {
-                        "type": "organisations",
-                        "id": organisation_id
-                     }
-                },
                 "person": {
-                     "data": {
+                    "data": {
                         "type": "people",
                         "id": rep_id
-                     }
+                    }
                 }
             }
         }
     }
+    if organisation_id is not None:
+        req_data["data"]["relationships"]["organisation"] = {
+            "data": {
+                "type": "organisations",
+                "id": organisation_id
+            }
+        }
     return post_to_api_and_return_id(type_, req_data)
 
 
@@ -248,7 +249,7 @@ def main():
             meeting_id = get_or_create_meeting_id(meeting_ref, date_, reason, source_id, reader.line_num)
             department_id = get_or_create_department_id(department) if department != "" else None
             minister_id = get_or_create_person_id(minister) if minister != "" else None
-            organisation_id = get_or_create_organisation_id(org)
+            organisation_id = get_or_create_organisation_id(org) if org != "" else None
             rep_id = get_or_create_person_id(rep or 'Representative from {0}'.format(org))
             create_minister_link(meeting_id, minister_id, department_id)
             create_rep_link(meeting_id, rep_id, organisation_id)
