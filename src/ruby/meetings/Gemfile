@@ -64,6 +64,8 @@ gem 'activemodel-serializers-xml'
 gem 'swagger-blocks'
 gem 'jsonapi-resources'
 gem 'globalize', git: 'git@github.com:JohnSmall/globalize.git'
+gem 'rack-cors', :require => 'rack/cors'
+
 group :development, :test do
   gem 'mailcatcher'
   gem 'syntax'

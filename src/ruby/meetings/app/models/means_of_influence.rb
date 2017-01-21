@@ -5,10 +5,10 @@ class MeansOfInfluence < ApplicationRecord
   validates :month,:year,presence: true
   has_many :influence_government_office_people
   has_many :influence_organisation_people
-  has_many :organisations,through: :influence_organisation_people
+  has_many :organisations,through: :influence_organisation_people, source: 'organisation'
   has_many :organisation_people,through: :influence_organisation_people,source: 'person'
   has_many :government_people,through: :influence_government_office_people,source: 'person'
-  has_many :government_offices,through: :influence_government_office_people
+  has_many :government_offices,through: :influence_government_office_people, source: 'government_office'
 
   self.types.each do |klass|
     scope klass.underscore.downcase.pluralize.to_sym,->{where(type: klass)}

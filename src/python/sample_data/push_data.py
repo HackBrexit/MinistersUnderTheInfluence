@@ -163,6 +163,9 @@ def main():
     parser.add_argument("--api-base", dest="base_api_url", default=BASE_API_URL, metavar="BASE_API_URL", help="Push data to api at BASE_API_URL")
     args = parser.parse_args()
     BASE_API_URL = args.base_api_url
+    print args.file, int(args.from_id), int(args.to_id)
+
+    count = 0
     with open(args.file, 'rU') as fh:
         reader = csv.reader(fh)
         skip = True
@@ -170,9 +173,14 @@ def main():
             if skip:
                 skip = False
                 continue
-            if int(row[0]) < args.from_id or int(row[0]) > args.to_id:
+            try:
+                meeting_ref = int(row[0])
+            except ValueError:
+                print("Couldn't parse meeting id; ignoring row:")
+                print(row)
                 continue
-            meeting_ref = row[0]
+            if int(meeting_ref) < args.from_id or int(meeting_ref) > args.to_id:
+                continue
             minister = row[1]
             department = row[3]
             date_ = row[4]
@@ -186,7 +194,10 @@ def main():
             rep_id = get_or_create_person_id(rep or 'Representative from {0}'.format(org))
             create_minister_link(meeting_id, minister_id, department_id)
             create_rep_link(meeting_id, rep_id, organisation_id)
-    
+            count += 1
+            if count % 100 == 0:
+                print("%d rows processed" % count)
+
 
 if __name__ == '__main__':
     main()

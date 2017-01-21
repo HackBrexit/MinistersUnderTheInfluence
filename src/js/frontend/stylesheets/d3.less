@@ -1,0 +1,19 @@
+
+g.bubble text {
+  text-anchor: middle;
+  fill: white;
+  dominant-baseline: central;
+  pointer-events: none;
+  font-family: "Roboto Slab", Arial, sans-serif;
+  font-weight: lighter;
+}
+
+g.bubble circle {
+  fill: @bubble-fill;
+    stroke: @bubble-stroke;
+    stroke-width: 1px;
+
+    &:hover {
+      fill: @bubble-stroke;
+    }
+}
