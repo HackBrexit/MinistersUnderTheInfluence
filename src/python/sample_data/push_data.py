@@ -80,15 +80,16 @@ def create_minister_link(meeting_id, minister_id, department_id):
                         "id": meeting_id
                     }
                 },
-                "person": {
-                     "data": {
-                        "type": "people",
-                        "id": minister_id
-                     }
-                }
             }
         }
     }
+    if minister_id is not None:
+        req_data["data"]["relationships"]["person"] = {
+            "data": {
+                "type": "people",
+                "id": minister_id
+            }
+        }
     if department_id is not None:
         req_data["data"]["relationships"]["government-office"] = {
             "data": {
@@ -244,7 +245,7 @@ def main():
             source_id = get_or_create_source_id(args.file)
             meeting_id = get_or_create_meeting_id(meeting_ref, date_, reason, source_id, reader.line_num)
             department_id = get_or_create_department_id(department) if department != "" else None
-            minister_id = get_or_create_person_id(minister)
+            minister_id = get_or_create_person_id(minister) if minister != "" else None
             organisation_id = get_or_create_organisation_id(org)
             rep_id = get_or_create_person_id(rep or 'Representative from {0}'.format(org))
             create_minister_link(meeting_id, minister_id, department_id)
