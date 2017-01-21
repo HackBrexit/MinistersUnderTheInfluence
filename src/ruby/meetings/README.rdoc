@@ -49,3 +49,7 @@ This will seed the development database with data extracted from some of the min
 And finally type
   rails s
 This will start up Rails on port 3000 so go to http://localhost:3000, or http://{ip-address of the vagrant box}:3000
+If you want rails to start on a different port, e.g. because you're using node on port 3000, then start with
+  rails s -p 3001 
+or whatever port number you want
+

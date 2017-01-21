@@ -7,6 +7,8 @@ FactoryGirl.define do
     type_of_hospitality "MyString"
     gift "MyString"
     value 1
+    source_file
+    source_file_line_number 1
   end
   MeansOfInfluence.types.each do |mof_type|
     factory mof_type.underscore.downcase.to_sym do
@@ -17,6 +19,8 @@ FactoryGirl.define do
     type_of_hospitality "MyString"
     gift "MyString"
     value 1
+    source_file
+    source_file_line_number 1
     end
   end
 end
