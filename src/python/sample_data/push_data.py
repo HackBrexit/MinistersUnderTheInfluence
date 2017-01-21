@@ -19,6 +19,7 @@ BASE_API_URL = 'http://localhost:3000/api/v1'
 
 
 CACHE = {
+    'source-files': {},
     'government-offices': {},
     'meetings': {},
     'organisations': {},
@@ -127,7 +128,7 @@ def create_rep_link(meeting_id, rep_id, organisation_id):
     return post_to_api_and_return_id(type_, req_data)
 
 
-def get_or_create_meeting_id(meeting_ref, date_, reason):
+def get_or_create_meeting_id(meeting_ref, date_, reason, source_id, line_num):
     if meeting_ref in CACHE['meetings']:
         return CACHE['meetings'][meeting_ref]
     req_data = {
@@ -135,6 +136,8 @@ def get_or_create_meeting_id(meeting_ref, date_, reason):
             "type": "meetings",
             "attributes": {
                 "purpose": reason,
+                "source-file-id" : source_id,
+                "source-file-line-number" : line_num,
             }
         }
     }
@@ -147,6 +150,22 @@ def get_or_create_meeting_id(meeting_ref, date_, reason):
         req_data['data']['attributes']['day'] = date_parts[2]
     CACHE['meetings'][meeting_ref] = post_to_api_and_return_id('meetings', req_data)
     return CACHE['meetings'][meeting_ref]
+
+
+def get_or_create_source_id(filename):
+    if filename in CACHE['source-files']:
+        return CACHE['source-files'][filename]
+    req_data = {
+        "data": {
+            "type": "source-files",
+            "attributes": {
+                "location" : filename,
+                "uri" : "file://%s" % filename,
+            }
+        }
+    }
+    CACHE['source-files'][filename] = post_to_api_and_return_id('source-files', req_data)
+    return CACHE['source-files'][filename]
 
 
 def get_or_create_department_id(department):
@@ -213,7 +232,8 @@ def main():
             org = row[6]
             rep = row[7]
             reason = row[8]
-            meeting_id = get_or_create_meeting_id(meeting_ref, date_, reason)
+            source_id = get_or_create_source_id(args.file)
+            meeting_id = get_or_create_meeting_id(meeting_ref, date_, reason, source_id, reader.line_num)
             department_id = get_or_create_department_id(department)
             minister_id = get_or_create_person_id(minister)
             organisation_id = get_or_create_organisation_id(org)
