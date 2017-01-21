@@ -138,12 +138,14 @@ def get_or_create_meeting_id(meeting_ref, date_, reason, source_id, line_num):
         "data": {
             "type": "meetings",
             "attributes": {
-                "purpose": reason,
                 "source-file-id" : source_id,
                 "source-file-line-number" : line_num,
             }
         }
     }
+    if reason != "":
+        req_data["data"]["attributes"]["purpose"] = reason
+
     date_parts = date_.split('-')
     if len(date_parts) > 0:
         req_data['data']['attributes']['year'] = date_parts[0]
