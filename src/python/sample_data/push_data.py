@@ -231,6 +231,7 @@ def main():
                 continue
             if int(meeting_ref) < args.from_id or int(meeting_ref) > args.to_id:
                 continue
+            print(row)
             minister = row[1]
             department = row[3]
             date_ = row[4]
@@ -246,8 +247,8 @@ def main():
             create_minister_link(meeting_id, minister_id, department_id)
             create_rep_link(meeting_id, rep_id, organisation_id)
             count += 1
-            if count % 100 == 0:
-                print("%d rows processed" % count)
+
+    print("%d rows processed" % count)
 
 
 if __name__ == '__main__':
