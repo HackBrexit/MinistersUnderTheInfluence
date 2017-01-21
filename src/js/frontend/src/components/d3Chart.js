@@ -1,5 +1,7 @@
 // FIXME: make these constants configurable
 
+var RADIUS_SCALE = 10;
+
 var API_URL = "http://localhost:3000/api/v1/";
 
 // If you want to use hard-coded data, change to false
@@ -32,7 +34,8 @@ var d3Chart = {
       .attr('class', 'd3-points');
 
     if (USE_API) {
-      var url = API_URL + "organisations/194/meetings?include=" + MEETING_TARGET_TYPE;
+      var url = API_URL + MEETING_SOURCE_TYPE + "/" + MEETING_SOURCE_ID +
+          "/meetings?include=" + MEETING_TARGET_TYPE;
       d3.request(url)
         .mimeType("application/json")
         .header("Accept", "application/vnd.api+json")
@@ -136,7 +139,7 @@ var d3Chart = {
 
   initBubbleCoordsRadius: function(data, svg_el) {
     for (var i = 0; i < data.length; i++) {
-      data[i].radius = data[i].meetingCount * 10;
+      data[i].radius = data[i].meetingCount * RADIUS_SCALE;
       data[i].x = Math.random() * svg_el.pixelWidth;
       data[i].y = Math.random() * svg_el.pixelHeight;
     }
