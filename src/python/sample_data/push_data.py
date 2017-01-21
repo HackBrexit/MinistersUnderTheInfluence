@@ -233,6 +233,7 @@ def main():
                 continue
             print(row)
             minister = row[1]
+            role = row[2] # FIXME: not used yet
             department = row[3]
             date_ = row[4]
             org = row[6]
