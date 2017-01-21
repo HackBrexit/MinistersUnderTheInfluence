@@ -1,4 +1,6 @@
 class GovernmentOffice < Entity
+  validates :name, uniqueness: true
+
   # has_many :influence_government_office_people,-> { influence_government_office_people }, foreign_key: 'office_id',class_name:'InfluenceOfficePerson'
   has_many :influence_government_office_people, foreign_key: 'office_id'
   has_many :meetings,through: :influence_government_office_people,class_name: 'Meeting'
