@@ -8,7 +8,9 @@ Meeting ids only have to be unique within the file currently being pushed.
 """
 
 import csv
+import json
 import requests
+
 from argparse import ArgumentParser
 
 
@@ -27,6 +29,11 @@ def post_to_api_and_return_id(endpoint, data):
     url = '{0}/{1}'.format(BASE_API_URL, endpoint)
     resp = requests.post(url, json=data, headers={'Content-Type': 'application/vnd.api+json'})
     resp_data = resp.json()
+    if not resp.ok:
+        print("POST %s failed:\n%d %s" % (url, resp.status_code, resp.reason))
+        print json.dumps(resp_data, sort_keys=True,
+                         indent=4, separators=(',', ': '))
+        resp.raise_for_status()
     if 'data' not in resp_data or not resp_data['data']:
         return None
     return resp_data["data"]["id"]
