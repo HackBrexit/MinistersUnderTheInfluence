@@ -10,6 +10,7 @@ Meeting ids only have to be unique within the file currently being pushed.
 import csv
 import json
 import requests
+import simplejson
 
 from argparse import ArgumentParser
 
@@ -25,15 +26,33 @@ CACHE = {
 }
 
 
+def pprint_json(json_data):
+    print(json.dumps(json_data, sort_keys=True,
+                     indent = 4, separators=(',', ': ')))
+
 def post_to_api_and_return_id(endpoint, data):
     url = '{0}/{1}'.format(BASE_API_URL, endpoint)
     resp = requests.post(url, json=data, headers={'Content-Type': 'application/vnd.api+json'})
-    resp_data = resp.json()
+
     if not resp.ok:
         print("POST %s failed:\n%d %s" % (url, resp.status_code, resp.reason))
-        print json.dumps(resp_data, sort_keys=True,
-                         indent=4, separators=(',', ': '))
+        print("Request was:")
+        pprint_json(data)
+
+    try:
+        resp_data = resp.json()
+    except simplejson.scanner.JSONDecodeError:
+        resp_data = None
+
+    if not resp.ok:
+        print("Response was:")
+        if resp_data is None:
+            print(resp.text)
+        else:
+            pprint_json(resp_data)
+
         resp.raise_for_status()
+
     if 'data' not in resp_data or not resp_data['data']:
         return None
     return resp_data["data"]["id"]
