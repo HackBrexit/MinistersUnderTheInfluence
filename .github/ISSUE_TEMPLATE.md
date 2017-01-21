@@ -8,8 +8,8 @@ Include any relevant information
 This story can be considered done when the following acceptance tests
 are satisfied:
 
-**GIVEN**
+**Given**
 
-**WHEN** 
+**When**
 
-**THEN** 
+**Then**
