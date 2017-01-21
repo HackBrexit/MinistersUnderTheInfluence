@@ -12,7 +12,7 @@ import requests
 from argparse import ArgumentParser
 
 
-BASE_API_URL = 'http://en.staging.meetings.vidhya.tv/api/v1'
+BASE_API_URL = 'http://localhost:3000/api/v1'
 
 
 CACHE = {
@@ -155,13 +155,14 @@ def get_or_create_entity_id(type_, name):
 
 
 def main():
+    global BASE_API_URL
     parser = ArgumentParser()
     parser.add_argument("file", help="Push data from FILE", metavar="FILE")
     parser.add_argument("--from-id", dest="from_id", default=0, metavar="FROM_ID", help="Ignore rows with meeting id < FROM_ID")
     parser.add_argument("--to-id", dest="to_id", default=1000000, metavar="TO_ID", help="Ignore rows with meeting id > TO_ID")
+    parser.add_argument("--api-base", dest="base_api_url", default=BASE_API_URL, metavar="BASE_API_URL", help="Push data to api at BASE_API_URL")
     args = parser.parse_args()
-    print args.file, int(args.from_id), int(args.to_id)
-    return
+    BASE_API_URL = args.base_api_url
     with open(args.file, 'rU') as fh:
         reader = csv.reader(fh)
         skip = True
