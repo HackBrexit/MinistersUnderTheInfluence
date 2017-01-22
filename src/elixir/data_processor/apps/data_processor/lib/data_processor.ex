@@ -140,7 +140,7 @@ defmodule DataProcessor do
   defp reduce_to_single_value([head | tail], head), do: reduce_to_single_value tail, head
   defp reduce_to_single_value([head | tail], :nil), do: reduce_to_single_value tail, head
   defp reduce_to_single_value([:nil | tail], type), do: reduce_to_single_value tail, type
-  defp reduce_to_single_value([:ambiguous | _], _), do: :ambiguous
-  defp reduce_to_single_value([_ | tail], _), do: :ambiguous
+  defp reduce_to_single_value([:ambiguous | _tail], _type), do: :ambiguous
+  defp reduce_to_single_value([_head | _tail], _type), do: :ambiguous
 
 end
