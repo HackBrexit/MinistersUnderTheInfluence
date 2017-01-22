@@ -71,13 +71,18 @@ defmodule DataProcessor do
   end
 
   def extract_data_type(file_metadata) when is_map(file_metadata) do
-    [ (file_metadata.filename |> Path.basename),
-      file_metadata.name,
-      file_metadata.title
-    ]
+    file_metadata
+    |> info_sources
     |> Enum.map(&extract_data_type/1)
     |> reduce_to_single_value
     |> put_into_map_at(file_metadata, :data_type)
+  end
+
+  defp info_sources(%{filename: filename, name: name, title: title}) do
+    [ (filename |> Path.basename),
+      name,
+      title
+    ]
   end
 
   defp reduce_to_single_value([head | tail]), do: reduce_to_single_value tail, head
