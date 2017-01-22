@@ -35,6 +35,8 @@ defmodule DataProcessor.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    []
+    [{:file_processor, in_umbrella: true},
+     {:nimble_csv, "0.1.1"}
+    ]
   end
 end
