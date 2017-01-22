@@ -1,11 +1,9 @@
 import React from "react";
 import Radium from "radium";
 import { connect } from 'react-redux';
-import ChartContainer from "./ChartContainer";
 import Header from "../components/Header";
 import About from "../components/About";
 import { toggleAbout } from '../Redux/actions';
-
 
 class PageLayout extends React.Component {
   constructor(props) {
@@ -27,7 +25,7 @@ class PageLayout extends React.Component {
       className="app-container">
         <Header />
         <About shouldDisplay={this.props.showAboutScreen} closeFlyover={this._closeFlyover}/>
-        <ChartContainer/>
+        {this.props.children}
       </div>
     )
   }
