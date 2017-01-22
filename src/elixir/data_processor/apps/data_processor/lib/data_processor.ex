@@ -19,12 +19,11 @@ defmodule DataProcessor do
     |> File.stream!
     |> MetadataCSVParser.parse_stream(headers: false)
     |> Stream.map(&(process_metadata_row(&1, datafiles_path)))
-    |> Enum.take(1) # TODO: Remove this line so we can process everything
+    |> Enum.take(2) # TODO: Remove this line so we can process everything
     |> Enum.map(&FileProcessor.process/1)
   end
 
   def process_metadata_row(file_metadata_row, datafiles_path) do
-    IO.puts file_metadata_row
     file_metadata_row
     |> convert_row_to_struct
     |> extract_filename(datafiles_path)
