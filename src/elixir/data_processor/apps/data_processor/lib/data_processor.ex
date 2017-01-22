@@ -45,7 +45,11 @@ defmodule DataProcessor do
   defp put_into_map_at(value, map, key), do: Map.put map, key, value
 
   def extract_file_type(file_metadata) do
-    file_metadata
+    file_metadata.filename
+    |> String.split(".")
+    |> List.last
+    |> String.to_atom
+    |> put_into_map_at(file_metadata, :file_type)
   end
 
   def extract_year(file_metadata) do
