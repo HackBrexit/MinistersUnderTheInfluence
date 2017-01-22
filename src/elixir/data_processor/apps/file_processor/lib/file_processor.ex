@@ -1,9 +1,10 @@
 defmodule FileProcessor do
   use Application
 
+  alias FileProcessor.FileMetadata
+
   @processing_steps [
     :check_file_exists,
-    :check_data_type,
     :clean_file
   ]
 
@@ -44,8 +45,33 @@ defmodule FileProcessor do
     end
   end
 
+  defp do_process([:clean_file | remaining_steps], file_metadata) do
+    case do_clean_file file_metadata do
+    :ok ->
+      do_process remaining_steps, file_metadata
+    error ->
+      error
+    end
+  end
+
+  def do_clean_file(file_metadata = %FileMetadata{file_type: :csv}) do
+    FileCleaner.CSVCleaner.clean_file file_metadata
+  end
+
+  def do_clean_file(file_metadata) do
+    log_bad_file :unsupported_file_type, file_metadata
+  end
+
   def log_bad_file(:not_found, file_metadata) do
-    log_error("File #{file_metadata.filename} could not be found.")
+    log_error "File #{file_metadata.filename} could not be found." 
+  end
+
+  def log_bad_file(:unsupported_file_type, file_metadata) do
+    log_error "Unable to process files of type #{Atom.to_string file_metadata.file_type} (#{file_metadata.filename})"
+  end
+
+  def log_bad_file(:unsupported_data_type, file_metadata) do
+    log_error "Unable to process #{Atom.to_string file_metadata.data_type} files of type #{Atom.to_string file_metadata.file_type} (#{file_metadata.filename})"
   end
 
   defp log_error(message) do

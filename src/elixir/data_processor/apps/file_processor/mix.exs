@@ -36,6 +36,6 @@ defmodule FileProcessor.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    []
+    [{:file_cleaner, in_umbrella: true}]
   end
 end
