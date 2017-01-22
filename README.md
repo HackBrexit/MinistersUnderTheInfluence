@@ -1,5 +1,7 @@
 # \#HackBrexit: Ministers Under The Influence
 
+[![Build Status](https://travis-ci.org/HackBrexit/MinistersUnderTheInfluence.svg?branch=master)](https://travis-ci.org/HackBrexit/MinistersUnderTheInfluence)
+
 Ministers: Under the Influence is a project that came out of the [\#HackBrexit](http://hackbrexit.org/) Hackathon which took place over a weekend. The project has now been pushed into the Hack Brexit accelerator programme and will be developed further over the next few months.
 
 ## The Project
