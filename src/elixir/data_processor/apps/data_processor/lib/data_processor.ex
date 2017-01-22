@@ -76,16 +76,16 @@ defmodule DataProcessor do
       file_metadata.title
     ]
     |> Enum.map(&extract_data_type/1)
-    |> reduce_to_single_type
+    |> reduce_to_single_value
     |> put_into_map_at(file_metadata, :data_type)
   end
 
-  defp reduce_to_single_type([head | tail]), do: reduce_to_single_type tail, head
-  defp reduce_to_single_type([], type), do: type
-  defp reduce_to_single_type([head | tail], head), do: reduce_to_single_type tail, head
-  defp reduce_to_single_type([head | tail], :nil), do: reduce_to_single_type tail, head
-  defp reduce_to_single_type([:nil | tail], type), do: reduce_to_single_type tail, type
-  defp reduce_to_single_type([:ambiguous | _], _), do: :ambiguous
-  defp reduce_to_single_type([_ | tail], _), do: :ambiguous
+  defp reduce_to_single_value([head | tail]), do: reduce_to_single_value tail, head
+  defp reduce_to_single_value([], type), do: type
+  defp reduce_to_single_value([head | tail], head), do: reduce_to_single_value tail, head
+  defp reduce_to_single_value([head | tail], :nil), do: reduce_to_single_value tail, head
+  defp reduce_to_single_value([:nil | tail], type), do: reduce_to_single_value tail, type
+  defp reduce_to_single_value([:ambiguous | _], _), do: :ambiguous
+  defp reduce_to_single_value([_ | tail], _), do: :ambiguous
 
 end
