@@ -113,6 +113,10 @@ var d3Chart = {
 
     d3Chart.lookupTargetNames(meetingCounts, targets);
 
+    d3Chart.initChart(meetingCounts);
+  }
+
+  initChart: function(meetingCounts) {
     d3Chart.getSvgDimensions();
     d3Chart.initBubbleCoordsRadius(meetingCounts, d3Chart.svg_el);
 
