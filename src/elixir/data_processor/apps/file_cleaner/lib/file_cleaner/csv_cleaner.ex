@@ -15,7 +15,7 @@ defmodule FileCleaner.CSVCleaner do
     |> CSVParser.parse_stream(headers: :false)
     |> Stream.with_index
     |> Stream.transform(:header, &(clean_meeting_row &1, &2, file_metadata))
-    |> Stream.reject(&(&1 == :header))
+    |> Stream.reject(&(&1 == :nil))
     |> Enum.to_list |> inspect |> IO.puts
 
     IO.puts inspect(file_metadata)
@@ -29,20 +29,31 @@ defmodule FileCleaner.CSVCleaner do
   defp clean_meeting_row(row, :header, file_metadata) do
     IO.puts inspect(row)
     # Can make a call here to validate the headers are sensible
-    {[:header], %RowState{}}
+    {[:nil], %RowState{}}
   end
 
-  defp clean_meeting_row({csv_row, row_index}, row_state, file_metadata) do
+  defp clean_meeting_row({[""], _}, row_state, _) do
+    {[:nil], row_state}
+  end
+
+  defp clean_meeting_row({[minister, date, organisations, reason], row_index}, row_state, file_metadata) do
     row = %MeetingRow{row: row_index}
-          |> parse_minister(csv_row, row_state)
+          |> parse_and_insert_minister(String.trim(minister), row_state)
+          # |> parse_and_insert_date(date, file_metadata.year)
+          |> parse_and_insert_reason(reason)
+          # |> parse_and_insert_organisations(organisations)
     {[row], Map.put(row_state, :previous_minister, row.minister)}
   end
 
-  defp parse_minister(row, ["" | _], %RowState{previous_minister: minister}) do
+  defp parse_and_insert_minister(row, "", %RowState{previous_minister: minister}) do
     Map.put(row, :minister, minister)
   end
 
-  defp parse_minister(row, [minister | _], _) do
+  defp parse_and_insert_minister(row, minister, _) do
     Map.put(row, :minister, minister)
+  end
+
+  defp parse_and_insert_reason(row, reason) do
+    Map.put(row, :reason, reason)
   end
 end
