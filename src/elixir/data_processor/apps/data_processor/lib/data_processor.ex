@@ -2,6 +2,17 @@ defmodule DataProcessor do
   NimbleCSV.define(MetadataCSVParser, separator: ",", escape: "\"")
 
   @known_data_types ["gifts", "hospitality", "meetings", "travel"]
+  @year_regular_expressions [
+    # Match four digit runs at the start that begin with 19 or 20
+    ~R/\A((?:19|20)\d{2})(?:\Z|\D)/,
+    # Match four digit runs not at the start (must have a non-digit in front)
+    # that begin with 19 or 20
+    ~R/(?:\D)((?:19|20)\d{2})(?:\Z|\D)/,
+    # Match two digit runs at the start
+    ~R/\A(\d{2})(?:\Z|\D)/,
+    # Match two digit runs not at the start (must have a non-digit in front)
+    ~R/(?:\D)(\d{2})(?:\Z|\D)/
+  ]
 
   def process_metadata_file(metadata_file_path, datafiles_path) do
     metadata_file_path
@@ -54,8 +65,47 @@ defmodule DataProcessor do
     |> put_into_map_at(file_metadata, :file_type)
   end
 
-  def extract_year(file_metadata) do
-    file_metadata
+  def extract_year(info_string) when is_binary(info_string) do
+    years = @year_regular_expressions
+            |> Stream.flat_map(&(scan_and_flatten &1, info_string))
+            |> Stream.map(&String.to_integer/1)
+            |> Enum.map(&normalise_year/1)
+    case years do
+    [ year ] ->
+      year
+    [] ->
+      :nil
+    _ -> :ambiguous
+    end
+  end
+
+  def extract_year(file_metadata) when is_map(file_metadata) do
+    extracted_year = file_metadata
+                     |> info_sources
+                     |> Enum.map(&extract_year/1)
+                     |> reduce_to_single_value
+    case extracted_year do
+    year when is_integer(year) ->
+      year
+    _ ->
+      :nil
+    end
+    |> put_into_map_at(file_metadata, :year)
+  end
+
+  defp scan_and_flatten(regex, string) do
+    regex
+    |> Regex.scan(string, capture: :all_but_first)
+    |> List.flatten
+  end
+
+  defp normalise_year(year) when year < 100, do: normalise_year(year + 2000)
+  defp normalise_year(year) do
+    current_year = DateTime.utc_now.year
+    cond do
+      year > current_year -> year - 100
+      true -> year
+    end
   end
 
   def extract_data_type(info_string) when is_binary(info_string) do
