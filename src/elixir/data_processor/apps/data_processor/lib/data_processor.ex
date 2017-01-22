@@ -31,9 +31,18 @@ defmodule DataProcessor do
     }
   end
 
-  def extract_filename(file_metadata, _datafiles_path) do
-    file_metadata
+  def extract_filename(file_metadata, datafiles_path) do
+    file_metadata.source_url
+    |> String.split("/")
+    |> Enum.take(-2)
+    |> Enum.join("_")
+    |> append_to_path(datafiles_path)
+    |> put_into_map_at(file_metadata, :filename)
   end
+
+  defp append_to_path(sub_path, base_path), do: Path.join base_path, sub_path
+
+  defp put_into_map_at(value, map, key), do: Map.put map, key, value
 
   def extract_file_type(file_metadata) do
     file_metadata
