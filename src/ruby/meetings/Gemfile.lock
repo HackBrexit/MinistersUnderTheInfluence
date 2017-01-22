@@ -1,5 +1,5 @@
 GIT
-  remote: git@github.com:JohnSmall/globalize.git
+  remote: https://github.com/JohnSmall/globalize.git
   revision: 7d507472e4076c720d798736137eb28d169eb1a1
   specs:
     globalize (5.1.0)
