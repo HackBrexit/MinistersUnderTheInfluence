@@ -3,12 +3,11 @@ set :application, ->{YAML.load_file('config/deploy.yml')[fetch(:stage)][:directo
 set :repo_url, ->{YAML.load_file('config/deploy.yml')[fetch(:stage)][:repo_url]}
 set :branch, ->{YAML.load_file('config/deploy.yml')[fetch(:stage)][:branch]}
 
-set :apache_domain,->{fetch(:domain)}
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 
 # Default deploy_to directory is /var/www/my_app
-# set :deploy_to, '/var/www/my_app'
+set :deploy_to, '/home/rails/my_app'
 
 # Default value for :scm is :git
 # set :scm, :git
