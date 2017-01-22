@@ -1,8 +1,10 @@
 defmodule FileProcessor do
   use Application
 
-  @file_checks [
-    {&FileProcessor.file_exists?/1, :not_found}
+  @processing_steps [
+    :check_file_exists,
+    :check_data_type,
+    :clean_file
   ]
 
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
@@ -23,35 +25,23 @@ defmodule FileProcessor do
   end
 
   def process(file_metadata) do
-    file_metadata
-    |> do_file_checks
-    |> do_process
-  end
-
-  defp do_file_checks(file_metadata), do: do_file_checks(@file_checks, file_metadata)
-  defp do_file_checks([], file_metadata), do: {:ok, file_metadata}
-  defp do_file_checks([{check?, error} | remaining_checks], file_metadata) do
-    if check?.(file_metadata) do
-      do_file_checks(remaining_checks, file_metadata)
-    else
+    case do_process @processing_steps, file_metadata do
+    {:ok, file_metadata} ->
+      {:ok, file_metadata}
+    {:error, error, file_metadata} ->
+      log_bad_file(error, file_metadata)
       {:error, error, file_metadata}
     end
   end
 
-  defp do_process({:error, error, file_metadata}) do
-    log_bad_file(error, file_metadata)
-    {:error, file_metadata}
-  end
+  defp do_process([], file_metadata), do: {:ok, file_metadata}
 
-  defp do_process({:ok, file_metadata}) do
-    file_metadata
-    |> inspect
-    |> IO.puts
-    {:ok, file_metadata}
-  end
-
-  def file_exists?(file_metadata) do
-    File.exists? file_metadata.filename
+  defp do_process([:check_file_exists | remaining_steps], file_metadata) do
+    if File.exists? file_metadata.filename do
+      do_process remaining_steps, file_metadata
+    else
+      {:error, :not_found, file_metadata}
+    end
   end
 
   def log_bad_file(:not_found, file_metadata) do
