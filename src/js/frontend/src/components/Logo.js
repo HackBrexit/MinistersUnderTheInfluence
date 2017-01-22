@@ -25,7 +25,6 @@ var styles = {
   base: {
     fontWeight: 'lighter',
     float: 'left',
-    marginLeft: '20px',
     display: 'inline',
     lineHeight: "12vh",
     color: '#119DA4',
