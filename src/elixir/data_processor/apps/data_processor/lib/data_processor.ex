@@ -6,7 +6,7 @@ defmodule DataProcessor do
   def process_metadata_file(metadata_file_path, datafiles_path) do
     metadata_file_path
     |> File.stream!
-    |> MetadataCSVParser.parse_stream
+    |> MetadataCSVParser.parse_stream(headers: false)
     |> Enum.take(1)
     |> Enum.map(&(process_metadata_row(&1, datafiles_path)))
   end
