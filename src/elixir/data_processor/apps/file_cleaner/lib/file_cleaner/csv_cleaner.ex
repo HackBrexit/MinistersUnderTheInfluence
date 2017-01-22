@@ -32,8 +32,17 @@ defmodule FileCleaner.CSVCleaner do
     {[:header], %RowState{}}
   end
 
-  defp clean_meeting_row(row, row_state, file_metadata) do
-    new_row = %MeetingRow{}
-    {[new_row], Map.put(row_state, :previous_minister, new_row.minister)}
+  defp clean_meeting_row({csv_row, row_index}, row_state, file_metadata) do
+    row = %MeetingRow{row: row_index}
+          |> parse_minister(csv_row, row_state)
+    {[row], Map.put(row_state, :previous_minister, row.minister)}
+  end
+
+  defp parse_minister(row, ["" | _], %RowState{previous_minister: minister}) do
+    Map.put(row, :minister, minister)
+  end
+
+  defp parse_minister(row, [minister | _], _) do
+    Map.put(row, :minister, minister)
   end
 end
