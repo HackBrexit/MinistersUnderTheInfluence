@@ -7,7 +7,8 @@ class OrgList extends React.Component {
     return <div className="org-list">
       <p>Eventually this will be a dynamic list of organisations.</p>
       <ul>
-        <li> <Link to="/organisation/369/meetings">BAE</Link> </li>
+        <li> <Link to="/demo">Hard-coded data (doesn't touch API)</Link> </li>
+        <li> <Link to="/organisation/369/government-people">BAE</Link> </li>
       </ul>
     </div>
   }

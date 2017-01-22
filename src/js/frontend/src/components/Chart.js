@@ -3,40 +3,16 @@ import ReactDOM from "react-dom"
 import Radium from "radium"
 
 var d3Chart = require('./d3Chart');
+var meetingData = require('./meetingData');
 
 var Chart = React.createClass({
   d3Chart: d3Chart,
 
   propTypes: {
-    data: React.PropTypes.object
-  },
-
-  componentDidMount: function() {
-    var el = ReactDOM.findDOMNode(this);
-    d3Chart.create(
-      el,
-      {
-        width: '100%',
-        height: '100%'
-      },
-      this.getChartState()
-    );
-  },
-
-  componentDidUpdate: function() {
-    var el = ReactDOM.findDOMNode(this);
-    d3Chart.update(el, this.getChartState());
-  },
-
-  getChartState: function() {
-    return {
-      data: this.props.data
-    };
-  },
-
-  componentWillUnmount: function() {
-    var el = ReactDOM.findDOMNode(this);
-    d3Chart.destroy(el);
+    data: React.PropTypes.object,
+    sourceType: React.PropTypes.string.isRequired,
+    sourceId: React.PropTypes.string,
+    targetType: React.PropTypes.string,
   },
 
   render: function() {
@@ -45,10 +21,49 @@ var Chart = React.createClass({
         style={[
           styles.base,
         ]}
-        className="chart">
+        className="chart" ref="topdiv">
+        <svg className="d3" ref="svg"
+             width={this.props.width}
+             height={this.props.height}>
+          <g className="d3-points" />
+        </svg>
       </div>
     )
-  }
+  },
+
+  componentDidMount: function() {
+    this.getData();
+  },
+
+  getData: function() {
+    if (this.props.sourceType === "demo") {
+      this.componentGotData(meetingData.sampleData["meetingCounts"]);
+    }
+    else {
+      var self = this;
+      meetingData.fetch(
+        this.props.sourceType,
+        this.props.sourceId,
+        this.props.targetType,
+        function (meetingCounts) {
+          self.componentGotData(meetingCounts);
+        }
+      );
+    }
+  },
+
+  componentGotData: function(meetingCounts) {
+    d3Chart.initChart(this.refs.topdiv, this.refs.svg, meetingCounts);
+  },
+
+  componentDidUpdate: function() {
+    this.getData();
+  },
+
+  componentWillUnmount: function() {
+    var el = ReactDOM.findDOMNode(this);
+    d3Chart.destroy(el);
+  },
 });
 
 var styles = {

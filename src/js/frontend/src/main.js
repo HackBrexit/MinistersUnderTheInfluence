@@ -59,7 +59,14 @@ loaded.then((newState) => {
         <Route path="/" component={App} name="root">
           <Route component={PageLayout}>
             <IndexRoute component={OrgList} />
-            <Route path="/organisation/:id/meetings" component={ChartContainer} />
+            <Route path="demo"
+                   component={ChartContainer} sourceType="demo" />
+            <Route path="organisation/:id/:targetType"
+                   component={ChartContainer} sourceType="organisations" />
+            <Route path="government-person/:id/:targetType"
+                   component={ChartContainer} sourceType="government-people" />
+            <Route path="organisation-person/:id/:targetType"
+                   component={ChartContainer} sourceType="organisation-people" />
           </Route>
         </Route>
       </Router>
