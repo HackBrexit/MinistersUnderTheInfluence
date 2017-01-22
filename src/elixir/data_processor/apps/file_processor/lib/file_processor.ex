@@ -5,6 +5,7 @@ defmodule FileProcessor do
 
   @processing_steps [
     :check_file_exists,
+    :check_has_single_data_type,
     :clean_file
   ]
 
@@ -54,6 +55,17 @@ defmodule FileProcessor do
     end
   end
 
+  defp do_process([:check_has_single_data_type | remaining_steps], file_metadata) do
+    case file_metadata.data_type do
+    :ambiguous ->
+      {:error, :ambiguous_data_type, file_metadata}
+    :nil ->
+      {:error, :no_data_type, file_metadata}
+    _ ->
+      do_process remaining_steps, file_metadata
+    end
+  end
+
   def do_clean_file(file_metadata = %FileMetadata{file_type: :csv}) do
     FileCleaner.CSVCleaner.clean_file file_metadata
   end
@@ -72,6 +84,14 @@ defmodule FileProcessor do
 
   def log_bad_file(:unsupported_data_type, file_metadata) do
     log_error "Unable to process #{Atom.to_string file_metadata.data_type} files of type #{Atom.to_string file_metadata.file_type} (#{file_metadata.filename})"
+  end
+
+  def log_bad_file(:ambiguous_data_type, file_metadata) do
+    log_error "File may contain multiple types of data (#{file_metadata.filename})"
+  end
+
+  def log_bad_file(:no_data_type, file_metadata) do
+    log_error "Unable to determine the type of data in file (#{file_metadata.filename})"
   end
 
   defp log_error(message) do
