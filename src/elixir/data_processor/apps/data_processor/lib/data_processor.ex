@@ -18,8 +18,9 @@ defmodule DataProcessor do
     metadata_file_path
     |> File.stream!
     |> MetadataCSVParser.parse_stream(headers: false)
-    |> Enum.take(1)
-    |> Enum.map(&(process_metadata_row(&1, datafiles_path)))
+    |> Stream.map(&(process_metadata_row(&1, datafiles_path)))
+    |> Enum.map(&(inspect(&1) |> IO.puts))
+    #|> Enum.map(&FileProcessor.process/1)
   end
 
   def process_metadata_row(file_metadata_row, datafiles_path) do
@@ -30,8 +31,6 @@ defmodule DataProcessor do
     |> extract_file_type
     |> extract_year
     |> extract_data_type
-    |> inspect |> IO.puts
-    # |> FileProcessor.process
   end
 
   def convert_row_to_struct([_, name, department, title, publish_date, source_url]) do
