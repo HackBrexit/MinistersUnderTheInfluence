@@ -17,4 +17,10 @@ defmodule FileProcessor do
     opts = [strategy: :one_for_one, name: FileProcessor.Supervisor]
     Supervisor.start_link(children, opts)
   end
+
+  def process(file_metadata) do
+    file_metadata
+    |> inspect
+    |> IO.puts
+  end
 end

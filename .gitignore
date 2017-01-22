@@ -85,3 +85,5 @@ src/ruby/meetings/vendor/bundle
 .idea/
 
 .lock
+
+*.swp
