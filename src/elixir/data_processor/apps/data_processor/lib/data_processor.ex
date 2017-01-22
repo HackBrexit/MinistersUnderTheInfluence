@@ -60,6 +60,7 @@ defmodule DataProcessor do
     file_metadata.filename
     |> String.split(".")
     |> List.last
+    |> String.downcase
     |> String.to_atom
     |> put_into_map_at(file_metadata, :file_type)
   end
