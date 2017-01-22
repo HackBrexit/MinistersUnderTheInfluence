@@ -80,21 +80,24 @@ def create_minister_link(meeting_id, minister_id, department_id):
                         "id": meeting_id
                     }
                 },
-                "government-office": {
-                    "data": {
-                        "type": "government-offices",
-                        "id": department_id
-                     }
-                },
-                "person": {
-                     "data": {
-                        "type": "people",
-                        "id": minister_id
-                     }
-                }
             }
         }
     }
+    if minister_id is not None:
+        req_data["data"]["relationships"]["person"] = {
+            "data": {
+                "type": "people",
+                "id": minister_id
+            }
+        }
+    if department_id is not None:
+        req_data["data"]["relationships"]["government-office"] = {
+            "data": {
+                "type": "government-offices",
+                "id": department_id
+            }
+        }
+
     return post_to_api_and_return_id(type_, req_data)
 
 
@@ -110,21 +113,22 @@ def create_rep_link(meeting_id, rep_id, organisation_id):
                         "id": meeting_id
                     }
                 },
-                "organisation": {
-                    "data": {
-                        "type": "organisations",
-                        "id": organisation_id
-                     }
-                },
                 "person": {
-                     "data": {
+                    "data": {
                         "type": "people",
                         "id": rep_id
-                     }
+                    }
                 }
             }
         }
     }
+    if organisation_id is not None:
+        req_data["data"]["relationships"]["organisation"] = {
+            "data": {
+                "type": "organisations",
+                "id": organisation_id
+            }
+        }
     return post_to_api_and_return_id(type_, req_data)
 
 
@@ -135,12 +139,14 @@ def get_or_create_meeting_id(meeting_ref, date_, reason, source_id, line_num):
         "data": {
             "type": "meetings",
             "attributes": {
-                "purpose": reason,
                 "source-file-id" : source_id,
                 "source-file-line-number" : line_num,
             }
         }
     }
+    if reason != "":
+        req_data["data"]["attributes"]["purpose"] = reason
+
     date_parts = date_.split('-')
     if len(date_parts) > 0:
         req_data['data']['attributes']['year'] = date_parts[0]
@@ -231,7 +237,9 @@ def main():
                 continue
             if int(meeting_ref) < args.from_id or int(meeting_ref) > args.to_id:
                 continue
+            print(row)
             minister = row[1]
+            role = row[2] # FIXME: not used yet
             department = row[3]
             date_ = row[4]
             org = row[6]
@@ -239,15 +247,15 @@ def main():
             reason = row[8]
             source_id = get_or_create_source_id(args.file)
             meeting_id = get_or_create_meeting_id(meeting_ref, date_, reason, source_id, reader.line_num)
-            department_id = get_or_create_department_id(department)
-            minister_id = get_or_create_person_id(minister)
-            organisation_id = get_or_create_organisation_id(org)
+            department_id = get_or_create_department_id(department) if department != "" else None
+            minister_id = get_or_create_person_id(minister) if minister != "" else None
+            organisation_id = get_or_create_organisation_id(org) if org != "" else None
             rep_id = get_or_create_person_id(rep or 'Representative from {0}'.format(org))
             create_minister_link(meeting_id, minister_id, department_id)
             create_rep_link(meeting_id, rep_id, organisation_id)
             count += 1
-            if count % 100 == 0:
-                print("%d rows processed" % count)
+
+    print("%d rows processed" % count)
 
 
 if __name__ == '__main__':

@@ -23,9 +23,8 @@ require 'rails_helper'
 
 RSpec.describe Meeting, type: :model do
   it{ should have_db_column(:purpose).of_type(:string)}
-  it{should validate_presence_of(:purpose)}
 
-  # verify that these complex through relationships are working 
+  # verify that these complex through relationships are working
   it 'should link to a government person' do
    link_record = create(:influence_government_office_person)
    meeting = link_record.meeting
