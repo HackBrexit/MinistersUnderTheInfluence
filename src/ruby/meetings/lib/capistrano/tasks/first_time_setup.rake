@@ -62,7 +62,6 @@ namespace :deploy do
     after   'deploy:migrate', 'deploy:db:seed'
     before  'deploy:migrate', 'deploy:db:drop'
     before  'deploy:migrate', 'deploy:db:create'
-    after   'deploy:published','apache:create'
     Rake::Task[:deploy].invoke
   end
 
