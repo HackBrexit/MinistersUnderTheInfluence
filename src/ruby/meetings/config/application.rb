@@ -18,11 +18,12 @@ Bundler.require(*Rails.groups)
 
 module Meetings
   class Application < Rails::Application
-        config.generators do |g|
-       g.template_engine :haml
-       g.test_framework :rspec, :fixtures => true, :views => true
-       g.fixture_replacement :factory_girl, :dir => "spec/factories"
-       g.stylesheet_engine :sass
+    config.autoload_paths << Rails.root.join('lib')
+    config.generators do |g|
+      g.template_engine :haml
+      g.test_framework :rspec, :fixtures => true, :views => true
+      g.fixture_replacement :factory_girl, :dir => "spec/factories"
+      g.stylesheet_engine :sass
     end
 
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
@@ -32,5 +33,12 @@ module Meetings
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
+
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins '*'
+        resource '*', :headers => :any, :methods => [:get, :post, :options]
+      end
+    end
   end
 end

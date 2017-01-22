@@ -1,2 +1,56 @@
+@import "theme.less";
+@import "d3.less";
+@import "tooltip.less";
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
 body {
+  color: @primary-colour;
+  font-family: "Noto Sans", Arial, sans-serif;
+  // font-weight: light;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Roboto Slab", Arial, sans-serif;
+}
+
+h1, h2 {
+  margin: 10px 0;
+}
+
+ul, ol, p {
+  padding: 5px 0 5px 20px;
+}
+
+a {
+  color: @secondary-colour;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.hiddenFlyover {
+  transform: translateY(30%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+::-webkit-scrollbar {
+    width: 4px;
+    padding-top: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #f4f2f2;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #333;
 }

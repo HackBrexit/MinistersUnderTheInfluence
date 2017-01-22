@@ -1,0 +1,16 @@
+= form_for @source_file do |f|
+  - if @source_file.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@source_file.errors.count, "error")} prohibited this source_file from being saved:"
+      %ul
+        - @source_file.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.label :location
+    = f.text_field :location
+  .field
+    = f.label :uri
+    = f.text_field :uri
+  .actions
+    = f.submit 'Save'

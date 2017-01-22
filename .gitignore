@@ -73,3 +73,15 @@ src/php/gov-harvester/datafiles
 src/php/gov-harvester/govharvester_listfile.csv
 
 src/python/org_fetcher/orgs.csv
+
+
+# Ruby bundle
+src/ruby/meetings/vendor/bundle
+
+# Vagrant
+.vagrant/
+
+# IntelliJ
+.idea/
+
+.lock
