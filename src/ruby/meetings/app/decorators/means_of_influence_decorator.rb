@@ -16,7 +16,9 @@ class MeansOfInfluenceDecorator < Draper::Decorator
   def organisation_side
      influence_organisation_people.map do |ip|
        if ip.person
-         "#{ip.organisation.name}: #{ip.person.name}"
+         organisation_name = ip.organisation.try(:name)
+         person_name = ip.person.try(:name)
+         [organisation_name, person_name].compact.join ": "
        else
          ip.organisation.name
        end
