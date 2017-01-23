@@ -25,13 +25,14 @@ defmodule FileCleaner.CSVCleaner do
 
 
   def clean_file(file_metadata=%{data_type: :meetings}) do
-    file_metadata.filename
-    |> File.stream!
-    |> Stream.flat_map(&(String.split &1, "\r"))
-    |> CSVParser.parse_stream(headers: :false)
-    |> Stream.with_index
-    |> Stream.transform(:header, &(clean_meeting_row &1, &2, file_metadata))
-    |> Stream.reject(&(&1 == :nil))
+    processed_rows = file_metadata.filename
+                     |> File.stream!
+                     |> Stream.flat_map(&(String.split &1, "\r"))
+                     |> CSVParser.parse_stream(headers: :false)
+                     |> Stream.with_index
+                     |> Stream.transform(:header, &(clean_meeting_row &1, &2, file_metadata))
+                     |> Stream.reject(&invalid_meetings_row?/1)
+    processed_rows
     |> Enum.map(&(&1 |> inspect |> IO.puts))
 
     IO.puts inspect(file_metadata)
@@ -41,6 +42,13 @@ defmodule FileCleaner.CSVCleaner do
   def clean_file(file_metadata) do
     {:error, :unsupported_data_type, file_metadata}
   end
+
+
+  defp invalid_meetings_row?(:nil), do: true
+  defp invalid_meetings_row?(%{start_date: %{month: month, year: year}}) when is_nil(month) or is_nil(year), do: true
+  defp invalid_meetings_row?(%{organisations: [""]}), do: true
+  defp invalid_meetings_row?(%{minister: :nil}), do: true
+  defp invalid_meetings_row?(_), do: false
 
 
   defp clean_meeting_row(row, :header, _file_metadata) do
