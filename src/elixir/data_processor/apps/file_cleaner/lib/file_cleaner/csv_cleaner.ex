@@ -32,11 +32,9 @@ defmodule FileCleaner.CSVCleaner do
                      |> Stream.with_index
                      |> Stream.transform(:header, &(clean_meeting_row &1, &2, file_metadata))
                      |> Stream.reject(&invalid_meetings_row?/1)
-    processed_rows
-    |> Enum.map(&(&1 |> inspect |> IO.puts))
 
-    IO.puts inspect(file_metadata)
-    {:ok, file_metadata}
+    new_metadata = Map.put(file_metadata, :rows, processed_rows)
+    {:ok, new_metadata}
   end
 
   def clean_file(file_metadata) do
@@ -52,7 +50,6 @@ defmodule FileCleaner.CSVCleaner do
 
 
   defp clean_meeting_row(row, :header, _file_metadata) do
-    IO.puts inspect(row)
     data_positions = meeting_data_positions_from_header row
     {[:nil], %RowState{data_positions: data_positions}}
   end
