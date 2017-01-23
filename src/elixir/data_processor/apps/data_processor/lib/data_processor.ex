@@ -127,10 +127,8 @@ defmodule DataProcessor do
     |> put_into_map_at(file_metadata, :data_type)
   end
 
-  defp info_sources(%{filename: filename, name: name, title: title}) do
+  defp info_sources(%{filename: filename}) do
     [ (filename |> Path.basename),
-      name,
-      title
     ]
   end
 
