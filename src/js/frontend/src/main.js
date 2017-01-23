@@ -12,7 +12,7 @@ import createEngine from "redux-storage-engine-localstorage"
 import storageDebounce from 'redux-storage-decorator-debounce'
 import createLogger from 'redux-logger'
 import PageLayout from "./containers/PageLayout"
-import OrgList from "./components/OrgList"
+import Home from "./components/Home"
 import ChartContainer from "./containers/ChartContainer"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -58,15 +58,17 @@ loaded.then((newState) => {
       <Router history={hashHistory}>
         <Route path="/" component={App} name="root">
           <Route component={PageLayout}>
-            <IndexRoute component={OrgList} />
+            <IndexRoute component={Home} />
             <Route path="demo"
                    component={ChartContainer} sourceType="demo" />
             <Route path="organisation/:id/:targetType"
                    component={ChartContainer} sourceType="organisations" />
+            <Route path="government-office/:id/:targetType"
+                   component={ChartContainer} sourceType="government-offices" />
             <Route path="government-person/:id/:targetType"
-                   component={ChartContainer} sourceType="government-people" />
+                   component={ChartContainer} sourceType="people" />
             <Route path="organisation-person/:id/:targetType"
-                   component={ChartContainer} sourceType="organisation-people" />
+                   component={ChartContainer} sourceType="people" />
           </Route>
         </Route>
       </Router>
