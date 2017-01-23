@@ -29,14 +29,17 @@ defmodule FileCleaner.DateUtils do
 
   @date_regex ~r{(?:(?<day>\d?\d)?[-/])??(?<month>#{Enum.join Map.keys(@recognised_months), "|"}|\d?\d)[-/]?(?<year>(19|20)?\d\d)?}
 
+
   defp normalise_day(""), do: :nil
   defp normalise_day(day), do: String.to_integer day
+
 
   defp normalise_month(month) when is_binary(month) do
     Map.get @recognised_months, String.downcase(month) 
   end
   defp normalise_month(month) when month > 0 and month < 13, do: month
   defp normalise_month(_), do: :nil
+
 
   defp normalise_year(""), do: :nil
   defp normalise_year(year) when is_binary(year), do: normalise_year String.to_integer(year)
@@ -49,6 +52,7 @@ defmodule FileCleaner.DateUtils do
     end
   end
 
+
   defp parse_date_string(date_string) do
     case Regex.named_captures @date_regex, String.downcase(date_string) do
     %{ "day" => day, "month" => month, "year" => year }
@@ -57,6 +61,7 @@ defmodule FileCleaner.DateUtils do
       -> { :nil, :nil, :nil }
     end
   end
+
 
   def date_string_to_tuple(date_string, default_year) do
     case parse_date_string date_string do

@@ -14,6 +14,7 @@ defmodule DataProcessor do
     ~R/(?:\D)(\d{2})(?:\Z|\D)/
   ]
 
+
   def process_metadata_file(metadata_file_path, datafiles_path) do
     metadata_file_path
     |> File.stream!
@@ -32,6 +33,7 @@ defmodule DataProcessor do
     |> extract_data_type
   end
 
+
   def convert_row_to_struct([_, name, department, title, publish_date, source_url]) do
     %FileProcessor.FileMetadata{
       name: name,
@@ -42,6 +44,7 @@ defmodule DataProcessor do
     }
   end
 
+
   def extract_filename(file_metadata, datafiles_path) do
     file_metadata.source_url
     |> String.split("/")
@@ -51,9 +54,12 @@ defmodule DataProcessor do
     |> put_into_map_at(file_metadata, :filename)
   end
 
+
   defp append_to_path(sub_path, base_path), do: Path.join base_path, sub_path
 
+
   defp put_into_map_at(value, map, key), do: Map.put map, key, value
+
 
   def extract_file_type(file_metadata) do
     file_metadata.filename
@@ -63,6 +69,7 @@ defmodule DataProcessor do
     |> String.to_atom
     |> put_into_map_at(file_metadata, :file_type)
   end
+
 
   def extract_year(info_string) when is_binary(info_string) do
     years = @year_regular_expressions
@@ -98,6 +105,7 @@ defmodule DataProcessor do
     |> List.flatten
   end
 
+
   defp normalise_year(year) when year < 100, do: normalise_year(year + 2000)
   defp normalise_year(year) do
     current_year = DateTime.utc_now.year
@@ -106,6 +114,7 @@ defmodule DataProcessor do
       true -> year
     end
   end
+
 
   def extract_data_type(info_string) when is_binary(info_string) do
     lower_info_string = String.downcase info_string
@@ -127,10 +136,12 @@ defmodule DataProcessor do
     |> put_into_map_at(file_metadata, :data_type)
   end
 
+
   defp info_sources(%{filename: filename}) do
     [ (filename |> Path.basename),
     ]
   end
+
 
   defp reduce_to_single_value([head | tail]), do: reduce_to_single_value tail, head
   defp reduce_to_single_value([], type), do: type

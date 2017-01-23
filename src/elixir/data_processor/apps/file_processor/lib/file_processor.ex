@@ -3,11 +3,13 @@ defmodule FileProcessor do
 
   alias FileProcessor.FileMetadata
 
+
   @processing_steps [
     :check_file_exists,
     :check_has_single_data_type,
     :clean_file
   ]
+
 
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
@@ -26,6 +28,7 @@ defmodule FileProcessor do
     Supervisor.start_link(children, opts)
   end
 
+
   def process(file_metadata) do
     case do_process @processing_steps, file_metadata do
     {:ok, file_metadata} ->
@@ -35,6 +38,7 @@ defmodule FileProcessor do
       {:error, error, file_metadata}
     end
   end
+
 
   defp do_process([], file_metadata), do: {:ok, file_metadata}
 
@@ -66,6 +70,7 @@ defmodule FileProcessor do
     end
   end
 
+
   def do_clean_file(file_metadata = %FileMetadata{file_type: :csv}) do
     FileCleaner.CSVCleaner.clean_file file_metadata
   end
@@ -73,6 +78,7 @@ defmodule FileProcessor do
   def do_clean_file(file_metadata) do
     log_bad_file :unsupported_file_type, file_metadata
   end
+
 
   def log_bad_file(:not_found, file_metadata) do
     log_error "File #{file_metadata.filename} could not be found." 
@@ -93,6 +99,7 @@ defmodule FileProcessor do
   def log_bad_file(:no_data_type, file_metadata) do
     log_error "Unable to determine the type of data in file (#{file_metadata.filename})"
   end
+
 
   defp log_error(message) do
     IO.puts message
