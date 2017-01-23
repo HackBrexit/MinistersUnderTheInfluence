@@ -2,6 +2,7 @@ defmodule FileCleaner.CSVCleaner do
   NimbleCSV.define(CSVParser, separator: ",", escape: "\"")
 
   alias FileCleaner.DateUtils
+  alias FileCleaner.OrganisationUtils
 
   defmodule RowState do
     defstruct previous_minister: :nil
@@ -28,7 +29,7 @@ defmodule FileCleaner.CSVCleaner do
     {:error, :unsupported_data_type, file_metadata}
   end
 
-  defp clean_meeting_row(row, :header, file_metadata) do
+  defp clean_meeting_row(row, :header, _file_metadata) do
     IO.puts inspect(row)
     # Can make a call here to validate the headers are sensible
     {[:nil], %RowState{}}
@@ -43,7 +44,7 @@ defmodule FileCleaner.CSVCleaner do
           |> parse_and_insert_minister(String.trim(minister), row_state)
           |> parse_and_insert_date(date, file_metadata.year)
           |> parse_and_insert_reason(reason)
-          # |> parse_and_insert_organisations(organisations)
+          |> parse_and_insert_organisations(organisations)
     {[row], Map.put(row_state, :previous_minister, row.minister)}
   end
 
@@ -61,7 +62,12 @@ defmodule FileCleaner.CSVCleaner do
 
   defp parse_and_insert_date(row, date_string, default_year) do
     date_tuple = DateUtils.date_string_to_tuple date_string, default_year
-    Map.put(row, :start_date, date_tuple)
+    row
+    |> Map.put(:start_date, date_tuple)
     |> Map.put(:end_date, date_tuple)
+  end
+
+  defp parse_and_insert_organisations(row, organisations_string) do
+    Map.put(row, :organisations, OrganisationUtils.parse_organisations(organisations_string))
   end
 end
