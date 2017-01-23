@@ -48,6 +48,10 @@ defmodule FileCleaner.CSVCleaner do
     {[row], Map.put(row_state, :previous_minister, row.minister)}
   end
 
+  defp clean_meeting_row({_, row_index}, row_state, _) do
+    {[{:error, :unrecognised_row_format, row_index}], row_state}
+  end
+
   defp parse_and_insert_minister(row, "", %RowState{previous_minister: minister}) do
     Map.put(row, :minister, minister)
   end
