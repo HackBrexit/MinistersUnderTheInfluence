@@ -21,9 +21,9 @@ class Header extends React.Component {
   }
 }
 
-var shadow = 'inset #F2E9E9 0px -2px 0px 0px';
+let shadow = 'inset #F2E9E9 0px -2px 0px 0px';
 
-var styles = {
+let styles = {
   base: {
     // backgroundColor: '#F5F5ED',
     height: "12vh",

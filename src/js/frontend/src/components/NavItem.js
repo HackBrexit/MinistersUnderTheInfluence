@@ -29,7 +29,7 @@ class NavItem extends React.Component{
   }
 }
 
-var styles = {
+let styles = {
   li: {
     display:'block',
     margin: '4vh 7px 0 0',

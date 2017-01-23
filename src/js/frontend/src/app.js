@@ -11,8 +11,6 @@ export default React.createClass({
   mixins: [pureRenderMixin],
 
   render () {
-    return (
-        <PageLayout/>
-    )
+    return this.props.children;
   }
 })
