@@ -15,6 +15,7 @@ defmodule FileCleaner.CSVCleaner do
   def clean_file(file_metadata=%{data_type: :meetings}) do
     file_metadata.filename
     |> File.stream!
+    |> Stream.flat_map(&(String.split &1, "\r"))
     |> CSVParser.parse_stream(headers: :false)
     |> Stream.with_index
     |> Stream.transform(:header, &(clean_meeting_row &1, &2, file_metadata))
