@@ -103,7 +103,14 @@ var d3Chart = {
 
     this.bubbles.append("text")
       .text(function(d) {return d.targetName;})
-      .style("font-size", function(d) { return Math.min(2*d.radius, (2 * d.radius - 8) / this.getComputedTextLength() * 10) + "px"; })
+      .style("font-size", this.bubbleTextFontSize)
+  },
+
+  bubbleTextFontSize: function(d) {
+    return Math.min(
+      2 * d.radius,
+      (2 * d.radius - 8) / this.getComputedTextLength() * 10
+    ) + "px";
   },
 
   destroy: function() {
