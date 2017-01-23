@@ -40,10 +40,6 @@ defmodule FileCleaner.CSVCleaner do
     {[:nil], %RowState{}}
   end
 
-  defp clean_meeting_row({[""], _}, row_state, _) do
-    {[:nil], row_state}
-  end
-
   defp clean_meeting_row({csv_row, row_index}, row_state, file_metadata) do
     case fetch_meeting_values_from_row(csv_row, row_state) do
     %{minister: minister, date: date, organisations: organisations, reason: reason} ->
@@ -53,19 +49,28 @@ defmodule FileCleaner.CSVCleaner do
             |> parse_and_insert_reason(reason)
             |> parse_and_insert_organisations(organisations)
       {[row], Map.put(row_state, :previous_minister, row.minister)}
+    :nil ->
+      {[:nil], row_state}
     {:error, error} ->
       {[{:error, error, row_index}], row_state}
     end
   end
 
 
-  defp fetch_meeting_values_from_row([minister, date, organisations, reason], row_state) do
+  defp fetch_meeting_values_from_row([minister, date, organisations, reason], _row_state) do
     %{minister: minister, date: date, organisations: organisations, reason: reason}
   end
 
-  defp fetch_meeting_values_from_row(_, _) do
-    {:error, :unrecognised_row_format}
+  defp fetch_meeting_values_from_row(csv_row, _) do
+    if row_is_empty? csv_row do
+      :nil
+    else
+      {:error, :unrecognised_row_format}
+    end
   end
+
+
+  defp row_is_empty?(csv_row), do: Enum.all? csv_row, &(""  == String.trim &1)
 
 
   defp parse_and_insert_minister(row, "", %RowState{previous_minister: minister}) do
