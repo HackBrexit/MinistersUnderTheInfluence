@@ -1,7 +1,7 @@
-var d3 = require('d3');
-var api = require('./api');
+let d3 = require('d3');
+let api = require('./api');
 
-var meetingData = {
+let meetingData = {
   sampleData: {
     "meetingCounts" : [
       {targetId: 0, meetingCount: 10},
@@ -22,7 +22,7 @@ var meetingData = {
   },
 
   fetch: function(sourceType, sourceId, targetType, onSuccess) {
-    var url = this.apiURL(sourceType, sourceId, targetType);
+    let url = this.apiURL(sourceType, sourceId, targetType);
     console.log("Fetching from " + url);
     d3.request(url)
       .mimeType("application/json")
@@ -38,29 +38,29 @@ var meetingData = {
   },
 
   dataLoadedHandler: function(onSuccess, url, sourceType, sourceId, targetType) {
-    var self = this;
+    let self = this;
 
     return function(error, json) {
       if (error) {
         // FIXME: make this more elegant
-        var msg = "Error fetching data from " + url + ": " + error;
+        let msg = "Error fetching data from " + url + ": " + error;
         alert(msg);
         console.error(msg);
         return;
       }
 
-      if (json.data.length == 0) {
-        var msg = "Didn't find any meetings for " + sourceType +
+      if (json.data.length === 0) {
+        let msg = "Didn't find any meetings for " + sourceType +
             " with id " + sourceId;
         alert(msg);
         console.warn(msg + " via " + url);
         return;
       }
 
-      var meetingCounts = self.countMeetingsByTarget(json, targetType);
+      let meetingCounts = self.countMeetingsByTarget(json, targetType);
 
       if (json.included) {
-        var targets = self.meetingTargets(json.included);
+        let targets = self.meetingTargets(json.included);
         self.lookupTargetNames(meetingCounts, targets);
       }
 
@@ -69,9 +69,9 @@ var meetingData = {
   },
 
   lookupTargetNames: function(meetingCounts, targets) {
-    for (var i = 0; i < meetingCounts.length; i++) {
-      var meetingCount = meetingCounts[i];
-      var target = targets[meetingCount.targetId];
+    for (let i = 0; i < meetingCounts.length; i++) {
+      let meetingCount = meetingCounts[i];
+      let target = targets[meetingCount.targetId];
       meetingCount.targetName = target.name;
     }
   },
@@ -83,22 +83,22 @@ var meetingData = {
   // object will represent a person in government, and a count of the
   // number of meetings which targeted that person.
   countMeetingsByTarget: function(json, meetingTargetType) {
-    var data = json.data;
+    let data = json.data;
 
-    var counts = {};
-    for (var i = 0; i < data.length; i++) {
-      var meeting = data[i];
-      var rels = meeting.relationships;
-      var targets = rels[meetingTargetType].data;
+    let counts = {};
+    for (let i = 0; i < data.length; i++) {
+      let meeting = data[i];
+      let rels = meeting.relationships;
+      let targets = rels[meetingTargetType].data;
       // For some reason, the same target can appear multiple times in
       // the relationship data for a given meeting, so we have to
       // de-duplicate here.
-      var targetCounts = {};
-      for (var j = 0; j < targets.length; j++) {
-        var target = targets[j];
+      let targetCounts = {};
+      for (let j = 0; j < targets.length; j++) {
+        let target = targets[j];
         targetCounts[target.id] = (targetCounts[target.id] || 0) + 1;
       }
-      for (var targetId in targetCounts) {
+      for (let targetId in targetCounts) {
         counts[targetId] = (counts[targetId] || 0) + 1;
       }
     }
@@ -114,11 +114,11 @@ var meetingData = {
   // target ids to names or any other attributes of the target which
   // we might want to visualise.
   meetingTargets: function(included) {
-    var targets = {};
-    for (var i = 0; i < included.length; i++) {
-      var targetData = included[i];
-      var targetId = targetData.id;
-      var targetName = targetData.attributes.name;
+    let targets = {};
+    for (let i = 0; i < included.length; i++) {
+      let targetData = included[i];
+      let targetId = targetData.id;
+      let targetName = targetData.attributes.name;
       targets[targetId] = {name: targetName};
     }
     return targets;

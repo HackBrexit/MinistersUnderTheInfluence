@@ -31,7 +31,7 @@ class PageLayout extends React.Component {
   }
 }
 
-var styles = {
+let styles = {
   base: {
     height:"100vh",
     overflow: 'hidden',

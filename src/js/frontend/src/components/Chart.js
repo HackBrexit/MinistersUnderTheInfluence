@@ -2,10 +2,10 @@ import React from "react"
 import ReactDOM from "react-dom"
 import Radium from "radium"
 
-var d3Chart = require('./d3Chart');
-var meetingData = require('./meetingData');
+let d3Chart = require('./d3Chart');
+let meetingData = require('./meetingData');
 
-var Chart = React.createClass({
+let Chart = React.createClass({
   d3Chart: d3Chart,
 
   propTypes: {
@@ -40,7 +40,7 @@ var Chart = React.createClass({
       this.componentGotData(meetingData.sampleData["meetingCounts"]);
     }
     else {
-      var self = this;
+      let self = this;
       meetingData.fetch(
         this.props.sourceType,
         this.props.sourceId,
@@ -61,12 +61,12 @@ var Chart = React.createClass({
   },
 
   componentWillUnmount: function() {
-    var el = ReactDOM.findDOMNode(this);
+    let el = ReactDOM.findDOMNode(this);
     d3Chart.destroy(el);
   },
 });
 
-var styles = {
+let styles = {
   base: {
     height: "88vh",
     backgroundColor: '#2C4258',

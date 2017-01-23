@@ -1,4 +1,4 @@
-var api = {
+let api = {
   // FIXME: make this configurable
   host: "localhost",
   port: 3000,

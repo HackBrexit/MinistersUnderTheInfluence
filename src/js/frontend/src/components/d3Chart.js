@@ -4,12 +4,12 @@
 // them.
 
 // FIXME: make this constant configurable
-var RADIUS_SCALE = 10;
+let RADIUS_SCALE = 10;
 
-var d3 = require('d3');
-var meetingData = require('./meetingData');
+let d3 = require('d3');
+let meetingData = require('./meetingData');
 
-var d3Chart = {
+let d3Chart = {
   initChart: function(topdiv, svg, meetingCounts) {
     d3Chart.getSvgDimensions(svg);
     d3Chart.initBubbleCoordsRadius(svg, meetingCounts);
@@ -20,7 +20,7 @@ var d3Chart = {
   },
 
   getSvgDimensions: function(svg) {
-    var sel = d3.select(svg);
+    let sel = d3.select(svg);
     svg.pixelWidth = sel.style("width").replace("px", "");
     svg.pixelHeight = sel.style("height").replace("px", "");
     svg.centreX = svg.pixelWidth / 2;
@@ -28,7 +28,7 @@ var d3Chart = {
   },
 
   initBubbleCoordsRadius: function(svg, data) {
-    for (var i = 0; i < data.length; i++) {
+    for (let i = 0; i < data.length; i++) {
       data[i].radius = data[i].meetingCount * RADIUS_SCALE;
       data[i].x = Math.random() * svg.pixelWidth;
       data[i].y = Math.random() * svg.pixelHeight;
@@ -68,9 +68,9 @@ var d3Chart = {
   },
 
   update: function(topdiv, svg, data) {
-    var g = d3.select(svg).select('.d3-points');
+    let g = d3.select(svg).select('.d3-points');
 
-    var tooltip = d3.select(topdiv).append("div")
+    let tooltip = d3.select(topdiv).append("div")
                 .attr("class", "tooltip")
                 .style("opacity", 0);
 

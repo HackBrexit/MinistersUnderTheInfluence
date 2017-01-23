@@ -21,7 +21,7 @@ class Logo extends React.Component{
   }
 }
 
-var styles = {
+let styles = {
   base: {
     fontWeight: 'lighter',
     float: 'left',
