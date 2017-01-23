@@ -1,7 +1,5 @@
 var d3 = require('d3');
-
-// FIXME: make this configurable
-var API_URL = "http://localhost:3000/api/v1/";
+var api = require('./api');
 
 var meetingData = {
   sampleData: {
@@ -35,8 +33,8 @@ var meetingData = {
   },
 
   apiURL: function(sourceType, sourceId, targetType) {
-    return API_URL + sourceType + "/" + sourceId +
-      "/meetings?include=" + targetType;
+    return api.URL(sourceType + "/" + sourceId + "/meetings" +
+                   "?include=" + targetType);
   },
 
   dataLoadedHandler: function(onSuccess, url, sourceType, sourceId, targetType) {
