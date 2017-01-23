@@ -54,7 +54,7 @@ defmodule FileCleaner.CSVCleaner do
             |> parse_and_insert_organisations(organisations)
       {[row], Map.put(row_state, :previous_minister, row.minister)}
     {:error, error} ->
-      {[{:error, :unrecognised_row_format, row_index}], row_state}
+      {[{:error, error, row_index}], row_state}
     end
   end
 
