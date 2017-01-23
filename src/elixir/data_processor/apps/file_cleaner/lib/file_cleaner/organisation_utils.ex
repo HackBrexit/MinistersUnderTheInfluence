@@ -1,12 +1,10 @@
 defmodule FileCleaner.OrganisationUtils do
-  @separator_regex ~R{,|;|and|&|/|\\}
+  @separator_regex ~R{,|;| and | & |/|\\}
 
 
   def parse_organisations(organisations_string) do
-    if Regex.match? @separator_regex, organisations_string do
-      :nil
-    else
-      [ String.trim organisations_string ]
-    end
+    organisations_string
+    |> String.split(@separator_regex)
+    |> Enum.map(&String.trim/1)
   end
 end
