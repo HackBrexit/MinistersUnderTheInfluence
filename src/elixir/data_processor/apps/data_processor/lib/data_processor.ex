@@ -19,7 +19,7 @@ defmodule DataProcessor do
     |> File.stream!
     |> MetadataCSVParser.parse_stream(headers: false)
     |> Stream.map(&(process_metadata_row(&1, datafiles_path)))
-    |> Enum.take(2) # TODO: Remove this line so we can process everything
+    |> Enum.take(200) # TODO: Remove this line so we can process everything
     |> Enum.map(&FileProcessor.process/1)
   end
 

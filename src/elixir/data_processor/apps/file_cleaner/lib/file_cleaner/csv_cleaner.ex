@@ -19,7 +19,7 @@ defmodule FileCleaner.CSVCleaner do
     |> Stream.with_index
     |> Stream.transform(:header, &(clean_meeting_row &1, &2, file_metadata))
     |> Stream.reject(&(&1 == :nil))
-    |> Enum.to_list |> inspect |> IO.puts
+    |> Enum.map(&(&1 |> inspect |> IO.puts))
 
     IO.puts inspect(file_metadata)
     {:ok, file_metadata}

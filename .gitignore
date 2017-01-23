@@ -87,3 +87,5 @@ src/ruby/meetings/vendor/bundle
 .lock
 
 *.swp
+
+src/elixir/data_processor/apps/data_processor/info_dump
