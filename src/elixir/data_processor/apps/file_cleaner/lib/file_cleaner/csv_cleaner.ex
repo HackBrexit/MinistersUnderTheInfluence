@@ -40,17 +40,26 @@ defmodule FileCleaner.CSVCleaner do
     {[:nil], row_state}
   end
 
-  defp clean_meeting_row({[minister, date, organisations, reason], row_index}, row_state, file_metadata) do
-    row = %MeetingRow{row: row_index}
-          |> parse_and_insert_minister(String.trim(minister), row_state)
-          |> parse_and_insert_date(date, file_metadata.year)
-          |> parse_and_insert_reason(reason)
-          |> parse_and_insert_organisations(organisations)
-    {[row], Map.put(row_state, :previous_minister, row.minister)}
+  defp clean_meeting_row({csv_row, row_index}, row_state, file_metadata) do
+    case fetch_meeting_values_from_row(csv_row, row_state) do
+    %{minister: minister, date: date, organisations: organisations, reason: reason} ->
+      row = %MeetingRow{row: row_index}
+            |> parse_and_insert_minister(String.trim(minister), row_state)
+            |> parse_and_insert_date(date, file_metadata.year)
+            |> parse_and_insert_reason(reason)
+            |> parse_and_insert_organisations(organisations)
+      {[row], Map.put(row_state, :previous_minister, row.minister)}
+    {:error, error} ->
+      {[{:error, :unrecognised_row_format, row_index}], row_state}
+    end
   end
 
-  defp clean_meeting_row({_, row_index}, row_state, _) do
-    {[{:error, :unrecognised_row_format, row_index}], row_state}
+  defp fetch_meeting_values_from_row([minister, date, organisations, reason], row_state) do
+    %{minister: minister, date: date, organisations: organisations, reason: reason}
+  end
+
+  defp fetch_meeting_values_from_row(_, _) do
+    {:error, :unrecognised_row_format}
   end
 
   defp parse_and_insert_minister(row, "", %RowState{previous_minister: minister}) do
