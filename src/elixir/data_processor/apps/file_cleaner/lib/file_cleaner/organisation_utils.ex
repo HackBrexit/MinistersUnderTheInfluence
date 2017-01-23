@@ -5,7 +5,7 @@ defmodule FileCleaner.OrganisationUtils do
     if Regex.match? @separator_regex, organisations_string do
       :nil
     else
-      [organisations_string]
+      [ String.trim organisations_string ]
     end
   end
 end
