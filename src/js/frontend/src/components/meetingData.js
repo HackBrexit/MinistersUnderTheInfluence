@@ -49,7 +49,7 @@ var meetingData = {
         return;
       }
 
-      if (json["data"].length == 0) {
+      if (json.data.length == 0) {
         var msg = "Didn't find any meetings for " + sourceType +
             " with id " + sourceId;
         alert(msg);
@@ -59,8 +59,8 @@ var meetingData = {
 
       var meetingCounts = self.countMeetingsByTarget(json, targetType);
 
-      if (json["included"]) {
-        var targets = self.meetingTargets(json["included"]);
+      if (json.included) {
+        var targets = self.meetingTargets(json.included);
         self.lookupTargetNames(meetingCounts, targets);
       }
 
@@ -71,8 +71,8 @@ var meetingData = {
   lookupTargetNames: function(meetingCounts, targets) {
     for (var i = 0; i < meetingCounts.length; i++) {
       var meetingCount = meetingCounts[i];
-      var target = targets[meetingCount["targetId"]];
-      meetingCount["targetName"] = target["name"];
+      var target = targets[meetingCount.targetId];
+      meetingCount.targetName = target.name;
     }
   },
 
@@ -83,20 +83,20 @@ var meetingData = {
   // object will represent a person in government, and a count of the
   // number of meetings which targeted that person.
   countMeetingsByTarget: function(json, meetingTargetType) {
-    var data = json["data"];
+    var data = json.data;
 
     var counts = {};
     for (var i = 0; i < data.length; i++) {
       var meeting = data[i];
-      var rels = meeting["relationships"];
-      var targets = rels[meetingTargetType]["data"];
+      var rels = meeting.relationships;
+      var targets = rels[meetingTargetType].data;
       // For some reason, the same target can appear multiple times in
       // the relationship data for a given meeting, so we have to
       // de-duplicate here.
       var targetCounts = {};
       for (var j = 0; j < targets.length; j++) {
         var target = targets[j];
-        targetCounts[target["id"]] = (targetCounts[target["id"]] || 0) + 1;
+        targetCounts[target.id] = (targetCounts[target.id] || 0) + 1;
       }
       for (var targetId in targetCounts) {
         counts[targetId] = (counts[targetId] || 0) + 1;
@@ -117,8 +117,8 @@ var meetingData = {
     var targets = {};
     for (var i = 0; i < included.length; i++) {
       var targetData = included[i];
-      var targetId = targetData["id"];
-      var targetName = targetData["attributes"]["name"];
+      var targetId = targetData.id;
+      var targetName = targetData.attributes.name;
       targets[targetId] = {name: targetName};
     }
     return targets;
@@ -126,8 +126,8 @@ var meetingData = {
 }
 
 meetingData.lookupTargetNames(
-  meetingData.sampleData["meetingCounts"],
-  meetingData.sampleData["targets"],
+  meetingData.sampleData.meetingCounts,
+  meetingData.sampleData.targets,
 );
 
 module.exports = meetingData;
