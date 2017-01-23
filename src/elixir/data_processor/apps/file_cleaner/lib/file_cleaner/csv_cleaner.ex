@@ -5,8 +5,17 @@ defmodule FileCleaner.CSVCleaner do
   alias FileCleaner.OrganisationUtils
 
 
+  @header_types %{
+    "organisation" => :organisations,
+    "minister" => :minister,
+    "date" => :date,
+    "reason" => :reason,
+    "purpose" => :reason
+  }
+
+
   defmodule RowState do
-    defstruct previous_minister: :nil
+    defstruct previous_minister: :nil, data_positions: :nil
   end
 
 
@@ -36,12 +45,14 @@ defmodule FileCleaner.CSVCleaner do
 
   defp clean_meeting_row(row, :header, _file_metadata) do
     IO.puts inspect(row)
-    # Can make a call here to validate the headers are sensible
-    {[:nil], %RowState{}}
+    data_positions = meeting_data_positions_from_header row
+    {[:nil], %RowState{data_positions: data_positions}}
   end
 
   defp clean_meeting_row({csv_row, row_index}, row_state, file_metadata) do
     case fetch_meeting_values_from_row(csv_row, row_state) do
+    %{minister: "", date: "", organisations: "", reason: ""} ->
+      {[:nil], row_state}
     %{minister: minister, date: date, organisations: organisations, reason: reason} ->
       row = %MeetingRow{row: row_index}
             |> parse_and_insert_minister(String.trim(minister), row_state)
@@ -49,24 +60,45 @@ defmodule FileCleaner.CSVCleaner do
             |> parse_and_insert_reason(reason)
             |> parse_and_insert_organisations(organisations)
       {[row], Map.put(row_state, :previous_minister, row.minister)}
-    :nil ->
-      {[:nil], row_state}
-    {:error, error} ->
-      {[{:error, error, row_index}], row_state}
+    _ ->
+      if row_is_empty? csv_row do
+        {[:nil], row_state}
+      else
+        {[{:error, :invalid_row, row_index}], row_state}
+      end
     end
   end
 
 
-  defp fetch_meeting_values_from_row([minister, date, organisations, reason], _row_state) do
-    %{minister: minister, date: date, organisations: organisations, reason: reason}
+  defp meeting_data_positions_from_header({header_row, _}) do
+    Enum.map header_row, &(extract_column_type String.trim(&1))
   end
 
-  defp fetch_meeting_values_from_row(csv_row, _) do
-    if row_is_empty? csv_row do
-      :nil
+
+  defp extract_column_type(""), do: :empty
+
+  defp extract_column_type(header_value) do
+    extract_column_type(header_value, Map.keys(@header_types))
+  end
+
+  defp extract_column_type(_header_value, []), do: :unknown
+
+  defp extract_column_type(header_value, [type_key | remaining_types]) do
+    key_matches = header_value
+                  |> String.downcase
+                  |> String.contains?(type_key)
+    if key_matches do
+      @header_types[type_key]
     else
-      {:error, :unrecognised_row_format}
+      extract_column_type(header_value, remaining_types)
     end
+  end
+
+
+  defp fetch_meeting_values_from_row(csv_row, row_state) do
+    row_state.data_positions
+    |> Enum.zip(csv_row)
+    |> Enum.into(%{})
   end
 
 
