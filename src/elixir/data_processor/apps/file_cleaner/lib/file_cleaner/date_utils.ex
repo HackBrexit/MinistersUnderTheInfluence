@@ -27,7 +27,7 @@ defmodule FileCleaner.DateUtils do
     "december" => 12
   }
 
-  @date_regex ~r{(?:(?<day>\d?\d)?[-/])??(?<month>#{Enum.join Map.keys(@recognised_months), "|"}|\d?\d)[-/]?(?<year>(19|20)?\d\d)?}
+  @date_regex ~r{^(?:(?<day>\d?\d)?[-/])??(?<month>#{Enum.join Map.keys(@recognised_months), "|"}|\d?\d)[-/]?(?<year>(19|20)?\d\d)?$}
 
 
   defp normalise_day(""), do: :nil
