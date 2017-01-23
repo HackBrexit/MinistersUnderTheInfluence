@@ -1,6 +1,8 @@
 defmodule FileCleaner.CSVCleaner do
   NimbleCSV.define(CSVParser, separator: ",", escape: "\"")
 
+  alias FileCleaner.DateUtils
+
   defmodule RowState do
     defstruct previous_minister: :nil
   end
@@ -39,7 +41,7 @@ defmodule FileCleaner.CSVCleaner do
   defp clean_meeting_row({[minister, date, organisations, reason], row_index}, row_state, file_metadata) do
     row = %MeetingRow{row: row_index}
           |> parse_and_insert_minister(String.trim(minister), row_state)
-          # |> parse_and_insert_date(date, file_metadata.year)
+          |> parse_and_insert_date(date, file_metadata.year)
           |> parse_and_insert_reason(reason)
           # |> parse_and_insert_organisations(organisations)
     {[row], Map.put(row_state, :previous_minister, row.minister)}
@@ -55,5 +57,11 @@ defmodule FileCleaner.CSVCleaner do
 
   defp parse_and_insert_reason(row, reason) do
     Map.put(row, :reason, reason)
+  end
+
+  defp parse_and_insert_date(row, date_string, default_year) do
+    date_tuple = DateUtils.date_string_to_tuple date_string, default_year
+    Map.put(row, :start_date, date_tuple)
+    |> Map.put(:end_date, date_tuple)
   end
 end
