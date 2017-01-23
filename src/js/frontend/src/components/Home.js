@@ -20,10 +20,10 @@ class OrgList extends React.Component {
       <p>
         Here are sample URLs you can use to visualize parts of the
         data set relating to a given organisation.  They assume that
-        the organisation BAE Systems has id 369 in the database and
-        that David Cameron has id 755, so currently you will have to
-        manually adjust the URLs to point to the right ids, but we'll
-        hopefully fix that soon.
+        the organisation BAE Systems has id 369 in the database, that
+        David Cameron has id 755, and that the FCO has id 437, so
+        currently you will have to manually adjust the URLs to point
+        to the right ids, but we'll hopefully fix that soon.
       </p>
       <ul>
         <li>
@@ -41,14 +41,12 @@ class OrgList extends React.Component {
             See which organisations met with David Cameron the most
           </Link>
         </li>
-{/* Can't do this one yet
         <li>
           <Link to="/government-office/437/organisations">
             See which organisations met with the Foreign &amp; Commonwealth
             Office the most
           </Link>
         </li>
-*/}
       </ul>
     </div>
   }
