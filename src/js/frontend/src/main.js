@@ -43,7 +43,10 @@ const loggerMiddleware = createLogger({
 // ))
 
 
-const store = createStore(aboutReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+const store = createStore(
+  reducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 // now everything is set up, create a loader and use it to load the store
 const load = storage.createLoader(engine)
