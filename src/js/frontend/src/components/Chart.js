@@ -33,6 +33,10 @@ let Chart = React.createClass({
     )
   },
 
+  shouldComponentUpdate: function() {
+    return false;
+  },
+
   componentDidMount: function() {
     this.getData();
   },
