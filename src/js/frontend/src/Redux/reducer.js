@@ -6,7 +6,8 @@ import * as actionTypes from "./action-types";
 
 export function rootReducer (state = IMap(), action) {
   return state.merge({
-    showAboutScreen: aboutReducer(state.get("showAboutScreen", undefined), action),
+    showAboutScreen: aboutReducer(state.get("showAboutScreen", undefined),
+                                  action),
   })
   return state;
 }
@@ -22,14 +23,11 @@ const defaultState = {
   showAboutScreen: false,
 };
 
-export function aboutReducer(state = defaultState, {type}) {
-  let newState = Object.assign({}, state);
-
+export function aboutReducer(state = defaultState.showAboutScreen, {type}) {
   switch (type) {
     case actionTypes.TOGGLE_ABOUT:
-      newState.showAboutScreen = !newState.showAboutScreen;
-      return newState;
+      return !state;
     default:
-      return newState;
+      return state;
   }
 }
