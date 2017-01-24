@@ -16,13 +16,40 @@ defmodule DataProcessor do
 
 
   def process_metadata_file(metadata_file_path, datafiles_path) do
+    write_header_row
     metadata_file_path
     |> File.stream!
     |> MetadataCSVParser.parse_stream(headers: false)
     |> Stream.map(&(process_metadata_row(&1, datafiles_path)))
-    |> Enum.take(200) # TODO: Remove this line so we can process everything
-    |> Enum.map(&FileProcessor.process/1)
+    |> Stream.map(&FileProcessor.process/1)
+    |> Stream.filter(fn ({:ok,_}) -> true; (_) -> false end)
+    |> Stream.flat_map(&prepare_file_for_csv/1)
+    |> Stream.with_index(1)
+    |> Stream.flat_map(&prepare_row_for_csv/1)
+    |> MetadataCSVParser.dump_to_stream
+    |> Enum.into(File.stream!("processed_data.csv", [:delayed_write, :append]))
   end
+
+
+  def write_header_row() do
+    [[
+      "Meeting ID",
+      "Minister",
+      "Role",
+      "Department",
+      "Start Date",
+      "End Date",
+      "Organisation",
+      "Representative",
+      "Reason",
+      "Hopspitality?",
+      "Original File",
+      "Original Row"
+    ]]
+    |> MetadataCSVParser.dump_to_stream
+    |> Enum.into(File.stream!("processed_data.csv", [:delayed_write]))
+  end
+
 
   def process_metadata_row(file_metadata_row, datafiles_path) do
     file_metadata_row
@@ -52,6 +79,53 @@ defmodule DataProcessor do
     |> Enum.join("_")
     |> append_to_path(datafiles_path)
     |> put_into_map_at(file_metadata, :filename)
+  end
+
+
+  defp prepare_file_for_csv({:ok, file_metadata}) do
+    file_metadata.rows
+    |> Stream.filter(fn ({:error,_,_}) -> false; (_) -> true end)
+    |> Stream.map(&({file_metadata, &1}))
+  end
+
+
+  defp prepare_row_for_csv({{file_data, row_data}, row_index}) do
+    row_data.organisations
+    |> Stream.filter(fn ({:error,_,_}) -> false; (_) -> true end)
+    |> Stream.map(&(prepare_row_for_csv({file_data, row_data, row_index,  &1})))
+  end
+
+  defp prepare_row_for_csv({file_data, row_data, row_index,  organisation}) do
+    [
+      row_index,
+      row_data.minister,
+      "",
+      file_data.department,
+      format_date(row_data.start_date),
+      format_date(row_data.end_date),
+      organisation,
+      "",
+      row_data.reason,
+      0,
+      Path.basename(file_data.filename),
+      row_data.row
+    ]
+  end
+
+
+  defp format_date(%{day: :nil, month: month, year: year}) do
+    Enum.join [
+      (month |> Integer.to_string |> String.rjust(2, ?0)),
+      year
+    ], "-"
+  end
+
+  defp format_date(%{day: day, month: month, year: year}) do
+    Enum.join [
+      (day |> Integer.to_string |> String.rjust(2, ?0)),
+      (month |> Integer.to_string |> String.rjust(2, ?0)),
+      year
+    ], "-"
   end
 
 
