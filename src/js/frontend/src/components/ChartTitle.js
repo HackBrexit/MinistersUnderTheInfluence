@@ -6,7 +6,7 @@ import { Link } from 'react-router'
 function ChartTitle (props) {
   let description = props.sourceName ?
       <p style={{width: "50%", display: "inline"}}>
-        Showing all meetings with {props.sourceName}
+        Showing all meetings of {props.targetType} with {props.sourceName}
       </p>
     : "";
 
