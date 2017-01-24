@@ -3,6 +3,7 @@ defmodule FileCleaner.CSVCleaner do
 
   alias FileCleaner.DateUtils
   alias FileCleaner.OrganisationUtils
+  alias FileCleaner.Canonicaliser
 
 
   @header_types %{
@@ -127,6 +128,7 @@ defmodule FileCleaner.CSVCleaner do
     |> String.replace(~r{ MP[ ,].*$}, " MP")
     |> String.replace(~r{\(.*\)}, "")
     |> trim_spaces_and_commas
+    |> Canonicaliser.canonicalise
   end
 
 
@@ -146,6 +148,7 @@ defmodule FileCleaner.CSVCleaner do
   defp clean_reason(reason) do
     reason
     |> trim_spaces_and_commas
+    |> Canonicaliser.canonicalise
   end
 
 
@@ -167,5 +170,6 @@ defmodule FileCleaner.CSVCleaner do
   defp clean_organisation_name(name) do
     name
     |> trim_spaces_and_commas
+    |> Canonicaliser.canonicalise
   end
 end

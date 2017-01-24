@@ -18,7 +18,7 @@ defmodule DataProcessor.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger]]
+    [applications: [:logger, :file_cleaner]]
   end
 
   # Dependencies can be Hex packages:
@@ -36,6 +36,7 @@ defmodule DataProcessor.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [{:file_processor, in_umbrella: true},
+     {:file_cleaner, in_umbrella: true},
      {:nimble_csv, "0.1.1"}
     ]
   end
