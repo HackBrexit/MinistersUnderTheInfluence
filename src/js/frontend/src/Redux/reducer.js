@@ -4,6 +4,9 @@ import * as actionTypes from "./action-types";
 ////////////////////////////////////////////////////////////////////////////////
 // root reducer
 
+// FIXME: switch to use combineReducers?
+// http://redux.js.org/docs/api/combineReducers.html
+
 export function rootReducer (state = IMap(), action) {
   return state.merge({
     showAboutScreen: aboutReducer(state.get("showAboutScreen", undefined),
