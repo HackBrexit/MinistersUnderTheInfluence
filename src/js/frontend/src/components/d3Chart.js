@@ -4,7 +4,7 @@
 // them.
 
 // FIXME: make this constant configurable
-let RADIUS_SCALE = 10;
+let RADIUS_SCALE = 25;
 
 let d3 = require('d3');
 let meetingData = require('./meetingData');
@@ -29,7 +29,7 @@ let d3Chart = {
 
   initBubbleCoordsRadius: function(svg, data) {
     for (let i = 0; i < data.length; i++) {
-      data[i].radius = data[i].meetingCount * RADIUS_SCALE;
+      data[i].radius = Math.sqrt(data[i].meetingCount) * RADIUS_SCALE;
       data[i].x = Math.random() * svg.pixelWidth;
       data[i].y = Math.random() * svg.pixelHeight;
     }
