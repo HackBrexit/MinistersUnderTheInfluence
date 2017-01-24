@@ -1,3 +1,33 @@
 // Place all the styles related to the main controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+body {
+  background-color: black;
+  color: white;
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+  margin: 33px;
+  background-image:url('https://upload.wikimedia.org/wikipedia/commons/c/c1/Number10_Downing_Street_MOD_45155520.jpg');
+  background-size: 100%;
+}
+caption {
+  caption-side: top;
+  color: white;
+}
+.table {
+  opacity: 0.95;
+}
+h1.main{font-size: 60px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 100px;
+}
+article{
+  background-color: black;
+  opacity: 0.98;
+}
+pre, .card{color:white;
+  background-color: darkgrey;
+  border: 1px solid darkred;}
+.card{opacity: 0.95}

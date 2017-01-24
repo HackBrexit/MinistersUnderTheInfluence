@@ -1,6 +1,10 @@
 ---
 de:
-  hello: Hallo Welt
+  date:
+    formats:
+      short: "%B %Y"
+      default: "%D %m, %Y"
+  hello: Hallm Welt
   show: Show
   edit: Bearbeiten
   back: Zurück
@@ -8,7 +12,6 @@ de:
   delete: Löschen
   save: Speichern
   home_page: Zuhause
-  application_name: ministerial_meetings
   toggle_navigation: Toggle-Navigation
   not_authorised: Zugriff verweigert. Du bist nicht berechtigt, dies zu tun
   not_authenticated: Zugriff verweigert. Sie müssen sich zuerst einloggen
@@ -33,3 +36,67 @@ de:
     :up: USA - Spanisch
     :ca: Kanada - English
     :cf: Kanada - Französisch
+    :es: Spanien
+  activerecord:
+    models:
+      meeting:
+        one: Sitzung
+        other: Treffen
+      hospitality:
+        one: Gastfreundschaft
+        other: Gastfreundschaft
+      gift:
+        one: Geschenk
+        other: Geschenke
+      travel:
+        one: Reise
+        other: Reisen
+      person:
+        one: Person
+        other: Menschen
+      government_office:
+        one: Regierungsbüro
+        other: Regierungsbüros
+      organisation:
+        one: Organisation
+        other: Organisationen
+    attributes:
+      means_of_influence:
+        day: Tag
+        month: Monat
+        year: Jahr
+      meeting:
+        day: Tag
+        month: Monat
+        year: Jahr
+        purpose: Zweck der Tagung
+      travel:
+        day: Tag
+        month: Monat
+        year: Jahr
+        purpose: Zweck der Reise
+      hospitality:
+        day: Tag
+        month: Monat
+        year: Jahr
+        type_of_hospitality: Art der Gastfreundschaft
+      gift:
+        day: Tag
+        month: Monat
+        year: Jahr
+        gift: Geschenk
+        value: Wert
+      entity:
+        name: Name
+        wikipedia_entry: Wikipedia-Eintrag
+      person:
+        name: Name
+        wikipedia_entry: Wikipedia-Eintrag
+      government_office:
+        name: Name
+        wikipedia_entry: Wikipedia-Eintrag
+      organisation:
+        name: Name
+        wikipedia_entry: Wikipedia-Eintrag
+  application_name: Minister unter dem Einfluss
+  documentation: Dokumentation

@@ -6,11 +6,10 @@ Fixes #<ISSUE-NUMBER>
 
 ## Notes
 
-Notes on the **Pull Request**. 
+Notes on the **Pull Request**.
 
 For example: *Run database schema migrations first.*
 
 ## Tasks
 
 * [ ] Documentation (inc. diagrams) - create/update accordingly
-
