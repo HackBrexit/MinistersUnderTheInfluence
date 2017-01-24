@@ -112,16 +112,40 @@ defmodule FileCleaner.CSVCleaner do
 
 
   defp parse_and_insert_minister(row, "", %RowState{previous_minister: minister}) do
-    Map.put(row, :minister, minister)
+    Map.put(row, :minister, clean_minister_name(minister))
   end
 
   defp parse_and_insert_minister(row, minister, _) do
-    Map.put(row, :minister, minister)
+    Map.put(row, :minister, clean_minister_name(minister))
+  end
+
+
+  defp clean_minister_name(:nil), do: :nil
+  defp clean_minister_name(minister) do
+    minister
+    |> String.replace(~r{^.* Rt Hon}, "Rt Hon")
+    |> String.replace(~r{ MP[ ,].*$}, " MP")
+    |> String.replace(~r{\(.*\)}, "")
+    |> trim_spaces_and_commas
   end
 
 
   defp parse_and_insert_reason(row, reason) do
-    Map.put(row, :reason, reason)
+    Map.put(row, :reason, clean_reason(reason))
+  end
+
+
+  defp trim_spaces_and_commas(string) do
+    string
+    |> String.trim
+    |> String.trim(",")
+    |> String.trim
+  end
+
+
+  defp clean_reason(reason) do
+    reason
+    |> trim_spaces_and_commas
   end
 
 
@@ -134,6 +158,14 @@ defmodule FileCleaner.CSVCleaner do
 
 
   defp parse_and_insert_organisations(row, organisations_string) do
-    Map.put(row, :organisations, OrganisationUtils.parse_organisations(organisations_string))
+    organisations = OrganisationUtils.parse_organisations(organisations_string)
+                    |> Stream.map(&clean_organisation_name/1)
+    Map.put(row, :organisations, organisations)
+  end
+
+
+  defp clean_organisation_name(name) do
+    name
+    |> trim_spaces_and_commas
   end
 end
