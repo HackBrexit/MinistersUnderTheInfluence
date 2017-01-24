@@ -1,6 +1,7 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import Radium from "radium"
+import { Link } from 'react-router'
 
 let d3Chart = require('./d3Chart');
 let meetingData = require('./meetingData');
@@ -17,16 +18,19 @@ let Chart = React.createClass({
 
   render: function() {
     return (
-      <div
-        style={[
-          styles.base,
-        ]}
-        className="chart" ref="topdiv">
-        <svg className="d3" ref="svg"
-             width={this.props.width}
-             height={this.props.height}>
-          <g className="d3-points" />
-        </svg>
+      <div>
+        <Link to="/">Back to home</Link>
+        <div
+          style={[
+            styles.base,
+          ]}
+          className="chart" ref="topdiv">
+          <svg className="d3" ref="svg"
+               width={this.props.width}
+               height={this.props.height}>
+            <g className="d3-points" />
+          </svg>
+        </div>
       </div>
     )
   },
