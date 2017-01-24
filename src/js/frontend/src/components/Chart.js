@@ -13,13 +13,23 @@ let Chart = React.createClass({
     data: React.PropTypes.object,
     sourceType: React.PropTypes.string.isRequired,
     sourceId: React.PropTypes.string,
+    sourceName: React.PropTypes.string,
     targetType: React.PropTypes.string,
   },
 
   render: function() {
+    let description = this.props.sourceName ?
+        <p style={{width: "50%", display: "inline"}}>
+          Showing all meetings with {this.props.sourceName}
+        </p>
+      : "";
+
     return (
       <div>
-        <Link to="/">Back to home</Link>
+        <div>
+          {description}
+          <Link style={{float: "right"}} to="/">Back to home</Link>
+        </div>
         <div
           style={[
             styles.base,
