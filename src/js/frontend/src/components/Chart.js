@@ -18,29 +18,17 @@ let Chart = React.createClass({
   },
 
   render: function() {
-    let description = this.props.sourceName ?
-        <p style={{width: "50%", display: "inline"}}>
-          Showing all meetings with {this.props.sourceName}
-        </p>
-      : "";
-
     return (
-      <div>
-        <div>
-          {description}
-          <Link style={{float: "right"}} to="/">Back to home</Link>
-        </div>
-        <div
-          style={[
-            styles.base,
-          ]}
-          className="chart" ref="topdiv">
-          <svg className="d3" ref="svg"
-               width={this.props.width}
-               height={this.props.height}>
-            <g className="d3-points" />
-          </svg>
-        </div>
+      <div
+        style={[
+          styles.base,
+        ]}
+        className="chart" ref="topdiv">
+        <svg className="d3" ref="svg"
+             width={this.props.width}
+             height={this.props.height}>
+          <g className="d3-points" />
+        </svg>
       </div>
     )
   },

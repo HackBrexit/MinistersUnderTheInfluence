@@ -2,6 +2,7 @@ import React from "react"
 import Radium from "radium"
 import { connect } from 'react-redux';
 
+import ChartTitle from "../components/ChartTitle"
 import Chart from "../components/Chart"
 import entityData from "../components/entityData"
 import * as actions from "../Redux/actions"
@@ -20,9 +21,9 @@ class ChartContainer extends React.Component {
     let entityName = entityData && entityData.get("name");
 
     return <div className="chart-container">
+      <ChartTitle sourceName={entityName} />
       <Chart width="100%" height="100%"
              sourceType={sourceType}
-             sourceName={entityName}
              sourceId={id}
              targetType={this.props.params.targetType} />
     </div>
