@@ -1,0 +1,13 @@
+{application,file_cleaner,
+             [{registered,[]},
+              {description,"file_cleaner"},
+              {vsn,"0.1.0"},
+              {modules,['Elixir.CSVParser','Elixir.FileCleaner',
+                        'Elixir.FileCleaner.CSVCleaner',
+                        'Elixir.FileCleaner.CSVCleaner.MeetingRow',
+                        'Elixir.FileCleaner.CSVCleaner.RowState',
+                        'Elixir.FileCleaner.Canonicaliser',
+                        'Elixir.FileCleaner.DateUtils',
+                        'Elixir.FileCleaner.OrganisationUtils']},
+              {applications,[kernel,stdlib,elixir,logger]},
+              {mod,{'Elixir.FileCleaner',[]}}]}.
