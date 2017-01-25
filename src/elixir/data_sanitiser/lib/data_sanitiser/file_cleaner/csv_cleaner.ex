@@ -3,7 +3,7 @@ defmodule DataSanitiser.FileCleaner.CSVCleaner do
 
   alias DataSanitiser.DateUtils
   alias DataSanitiser.FileCleaner.OrganisationUtils
-  alias DataSanitiser.FileCleaner.Canonicaliser
+  alias DataSanitiser.Canonicaliser
 
 
   @header_types %{

@@ -8,7 +8,7 @@ defmodule DataSanitiser.FileCleaner do
 
     # Define workers and child supervisors to be supervised
     children = [
-      worker(DataSanitiser.FileCleaner.Canonicaliser, []),
+      worker(DataSanitiser.Canonicaliser, []),
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
