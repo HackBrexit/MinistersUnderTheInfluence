@@ -34,6 +34,6 @@ defmodule DataSanitiser.CLI do
   end
 
   def process({ metadata_file_path, datafiles_path }) do
-    DataSanitiser.process_metadata_file(metadata_file_path, datafiles_path)
+    DataSanitiser.MetadataProcessor.run(metadata_file_path, datafiles_path)
   end
 end

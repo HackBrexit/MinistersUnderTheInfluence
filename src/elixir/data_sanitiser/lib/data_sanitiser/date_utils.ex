@@ -28,6 +28,17 @@ defmodule DataSanitiser.DateUtils do
   }
 
   @date_regex ~r{^(?:(?<day>\d?\d)?[-/])??(?<month>#{Enum.join Map.keys(@recognised_months), "|"}|\d?\d)[-/]?(?<year>(19|20)?\d\d)?$}
+  @year_regular_expressions [
+    # Match four digit runs at the start that begin with 19 or 20
+    ~R/\A((?:19|20)\d{2})(?:\Z|\D)/,
+    # Match four digit runs not at the start (must have a non-digit in front)
+    # that begin with 19 or 20
+    ~R/(?:\D)((?:19|20)\d{2})(?:\Z|\D)/,
+    # Match two digit runs at the start
+    ~R/\A(\d{2})(?:\Z|\D)/,
+    # Match two digit runs not at the start (must have a non-digit in front)
+    ~R/(?:\D)(\d{2})(?:\Z|\D)/
+  ]
 
 
   defp normalise_day(""), do: :nil
@@ -41,10 +52,10 @@ defmodule DataSanitiser.DateUtils do
   defp normalise_month(_), do: :nil
 
 
-  def normalise_year(""), do: :nil
-  def normalise_year(year) when is_binary(year), do: normalise_year String.to_integer(year)
-  def normalise_year(year) when year < 100, do: normalise_year(year + 2000)
-  def normalise_year(year) do
+  defp normalise_year(""), do: :nil
+  defp normalise_year(year) when is_binary(year), do: normalise_year String.to_integer(year)
+  defp normalise_year(year) when year < 100, do: normalise_year(year + 2000)
+  defp normalise_year(year) do
     current_year = DateTime.utc_now.year
     cond do
       year > current_year -> year - 100
@@ -72,5 +83,27 @@ defmodule DataSanitiser.DateUtils do
     { day, month, year }
       -> %{ day: day, month: month, year: year }
     end
+  end
+
+
+  def extract_year_from_string(string) when is_binary(string) do
+    years = @year_regular_expressions
+            |> Stream.flat_map(&(scan_and_flatten &1, string))
+            |> Stream.map(&String.to_integer/1)
+            |> Enum.map(&normalise_year/1)
+    case years do
+    [ year ] ->
+      year
+    [] ->
+      :nil
+    _ -> :ambiguous
+    end
+  end
+
+
+  defp scan_and_flatten(regex, string) do
+    regex
+    |> Regex.scan(string, capture: :all_but_first)
+    |> List.flatten
   end
 end
