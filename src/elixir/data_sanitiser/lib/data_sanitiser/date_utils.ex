@@ -41,10 +41,10 @@ defmodule DataSanitiser.DateUtils do
   defp normalise_month(_), do: :nil
 
 
-  defp normalise_year(""), do: :nil
-  defp normalise_year(year) when is_binary(year), do: normalise_year String.to_integer(year)
-  defp normalise_year(year) when year < 100, do: normalise_year(year + 2000)
-  defp normalise_year(year) do
+  def normalise_year(""), do: :nil
+  def normalise_year(year) when is_binary(year), do: normalise_year String.to_integer(year)
+  def normalise_year(year) when year < 100, do: normalise_year(year + 2000)
+  def normalise_year(year) do
     current_year = DateTime.utc_now.year
     cond do
       year > current_year -> year - 100

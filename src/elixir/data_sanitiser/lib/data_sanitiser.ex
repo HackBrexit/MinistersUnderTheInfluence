@@ -3,6 +3,7 @@ defmodule DataSanitiser do
 
   alias DataSanitiser.FileProcessor
   alias DataSanitiser.FileMetadata
+  alias DataSanitiser.DateUtils
 
   @known_data_types ["gifts", "hospitality", "meetings", "travel"]
   @year_regular_expressions [
@@ -152,7 +153,7 @@ defmodule DataSanitiser do
     years = @year_regular_expressions
             |> Stream.flat_map(&(scan_and_flatten &1, info_string))
             |> Stream.map(&String.to_integer/1)
-            |> Enum.map(&normalise_year/1)
+            |> Enum.map(&DateUtils.normalise_year/1)
     case years do
     [ year ] ->
       year
@@ -180,16 +181,6 @@ defmodule DataSanitiser do
     regex
     |> Regex.scan(string, capture: :all_but_first)
     |> List.flatten
-  end
-
-
-  defp normalise_year(year) when year < 100, do: normalise_year(year + 2000)
-  defp normalise_year(year) do
-    current_year = DateTime.utc_now.year
-    cond do
-      year > current_year -> year - 100
-      true -> year
-    end
   end
 
 
