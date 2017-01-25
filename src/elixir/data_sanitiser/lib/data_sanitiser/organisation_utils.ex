@@ -1,4 +1,4 @@
-defmodule DataSanitiser.FileCleaner.OrganisationUtils do
+defmodule DataSanitiser.OrganisationUtils do
   @separator_regex ~R{,|;| and | & |/|\\}
 
 
