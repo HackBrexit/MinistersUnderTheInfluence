@@ -1,5 +1,5 @@
 defmodule DataSanitiser do
-  NimbleCSV.define(MetadataCSVParser, separator: ",", escape: "\"")
+  NimbleCSV.define(CSVParser, separator: ",", escape: "\"")
 
   alias DataSanitiser.FileProcessor
   alias DataSanitiser.FileMetadata
@@ -22,14 +22,14 @@ defmodule DataSanitiser do
     write_header_row
     metadata_file_path
     |> File.stream!
-    |> MetadataCSVParser.parse_stream(headers: false)
+    |> CSVParser.parse_stream(headers: false)
     |> Stream.map(&(process_metadata_row(&1, datafiles_path)))
     |> Stream.map(&FileProcessor.process/1)
     |> Stream.filter(fn ({:ok,_}) -> true; (_) -> false end)
     |> Stream.flat_map(&prepare_file_for_csv/1)
     |> Stream.with_index(1)
     |> Stream.flat_map(&prepare_row_for_csv/1)
-    |> MetadataCSVParser.dump_to_stream
+    |> CSVParser.dump_to_stream
     |> Enum.into(File.stream!("processed_data.csv", [:delayed_write, :append]))
   end
 
@@ -49,7 +49,7 @@ defmodule DataSanitiser do
       "Original File",
       "Original Row"
     ]]
-    |> MetadataCSVParser.dump_to_stream
+    |> CSVParser.dump_to_stream
     |> Enum.into(File.stream!("processed_data.csv", [:delayed_write]))
   end
 
