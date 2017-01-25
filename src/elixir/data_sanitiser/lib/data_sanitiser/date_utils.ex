@@ -1,4 +1,4 @@
-defmodule DataSanitiser.FileCleaner.DateUtils do
+defmodule DataSanitiser.DateUtils do
 
   @recognised_months %{
     "jan" => 1,
