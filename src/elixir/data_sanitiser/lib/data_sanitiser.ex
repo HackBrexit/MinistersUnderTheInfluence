@@ -2,6 +2,7 @@ defmodule DataSanitiser do
   NimbleCSV.define(MetadataCSVParser, separator: ",", escape: "\"")
 
   alias DataSanitiser.FileProcessor
+  alias DataSanitiser.FileMetadata
 
   @known_data_types ["gifts", "hospitality", "meetings", "travel"]
   @year_regular_expressions [
@@ -64,7 +65,7 @@ defmodule DataSanitiser do
 
 
   def convert_row_to_struct([_, name, department, title, publish_date, source_url]) do
-    %FileProcessor.FileMetadata{
+    %FileMetadata{
       name: name,
       department: department,
       title: title,

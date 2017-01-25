@@ -1,7 +1,7 @@
 defmodule DataSanitiser.FileProcessor do
   use Application
 
-  alias DataSanitiser.FileProcessor.FileMetadata
+  alias DataSanitiser.FileMetadata
 
 
   @processing_steps [
