@@ -1,7 +1,7 @@
-defmodule FileProcessor do
+defmodule DataProcessor.FileProcessor do
   use Application
 
-  alias FileProcessor.FileMetadata
+  alias DataProcessor.FileProcessor.FileMetadata
 
 
   @processing_steps [

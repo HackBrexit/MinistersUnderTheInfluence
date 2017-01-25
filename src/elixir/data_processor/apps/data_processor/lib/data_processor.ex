@@ -1,6 +1,8 @@
 defmodule DataProcessor do
   NimbleCSV.define(MetadataCSVParser, separator: ",", escape: "\"")
 
+  alias DataProcessor.FileProcessor
+
   @known_data_types ["gifts", "hospitality", "meetings", "travel"]
   @year_regular_expressions [
     # Match four digit runs at the start that begin with 19 or 20
