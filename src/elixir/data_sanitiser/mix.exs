@@ -3,6 +3,7 @@ defmodule DataSanitiser.Mixfile do
 
   def project do
     [app: :data_sanitiser,
+     escript: escript_config,
      version: "0.1.0",
      build_path: "_build",
      config_path: "config/config.exs",
@@ -33,5 +34,9 @@ defmodule DataSanitiser.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [{:nimble_csv, "0.1.1"}]
+  end
+
+  defp escript_config do
+    [ main_module: DataSanitiser.CLI ]
   end
 end
