@@ -88,10 +88,8 @@ src/ruby/meetings/vendor/bundle
 
 *.swp
 
-src/elixir/data_processor/apps/data_processor/info_dump
-
-src/elixir/data_processor/apps/data_processor/processed_data.csv
-
-src/elixir/data_processor/apps/data_processor/processed_data_original.csv
-
 src/elixir/data_sanitiser/info_dump
+
+src/elixir/data_sanitiser/processed_data.csv
+
+src/elixir/data_sanitiser/processed_data_original.csv
