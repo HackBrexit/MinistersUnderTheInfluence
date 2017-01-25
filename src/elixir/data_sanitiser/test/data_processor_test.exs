@@ -1,6 +1,6 @@
-defmodule DataProcessorTest do
+defmodule DataSanitiserTest do
   use ExUnit.Case
-  doctest DataProcessor
+  doctest DataSanitiser
 
   test "the truth" do
     assert 1 + 1 == 2

@@ -1,9 +1,9 @@
 ==> nimble_csv
 Compiling 1 file (.ex)
 Generated nimble_csv app
-==> data_processor
+==> data_sanitiser
 Compiling 9 files (.ex)
-Generated data_processor app
+Generated data_sanitiser app
 Unable to process files of type pdf (/Users/brexit/MinistersUnderTheInfluenceMaster/src/php/gov-harvester/datafiles/470951_MEETINGS_WITH_EXTERNAL_ORGANISATIONS.pdf)
 Unable to determine the type of data in file (/Users/brexit/MinistersUnderTheInfluenceMaster/src/php/gov-harvester/datafiles/15521_AGO_media_Jan_-_March_12.csv)
 Unable to determine the type of data in file (/Users/brexit/MinistersUnderTheInfluenceMaster/src/php/gov-harvester/datafiles/15523_AGO_media_Oct_-_dec_11.csv)

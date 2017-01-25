@@ -1,8 +1,8 @@
 defmodule CliTest do
   use ExUnit.Case
-  doctest DataProcessor
+  doctest DataSanitiser
 
-  import DataProcessor.CLI, only: [ parse_args: 1 ]
+  import DataSanitiser.CLI, only: [ parse_args: 1 ]
 
   test ":help returned by option parsing with -h and --help options" do
     assert parse_args(["-h", "anything"]) == :help

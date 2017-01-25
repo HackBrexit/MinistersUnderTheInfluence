@@ -10,11 +10,11 @@ use Mix.Config
 
 # You can configure for your application as:
 #
-#     config :data_processor, key: :value
+#     config :data_sanitiser, key: :value
 #
 # And access this configuration in your application as:
 #
-#     Application.get_env(:data_processor, :key)
+#     Application.get_env(:data_sanitiser, :key)
 #
 # Or configure a 3rd-party app:
 #

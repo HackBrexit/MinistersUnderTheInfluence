@@ -1,8 +1,8 @@
-defmodule DataProcessor.Mixfile do
+defmodule DataSanitiser.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :data_processor,
+    [app: :data_sanitiser,
      version: "0.1.0",
      build_path: "_build",
      config_path: "config/config.exs",
@@ -19,7 +19,7 @@ defmodule DataProcessor.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     [applications: [:logger],
-     mod: {DataProcessor.FileCleaner, []}]
+     mod: {DataSanitiser.FileCleaner, []}]
   end
 
   # Dependencies can be Hex packages:
