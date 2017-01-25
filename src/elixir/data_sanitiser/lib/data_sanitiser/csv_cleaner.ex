@@ -1,4 +1,4 @@
-defmodule DataSanitiser.FileCleaner.CSVCleaner do
+defmodule DataSanitiser.CSVCleaner do
   NimbleCSV.define(CSVParser, separator: ",", escape: "\"")
 
   alias DataSanitiser.DateUtils

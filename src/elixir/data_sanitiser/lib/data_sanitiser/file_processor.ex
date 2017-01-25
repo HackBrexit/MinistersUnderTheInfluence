@@ -72,7 +72,7 @@ defmodule DataSanitiser.FileProcessor do
 
 
   def do_clean_file(file_metadata = %FileMetadata{file_type: :csv}) do
-    DataSanitiser.FileCleaner.CSVCleaner.clean_file file_metadata
+    DataSanitiser.CSVCleaner.clean_file file_metadata
   end
 
   def do_clean_file(file_metadata) do
