@@ -1,9 +1,9 @@
-defmodule FileCleaner.CSVCleaner do
+defmodule DataProcessor.FileCleaner.CSVCleaner do
   NimbleCSV.define(CSVParser, separator: ",", escape: "\"")
 
-  alias FileCleaner.DateUtils
-  alias FileCleaner.OrganisationUtils
-  alias FileCleaner.Canonicaliser
+  alias DataProcessor.FileCleaner.DateUtils
+  alias DataProcessor.FileCleaner.OrganisationUtils
+  alias DataProcessor.FileCleaner.Canonicaliser
 
 
   @header_types %{

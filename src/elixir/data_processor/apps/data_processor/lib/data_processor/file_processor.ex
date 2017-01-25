@@ -72,7 +72,7 @@ defmodule DataProcessor.FileProcessor do
 
 
   def do_clean_file(file_metadata = %FileMetadata{file_type: :csv}) do
-    FileCleaner.CSVCleaner.clean_file file_metadata
+    DataProcessor.FileCleaner.CSVCleaner.clean_file file_metadata
   end
 
   def do_clean_file(file_metadata) do

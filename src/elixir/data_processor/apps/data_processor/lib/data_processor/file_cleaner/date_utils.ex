@@ -1,4 +1,4 @@
-defmodule FileCleaner.DateUtils do
+defmodule DataProcessor.FileCleaner.DateUtils do
 
   @recognised_months %{
     "jan" => 1,

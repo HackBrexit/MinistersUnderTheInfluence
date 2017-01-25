@@ -18,7 +18,8 @@ defmodule DataProcessor.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :file_cleaner]]
+    [applications: [:logger],
+     mod: {DataProcessor.FileCleaner, []}]
   end
 
   # Dependencies can be Hex packages:
@@ -29,14 +30,8 @@ defmodule DataProcessor.Mixfile do
   #
   #   {:mydep, git: "https://github.com/elixir-lang/mydep.git", tag: "0.1.0"}
   #
-  # To depend on another app inside the umbrella:
-  #
-  #   {:myapp, in_umbrella: true}
-  #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:file_cleaner, in_umbrella: true},
-     {:nimble_csv, "0.1.1"}
-    ]
+    [{:nimble_csv, "0.1.1"}]
   end
 end

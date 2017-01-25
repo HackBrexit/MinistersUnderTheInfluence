@@ -1,4 +1,4 @@
-defmodule FileCleaner.Canonicaliser do
+defmodule DataProcessor.FileCleaner.Canonicaliser do
   use GenServer
 
   def start_link() do
