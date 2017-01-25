@@ -1,16 +1,19 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./app";
-import {Router, Route, hashHistory} from 'react-router';
+import React from "react"
+import ReactDOM from "react-dom"
+import App from "./app"
+import {Router, Route, IndexRoute, hashHistory} from 'react-router'
 import immutableStorageDecorator from "./Redux/immutable-storage-decorator"
 import {createStore, applyMiddleware} from "redux"
-import {Provider} from "react-redux";
+import {Provider} from "react-redux"
 import thunkMiddleware from "redux-thunk"
 import {rootReducer, aboutReducer} from "./Redux/reducer"
 import * as storage from "redux-storage"
 import createEngine from "redux-storage-engine-localstorage"
 import storageDebounce from 'redux-storage-decorator-debounce'
 import createLogger from 'redux-logger'
+import PageLayout from "./containers/PageLayout"
+import Home from "./components/Home"
+import ChartContainer from "./containers/ChartContainer"
 
 ////////////////////////////////////////////////////////////////////////////////
 // redux stuff
@@ -53,7 +56,21 @@ loaded.then((newState) => {
   ReactDOM.render(
     <Provider store={store}>
       <Router history={hashHistory}>
-        <Route path="/" component={App} name="root"></Route>
+        <Route path="/" component={App} name="root">
+          <Route component={PageLayout}>
+            <IndexRoute component={Home} />
+            <Route path="demo"
+                   component={ChartContainer} sourceType="demo" />
+            <Route path="organisation/:id/:targetType"
+                   component={ChartContainer} sourceType="organisations" />
+            <Route path="government-office/:id/:targetType"
+                   component={ChartContainer} sourceType="government-offices" />
+            <Route path="government-person/:id/:targetType"
+                   component={ChartContainer} sourceType="people" />
+            <Route path="organisation-person/:id/:targetType"
+                   component={ChartContainer} sourceType="people" />
+          </Route>
+        </Route>
       </Router>
     </Provider>,
     document.getElementById("app")

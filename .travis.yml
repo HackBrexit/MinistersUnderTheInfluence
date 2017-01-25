@@ -1,0 +1,15 @@
+language: ruby
+rvm:
+  - 2.3.1
+gemfile: src/ruby/meetings/Gemfile
+bundler_args: --without development
+services:
+  - postgresql
+addons:
+  postgresql: "9.3"
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
+  - cp src/ruby/meetings/config/database{.travis,}.yml
+  - cp src/ruby/meetings/config/secrets.yml{.example,}
+script:
+  - cd src/ruby/meetings && bundle exec rake spec
