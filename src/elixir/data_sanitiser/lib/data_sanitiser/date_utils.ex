@@ -41,21 +41,26 @@ defmodule DataSanitiser.DateUtils do
   ]
 
 
-  defp normalise_day(""), do: :nil
-  defp normalise_day(day), do: String.to_integer day
+  def normalise_day(""), do: :nil
+  def normalise_day(day), do: String.to_integer day
 
 
-  defp normalise_month(month) when is_binary(month) do
-    Map.get @recognised_months, String.downcase(month) 
+  def normalise_month(month) when is_binary(month) do
+    case Integer.parse month do
+    :error ->
+      Map.get @recognised_months, String.downcase(month)
+    {month_integer, ""} ->
+      normalise_month month_integer
+    end
   end
-  defp normalise_month(month) when month > 0 and month < 13, do: month
-  defp normalise_month(_), do: :nil
+  def normalise_month(month) when month > 0 and month < 13, do: month
+  def normalise_month(_), do: :nil
 
 
-  defp normalise_year(""), do: :nil
-  defp normalise_year(year) when is_binary(year), do: normalise_year String.to_integer(year)
-  defp normalise_year(year) when year < 100, do: normalise_year(year + 2000)
-  defp normalise_year(year) do
+  def normalise_year(""), do: :nil
+  def normalise_year(year) when is_binary(year), do: normalise_year String.to_integer(year)
+  def normalise_year(year) when year < 100, do: normalise_year(year + 2000)
+  def normalise_year(year) do
     current_year = DateTime.utc_now.year
     cond do
       year > current_year -> year - 100
