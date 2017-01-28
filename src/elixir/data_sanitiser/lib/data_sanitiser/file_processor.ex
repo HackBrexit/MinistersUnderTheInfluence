@@ -1,7 +1,7 @@
 defmodule DataSanitiser.FileProcessor do
   use Application
 
-  alias DataSanitiser.FileMetadata
+  alias DataSanitiser.DataFile
 
 
   @processing_steps [
@@ -71,7 +71,7 @@ defmodule DataSanitiser.FileProcessor do
   end
 
 
-  def do_clean_file(file_metadata = %FileMetadata{file_type: :csv}) do
+  def do_clean_file(file_metadata = %DataFile{file_type: :csv}) do
     DataSanitiser.CSVCleaner.clean_file file_metadata
   end
 

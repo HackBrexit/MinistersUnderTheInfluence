@@ -1,6 +1,9 @@
 defmodule DataSanitiser.DataFile do
   alias DataSanitiser.DateUtils.DateTuple
 
+  defstruct name: "", department: "", title: "", date_published: :nil, source_url: "", file_type: :nil, filename: "", year: :nil, data_type: :nil, rows: []
+
+
   defmodule MeetingRow do
     defstruct minister: :nil, start_date: %DateTuple{}, end_date: %DateTuple{}, organisations: :nil, reason: "", row: 0
     @type t :: %MeetingRow{
