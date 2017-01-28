@@ -1,4 +1,8 @@
 defmodule DataSanitiser.DateUtils do
+  defmodule DateTuple do
+    defstruct day: :nil, month: :nil, year: :nil
+    @type t :: %DateTuple{day: 1..31 | :nil, month: 1..12 | :nil, year: pos_integer | :nil}
+  end
 
   @recognised_months %{
     "jan" => 1,
@@ -28,6 +32,7 @@ defmodule DataSanitiser.DateUtils do
   }
 
   @date_regex ~r{^(?:(?<day>\d?\d)?[-/])??(?<month>#{Enum.join Map.keys(@recognised_months), "|"}|\d?\d)[-/]?(?<year>(19|20)?\d\d)?$}
+
   @year_regular_expressions [
     # Match four digit runs at the start that begin with 19 or 20
     ~R/\A((?:19|20)\d{2})(?:\Z|\D)/,
@@ -41,10 +46,14 @@ defmodule DataSanitiser.DateUtils do
   ]
 
 
+  @spec normalise_day(String.t | integer) :: 1..31 | :nil
   def normalise_day(""), do: :nil
-  def normalise_day(day), do: String.to_integer day
+  def normalise_day(day) when is_binary(day), do: normalise_day String.to_integer day
+  def normalise_day(day) when day > 0 and day < 32, do: day
+  def normalise_day(_), do: :nil 
 
 
+  @spec normalise_month(String.t | integer) :: 1..12 | :nil
   def normalise_month(month) when is_binary(month) do
     case Integer.parse month do
     :error ->
@@ -57,6 +66,7 @@ defmodule DataSanitiser.DateUtils do
   def normalise_month(_), do: :nil
 
 
+  @spec normalise_year(String.t | integer) :: integer | :nil
   def normalise_year(""), do: :nil
   def normalise_year(year) when is_binary(year), do: normalise_year String.to_integer(year)
   def normalise_year(year) when year < 100, do: normalise_year(year + 2000)
@@ -69,6 +79,7 @@ defmodule DataSanitiser.DateUtils do
   end
 
 
+  @spec parse_date_string(String.t) :: { 1..31 | :nil, 1..12 | :nil, pos_integer | :nil }
   defp parse_date_string(date_string) do
     case Regex.named_captures @date_regex, String.downcase(date_string) do
     %{ "day" => day, "month" => month, "year" => year }
@@ -79,18 +90,20 @@ defmodule DataSanitiser.DateUtils do
   end
 
 
+  @spec date_string_to_tuple(String.t, pos_integer | :nil) :: DateTuple.t
   def date_string_to_tuple(date_string, default_year) do
     case parse_date_string date_string do
     { _, :nil, _ }
-      -> %{ day: :nil, month: :nil, year: :nil }
+      -> %DateTuple{ day: :nil, month: :nil, year: :nil }
     { day, month, :nil }
-      -> %{ day: day, month: month, year: default_year }
+      -> %DateTuple{ day: day, month: month, year: default_year }
     { day, month, year }
-      -> %{ day: day, month: month, year: year }
+      -> %DateTuple{ day: day, month: month, year: year }
     end
   end
 
 
+  @spec extract_year_from_string(String.t) :: pos_integer | :ambiguous | :nil
   def extract_year_from_string(string) when is_binary(string) do
     years = @year_regular_expressions
             |> Stream.flat_map(&(scan_and_flatten &1, string))
@@ -106,6 +119,7 @@ defmodule DataSanitiser.DateUtils do
   end
 
 
+  @spec scan_and_flatten(Regex.t, String.t) :: [String.t, ...] | []
   defp scan_and_flatten(regex, string) do
     regex
     |> Regex.scan(string, capture: :all_but_first)
