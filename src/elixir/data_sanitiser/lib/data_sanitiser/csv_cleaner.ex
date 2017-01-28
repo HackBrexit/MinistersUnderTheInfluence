@@ -1,11 +1,10 @@
 defmodule DataSanitiser.CSVCleaner do
   NimbleCSV.define(CSVParser, separator: ",", escape: "\"")
 
+  alias DataSanitiser.DataFile.MeetingRow
   alias DataSanitiser.DateUtils
-  alias DataSanitiser.DateUtils.DateTuple
   alias DataSanitiser.OrganisationUtils
   alias DataSanitiser.Canonicaliser
-
 
   @header_types %{
     "organisation" => :organisations,
@@ -18,16 +17,6 @@ defmodule DataSanitiser.CSVCleaner do
 
   defmodule RowState do
     defstruct previous_minister: :nil, data_positions: :nil
-  end
-
-
-  defmodule MeetingRow do
-    defstruct minister: :nil, start_date: :nil, end_date: :nil, organisations: :nil, reason: "", row: 0
-
-    def is_valid?(%MeetingRow{organisations: [""]}), do: false
-    def is_valid?(%MeetingRow{minister: :nil}), do: false
-    def is_valid?(%MeetingRow{start_date: start_date}), do: DateTuple.is_valid? start_date
-    def is_valid?(_), do: false
   end
 
 
