@@ -23,6 +23,11 @@ defmodule DataSanitiser.CSVCleaner do
 
   defmodule MeetingRow do
     defstruct minister: :nil, start_date: :nil, end_date: :nil, organisations: :nil, reason: "", row: 0
+
+    def is_valid?(%MeetingRow{organisations: [""]}), do: false
+    def is_valid?(%MeetingRow{minister: :nil}), do: false
+    def is_valid?(%MeetingRow{start_date: start_date}), do: DateTuple.is_valid? start_date
+    def is_valid?(_), do: false
   end
 
 
@@ -34,7 +39,7 @@ defmodule DataSanitiser.CSVCleaner do
                      |> CSVParser.parse_stream(headers: :false)
                      |> Stream.with_index
                      |> Stream.transform(:header, &(clean_meeting_row &1, &2, file_metadata))
-                     |> Stream.reject(&invalid_meetings_row?/1)
+                     |> Stream.filter(&MeetingRow.is_valid?/1)
 
     new_metadata = Map.put(file_metadata, :rows, processed_rows)
     {:ok, new_metadata}
@@ -43,13 +48,6 @@ defmodule DataSanitiser.CSVCleaner do
   def clean_file(file_metadata) do
     {:error, :unsupported_data_type, file_metadata}
   end
-
-
-  defp invalid_meetings_row?(:nil), do: true
-  defp invalid_meetings_row?({:error, _, _}), do: true
-  defp invalid_meetings_row?(%{organisations: [""]}), do: true
-  defp invalid_meetings_row?(%{minister: :nil}), do: true
-  defp invalid_meetings_row?(%{start_date: start_date}), do: not(DateTuple.is_valid? start_date)
 
 
   defp clean_meeting_row(row, :header, _file_metadata) do
