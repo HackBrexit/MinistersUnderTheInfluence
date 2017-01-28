@@ -6,6 +6,8 @@ defmodule DataSanitiser.MetadataProcessor do
   alias DataSanitiser.TransparencyData.MeetingRow
   alias DataSanitiser.DateUtils
 
+  import DataSanitiser.GeneralUtils, only: [ put_into_map_at: 3 ]
+
   @known_data_types ["gifts", "hospitality", "meetings", "travel"]
 
 
@@ -61,9 +63,6 @@ defmodule DataSanitiser.MetadataProcessor do
 
 
   defp append_to_path(sub_path, base_path), do: Path.join base_path, sub_path
-
-
-  defp put_into_map_at(value, map, key), do: Map.put map, key, value
 
 
   def extract_file_type(file_metadata) do

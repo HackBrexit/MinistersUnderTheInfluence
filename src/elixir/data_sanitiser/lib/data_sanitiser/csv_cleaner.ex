@@ -6,7 +6,10 @@ defmodule DataSanitiser.CSVCleaner do
   alias DataSanitiser.OrganisationUtils
   alias DataSanitiser.Canonicaliser
 
-  import DataSanitiser.GeneralUtils, only: [ trim_spaces_and_commas: 1]
+  import DataSanitiser.GeneralUtils, only: [
+    trim_spaces_and_commas: 1,
+    put_into_map_at: 3
+  ]
 
   @header_types %{
     "organisation" => :organisations,
@@ -103,11 +106,15 @@ defmodule DataSanitiser.CSVCleaner do
 
 
   defp parse_and_insert_minister(row, "", %RowState{previous_minister: minister}) do
-    Map.put(row, :minister, clean_minister_name(minister))
+    minister
+    |> clean_minister_name
+    |> put_into_map_at(row, :minister)
   end
 
   defp parse_and_insert_minister(row, minister, _) do
-    Map.put(row, :minister, clean_minister_name(minister))
+    minister
+    |> clean_minister_name
+    |> put_into_map_at(row, :minister)
   end
 
 
@@ -123,7 +130,9 @@ defmodule DataSanitiser.CSVCleaner do
 
 
   defp parse_and_insert_reason(row, reason) do
-    Map.put(row, :reason, clean_reason(reason))
+    reason
+    |> clean_reason
+    |> put_into_map_at(row, :reason)
   end
 
 
@@ -143,7 +152,8 @@ defmodule DataSanitiser.CSVCleaner do
 
 
   defp parse_and_insert_organisations(row, organisations_string) do
-    organisations = OrganisationUtils.parse_organisations(organisations_string)
-    Map.put(row, :organisations, organisations)
+    organisations_string
+    |> OrganisationUtils.parse_organisations
+    |> put_into_map_at(row, :organisations)
   end
 end
