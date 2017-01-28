@@ -6,6 +6,8 @@ defmodule DataSanitiser.CSVCleaner do
   alias DataSanitiser.OrganisationUtils
   alias DataSanitiser.Canonicaliser
 
+  import DataSanitiser.GeneralUtils, only: [ trim_spaces_and_commas: 1]
+
   @header_types %{
     "organisation" => :organisations,
     "minister" => :minister,
@@ -125,14 +127,6 @@ defmodule DataSanitiser.CSVCleaner do
   end
 
 
-  defp trim_spaces_and_commas(string) do
-    string
-    |> String.trim
-    |> String.trim(",")
-    |> String.trim
-  end
-
-
   defp clean_reason(reason) do
     reason
     |> trim_spaces_and_commas
@@ -150,14 +144,6 @@ defmodule DataSanitiser.CSVCleaner do
 
   defp parse_and_insert_organisations(row, organisations_string) do
     organisations = OrganisationUtils.parse_organisations(organisations_string)
-                    |> Stream.map(&clean_organisation_name/1)
     Map.put(row, :organisations, organisations)
-  end
-
-
-  defp clean_organisation_name(name) do
-    name
-    |> trim_spaces_and_commas
-    |> Canonicaliser.canonicalise
   end
 end
