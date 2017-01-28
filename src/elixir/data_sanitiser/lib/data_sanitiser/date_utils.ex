@@ -146,7 +146,7 @@ defmodule DataSanitiser.DateUtils do
   end
 
 
-  @spec scan_and_flatten(Regex.t, String.t) :: [String.t, ...] | []
+  @spec scan_and_flatten(Regex.t, String.t) :: [String.t]
   defp scan_and_flatten(regex, string) do
     regex
     |> Regex.scan(string, capture: :all_but_first)
