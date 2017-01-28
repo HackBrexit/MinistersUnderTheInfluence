@@ -63,5 +63,23 @@ defmodule DataSanitiser.TransparencyData do
       DateTuple.is_valid? start_date
     end
     def is_valid?(_), do: false
+
+    @spec header_row :: [String.t]
+    def header_row do
+      [
+        "Meeting ID",
+        "Minister",
+        "Role",
+        "Department",
+        "Start Date",
+        "End Date",
+        "Organisation",
+        "Representative",
+        "Reason",
+        "Hospitality?",
+        "Original File",
+        "Original Row"
+      ]
+    end
   end
 end

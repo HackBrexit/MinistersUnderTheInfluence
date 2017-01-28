@@ -3,6 +3,7 @@ defmodule DataSanitiser.MetadataProcessor do
 
   alias DataSanitiser.FileProcessor
   alias DataSanitiser.TransparencyData.DataFile
+  alias DataSanitiser.TransparencyData.MeetingRow
   alias DataSanitiser.DateUtils
 
   @known_data_types ["gifts", "hospitality", "meetings", "travel"]
@@ -25,20 +26,7 @@ defmodule DataSanitiser.MetadataProcessor do
 
 
   def write_header_row() do
-    [[
-      "Meeting ID",
-      "Minister",
-      "Role",
-      "Department",
-      "Start Date",
-      "End Date",
-      "Organisation",
-      "Representative",
-      "Reason",
-      "Hopspitality?",
-      "Original File",
-      "Original Row"
-    ]]
+    [MeetingRow.header_row]
     |> DefaultCSVParser.dump_to_stream
     |> Enum.into(File.stream!("processed_data.csv", [:delayed_write]))
   end
