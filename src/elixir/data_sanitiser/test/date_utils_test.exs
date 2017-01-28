@@ -135,4 +135,38 @@ defmodule DataSanitiser.DateUtilsTests do
       assert date_string_to_tuple("Smarch", 1313) == %DateTuple{day: nil, month: :nil, year: :nil}
     end
   end
+
+
+  defmodule ExtractYearFromStringTests do
+    use ExUnit.Case
+
+    import DataSanitiser.DateUtils, only: [ extract_year_from_string: 1 ]
+
+    test "Single four digit number beginning with 19 or 20 extracted" do
+      assert extract_year_from_string("1900") == 1900
+      assert extract_year_from_string("Let's all meet up in the year 2000") == 2000
+      assert extract_year_from_string("2099 is the end of the range") == 2099
+      assert extract_year_from_string("What will 2017 bring?") == 2017
+    end
+
+    test "Single two digit number extracted and returned so not in the future" do
+      assert extract_year_from_string("17") == 2017
+      assert extract_year_from_string("I've got 99 problems, but this test ain't 1") == 1999
+      assert extract_year_from_string("With an apostrophe '04") == 2004
+      assert extract_year_from_string("1337 is ignored for 00") == 2000
+    end
+
+    test "Multiple instances of two or four digits returned as ambiguous" do
+      assert extract_year_from_string("'04 to 2005") == :ambiguous
+      assert extract_year_from_string("2005 to 2006") == :ambiguous
+      assert extract_year_from_string("'06 to '07") == :ambiguous
+    end
+
+    test "No four digit range beginning with 19 or 20 and no two digit range returns :nil" do
+      assert extract_year_from_string("1 isn't long enough") == :nil
+      assert extract_year_from_string("'191 is an awkward size") == :nil
+      assert extract_year_from_string("This has no numbers at all") == :nil
+      assert extract_year_from_string("") == :nil
+    end
+  end
 end

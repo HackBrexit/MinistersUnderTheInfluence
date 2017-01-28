@@ -107,14 +107,16 @@ defmodule DataSanitiser.DateUtils do
   def extract_year_from_string(string) when is_binary(string) do
     years = @year_regular_expressions
             |> Stream.flat_map(&(scan_and_flatten &1, string))
-            |> Stream.map(&String.to_integer/1)
-            |> Enum.map(&normalise_year/1)
+            |> Enum.map(&String.to_integer/1)
     case years do
+    [ year ] when year < 100 ->
+      normalise_year year
     [ year ] ->
       year
     [] ->
       :nil
-    _ -> :ambiguous
+    _ ->
+      :ambiguous
     end
   end
 
