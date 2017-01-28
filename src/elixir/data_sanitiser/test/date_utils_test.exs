@@ -169,4 +169,23 @@ defmodule DataSanitiser.DateUtilsTests do
       assert extract_year_from_string("") == :nil
     end
   end
+
+
+  defmodule DateTupleToStringTests do
+    use ExUnit.Case
+
+    alias DataSanitiser.DateUtils.DateTuple
+
+    test "Tuple with all components is in format dd-mm-yyyy" do
+      assert to_string(%DateTuple{day: 1, month: 1, year: 2001}) == "01-01-2001"
+      assert to_string(%DateTuple{day: 1, month: 2, year: 2003}) == "01-02-2003"
+      assert "#{%DateTuple{day: 24, month: 12, year: 1900}}" == "24-12-1900"
+      assert "#{%DateTuple{day: 28, month: 1, year: 2017}}" == "28-01-2017"
+    end
+
+    test "Tuple with day missing is in format mm-yyyy" do
+      assert to_string(%DateTuple{month: 11, year: 2099}) == "11-2099"
+      assert "#{%DateTuple{month: 3, year: 1999}}" == "03-1999"
+    end
+  end
 end

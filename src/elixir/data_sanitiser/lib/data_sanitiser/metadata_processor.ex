@@ -94,8 +94,8 @@ defmodule DataSanitiser.MetadataProcessor do
       row_data.minister,
       "",
       file_data.department,
-      format_date(row_data.start_date),
-      format_date(row_data.end_date),
+      row_data.start_date,
+      row_data.end_date,
       organisation,
       "",
       row_data.reason,
@@ -103,22 +103,6 @@ defmodule DataSanitiser.MetadataProcessor do
       Path.basename(file_data.filename),
       row_data.row
     ]
-  end
-
-
-  defp format_date(%{day: :nil, month: month, year: year}) do
-    Enum.join [
-      (month |> Integer.to_string |> String.rjust(2, ?0)),
-      year
-    ], "-"
-  end
-
-  defp format_date(%{day: day, month: month, year: year}) do
-    Enum.join [
-      (day |> Integer.to_string |> String.rjust(2, ?0)),
-      (month |> Integer.to_string |> String.rjust(2, ?0)),
-      year
-    ], "-"
   end
 
 

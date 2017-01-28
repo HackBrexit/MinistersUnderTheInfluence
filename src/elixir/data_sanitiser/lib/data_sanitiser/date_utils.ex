@@ -1,8 +1,28 @@
 defmodule DataSanitiser.DateUtils do
+
   defmodule DateTuple do
     defstruct day: :nil, month: :nil, year: :nil
     @type t :: %DateTuple{day: 1..31 | :nil, month: 1..12 | :nil, year: pos_integer | :nil}
   end
+
+  defimpl String.Chars, for: DateTuple do
+    @spec to_string(DateTuple.t) :: String.t
+    def to_string(%DateTuple{day: :nil, month: month, year: year}) do
+      Enum.join [
+        (month |> Integer.to_string |> String.rjust(2, ?0)),
+        year
+      ], "-"
+    end
+
+    def to_string(%DateTuple{day: day, month: month, year: year}) do
+      Enum.join [
+        (day |> Integer.to_string |> String.rjust(2, ?0)),
+        (month |> Integer.to_string |> String.rjust(2, ?0)),
+        year
+      ], "-"
+    end
+  end
+
 
   @recognised_months %{
     "jan" => 1,
