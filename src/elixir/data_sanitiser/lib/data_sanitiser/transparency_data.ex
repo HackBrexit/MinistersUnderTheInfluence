@@ -2,6 +2,18 @@ defmodule DataSanitiser.TransparencyData do
   alias DataSanitiser.DateUtils.DateTuple
 
 
+  defprotocol DataFileRow do
+    @fallback_to_any true
+    def is_valid?(row)
+    def prepare_for_csv(row, data_file, row_index)
+  end
+
+  defimpl DataFileRow, for: Any do
+    def is_valid?(_), do: false
+    def prepare_for_csv(_, _, _), do: []
+  end
+
+
   defmodule DataFile do
     defstruct name: "",
               department: "",
@@ -37,6 +49,32 @@ defmodule DataSanitiser.TransparencyData do
                  data_type: data_type,
                  rows: [row_type]
               }
+
+    @spec is_valid?(any) :: boolean
+    def is_valid?(%DataFile{}), do: true
+    def is_valid?(_), do: true
+
+    def stream_clean_data_to_csv(processed_files) do
+      processed_files
+      |> Stream.filter(fn ({:ok,_}) -> true; (_) -> false end)
+      |> Stream.transform(1, &stream_clean_rows_to_csv/2)
+    end
+
+    def stream_clean_rows_to_csv({:ok, data_file}, next_row_id) do
+      valid_rows = data_file.rows
+                   |> Enum.filter(&DataFileRow.is_valid?/1)
+      row_stream = valid_rows
+                   |> Stream.transform(
+                        next_row_id,
+                        fn row, row_id ->
+                          {
+                            DataFileRow.prepare_for_csv(row, data_file, row_id),
+                            row_id + 1
+                          }
+                        end 
+                      )
+      { row_stream, next_row_id + length(valid_rows) }
+    end
   end
 
 
@@ -55,6 +93,28 @@ defmodule DataSanitiser.TransparencyData do
       reason: String.t,
       row: non_neg_integer
     }
+
+    def prepare_for_csv(row = %MeetingRow{}, data_file, row_index) do
+      row.organisations
+      |> Stream.map(&(prepare_for_csv(&1, row, data_file, row_index)))
+    end
+
+    def prepare_for_csv(organisation, row, data_file, row_index) do
+      [
+        row_index,
+        row.minister,
+        "",
+        data_file.department,
+        row.start_date,
+        row.end_date,
+        organisation,
+        "",
+        row.reason,
+        0,
+        Path.basename(data_file.filename),
+        row.row
+      ]
+    end
 
     @spec is_valid?(any) :: boolean
     def is_valid?(%MeetingRow{organisations: [""]}), do: false
@@ -80,6 +140,13 @@ defmodule DataSanitiser.TransparencyData do
         "Original File",
         "Original Row"
       ]
+    end
+  end
+
+  defimpl DataFileRow, for: MeetingRow do
+    def is_valid?(row), do: MeetingRow.is_valid?(row)
+    def prepare_for_csv(row, data_file, row_index) do
+      MeetingRow.prepare_for_csv(row, data_file, row_index)
     end
   end
 end

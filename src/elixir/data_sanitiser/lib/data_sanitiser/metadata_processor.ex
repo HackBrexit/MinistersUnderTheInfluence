@@ -16,10 +16,7 @@ defmodule DataSanitiser.MetadataProcessor do
     |> DefaultCSVParser.parse_stream(headers: false)
     |> Stream.map(&(process_metadata_row(&1, datafiles_path)))
     |> Stream.map(&FileProcessor.process/1)
-    |> Stream.filter(fn ({:ok,_}) -> true; (_) -> false end)
-    |> Stream.flat_map(&prepare_file_for_csv/1)
-    |> Stream.with_index(1)
-    |> Stream.flat_map(&prepare_row_for_csv/1)
+    |> DataFile.stream_clean_data_to_csv
     |> DefaultCSVParser.dump_to_stream
     |> Enum.into(File.stream!("processed_data.csv", [:delayed_write, :append]))
   end
@@ -60,37 +57,6 @@ defmodule DataSanitiser.MetadataProcessor do
     |> Enum.join("_")
     |> append_to_path(datafiles_path)
     |> put_into_map_at(file_metadata, :filename)
-  end
-
-
-  defp prepare_file_for_csv({:ok, file_metadata}) do
-    file_metadata.rows
-    |> Stream.filter(fn ({:error,_,_}) -> false; (_) -> true end)
-    |> Stream.map(&({file_metadata, &1}))
-  end
-
-
-  defp prepare_row_for_csv({{file_data, row_data}, row_index}) do
-    row_data.organisations
-    |> Stream.filter(fn ({:error,_,_}) -> false; (_) -> true end)
-    |> Stream.map(&(prepare_row_for_csv({file_data, row_data, row_index,  &1})))
-  end
-
-  defp prepare_row_for_csv({file_data, row_data, row_index,  organisation}) do
-    [
-      row_index,
-      row_data.minister,
-      "",
-      file_data.department,
-      row_data.start_date,
-      row_data.end_date,
-      organisation,
-      "",
-      row_data.reason,
-      0,
-      Path.basename(file_data.filename),
-      row_data.row
-    ]
   end
 
 
