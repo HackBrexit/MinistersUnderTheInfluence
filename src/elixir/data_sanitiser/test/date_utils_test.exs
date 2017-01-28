@@ -188,4 +188,30 @@ defmodule DataSanitiser.DateUtilsTests do
       assert "#{%DateTuple{month: 3, year: 1999}}" == "03-1999"
     end
   end
+
+
+  defmodule DateTupleIsValid do
+    use ExUnit.Case
+
+    alias DataSanitiser.DateUtils.DateTuple
+
+    test "Tuples without months are invalid" do
+      assert DateTuple.is_valid?(%DateTuple{day: 12, month: :nil, year: 2000}) == false
+      assert DateTuple.is_valid?(%DateTuple{day: 12, month: :nil, year: :nil}) == false
+      assert DateTuple.is_valid?(%DateTuple{day: :nil, month: :nil, year: 2000}) == false
+      assert DateTuple.is_valid?(%DateTuple{day: :nil, month: :nil, year: :nil}) == false
+    end
+
+    test "Tuples without years are invalid" do
+      assert DateTuple.is_valid?(%DateTuple{day: 12, month: 3, year: :nil}) == false
+      assert DateTuple.is_valid?(%DateTuple{day: 12, month: :nil, year: :nil}) == false
+      assert DateTuple.is_valid?(%DateTuple{day: :nil, month: 5, year: :nil}) == false
+      assert DateTuple.is_valid?(%DateTuple{day: :nil, month: :nil, year: :nil}) == false
+    end
+
+    test "Tuples with or without days are valid" do
+      assert DateTuple.is_valid?(%DateTuple{day: :nil, month: 3, year: 1900}) == true
+      assert DateTuple.is_valid?(%DateTuple{day: 1, month: 3, year: 1900}) == true
+    end
+  end
 end

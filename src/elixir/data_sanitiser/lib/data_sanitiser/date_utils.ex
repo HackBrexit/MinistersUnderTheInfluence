@@ -3,6 +3,11 @@ defmodule DataSanitiser.DateUtils do
   defmodule DateTuple do
     defstruct day: :nil, month: :nil, year: :nil
     @type t :: %DateTuple{day: 1..31 | :nil, month: 1..12 | :nil, year: pos_integer | :nil}
+
+    @spec is_valid?(DateTuple.t) :: boolean
+    def is_valid?(%DateTuple{month: month}) when is_nil(month), do: false
+    def is_valid?(%DateTuple{year: year}) when is_nil(year), do: false
+    def is_valid?(_), do: true
   end
 
   defimpl String.Chars, for: DateTuple do
