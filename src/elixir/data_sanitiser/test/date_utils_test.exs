@@ -1,5 +1,7 @@
 defmodule DataSanitiser.DateUtilsTests do
-  defmodule NormaliseDayTest do
+
+
+  defmodule NormaliseDayTests do
     use ExUnit.Case
 
     import DataSanitiser.DateUtils, only: [ normalise_day: 1 ]
@@ -15,7 +17,8 @@ defmodule DataSanitiser.DateUtilsTests do
     end
   end
 
-  defmodule NormaliseMonthTest do
+
+  defmodule NormaliseMonthTests do
     use ExUnit.Case
 
     import DataSanitiser.DateUtils, only: [ normalise_month: 1 ]
@@ -75,7 +78,8 @@ defmodule DataSanitiser.DateUtilsTests do
     end
   end
 
-  defmodule NormaliseYearTest do
+
+  defmodule NormaliseYearTests do
     use ExUnit.Case
 
     import DataSanitiser.DateUtils, only: [ normalise_year: 1 ]
@@ -100,7 +104,8 @@ defmodule DataSanitiser.DateUtilsTests do
     end
   end
 
-  defmodule DateStringToTupleTest do
+
+  defmodule DateStringToTupleTests do
     use ExUnit.Case
 
     import DataSanitiser.DateUtils, only: [ date_string_to_tuple: 2 ]
