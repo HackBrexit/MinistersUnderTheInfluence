@@ -99,4 +99,35 @@ defmodule DataSanitiser.DateUtilsTests do
       assert normalise_year("") == :nil
     end
   end
+
+  defmodule DateStringToTupleTest do
+    use ExUnit.Case
+
+    import DataSanitiser.DateUtils, only: [ date_string_to_tuple: 2 ]
+    alias DataSanitiser.DateUtils.DateTuple
+
+    test "Date strings with valid day month and year extract individual components" do
+      assert date_string_to_tuple("31/Jan/2010", :nil) == %DateTuple{day: 31, month: 1, year: 2010}
+      assert date_string_to_tuple("1 December 1904", 1234) == %DateTuple{day: 1, month: 12, year: 1904}
+      assert date_string_to_tuple("04-04-04", 4444) == %DateTuple{day: 4, month: 4, year: 2004}
+    end
+
+    test "Date strings with only two components extract as month and year" do
+      assert date_string_to_tuple("04-04", 4444) == %DateTuple{day: :nil, month: 4, year: 2004}
+      assert date_string_to_tuple("Sept/1912", 4321) == %DateTuple{day: :nil, month: 9, year: 1912}
+      assert date_string_to_tuple("August 99", :nil) == %DateTuple{day: :nil, month: 8, year: 1999}
+    end
+
+    test "Date strings with only a single component extract the month and use default year provided" do
+      assert date_string_to_tuple("July", 3456) == %DateTuple{day: nil, month: 7, year: 3456}
+      assert date_string_to_tuple("05", 2000) == %DateTuple{day: nil, month: 5, year: 2000}
+      assert date_string_to_tuple("3", :nil) == %DateTuple{day: nil, month: 3, year: :nil}
+    end
+
+    test "Date strings with no discernable components return all nils" do
+      assert date_string_to_tuple("I'm not a date", :nil) == %DateTuple{day: nil, month: :nil, year: :nil}
+      assert date_string_to_tuple("The date 12/Jan/12 has stuff around it", :nil) == %DateTuple{day: nil, month: :nil, year: :nil}
+      assert date_string_to_tuple("Smarch", 1313) == %DateTuple{day: nil, month: :nil, year: :nil}
+    end
+  end
 end
