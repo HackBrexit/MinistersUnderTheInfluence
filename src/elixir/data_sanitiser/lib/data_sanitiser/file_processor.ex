@@ -1,7 +1,7 @@
 defmodule DataSanitiser.FileProcessor do
   use Application
 
-  alias DataSanitiser.DataFile
+  alias DataSanitiser.TransparencyData.DataFile
 
 
   @processing_steps [

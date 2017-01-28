@@ -1,7 +1,7 @@
 defmodule DataSanitiser.CSVCleaner do
   NimbleCSV.define(CSVParser, separator: ",", escape: "\"")
 
-  alias DataSanitiser.DataFile.MeetingRow
+  alias DataSanitiser.TransparencyData.MeetingRow
   alias DataSanitiser.DateUtils
   alias DataSanitiser.OrganisationUtils
   alias DataSanitiser.Canonicaliser

@@ -2,7 +2,7 @@ defmodule DataSanitiser.MetadataProcessor do
   NimbleCSV.define(DefaultCSVParser, separator: ",", escape: "\"")
 
   alias DataSanitiser.FileProcessor
-  alias DataSanitiser.DataFile
+  alias DataSanitiser.TransparencyData.DataFile
   alias DataSanitiser.DateUtils
 
   @known_data_types ["gifts", "hospitality", "meetings", "travel"]
