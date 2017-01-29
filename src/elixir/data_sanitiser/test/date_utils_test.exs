@@ -218,6 +218,21 @@ defmodule DataSanitiser.DateUtilsTests do
     test "Tuples with or without days are valid" do
       assert DateTuple.is_valid?(%DateTuple{day: :nil, month: 3, year: 1900}) == true
       assert DateTuple.is_valid?(%DateTuple{day: 1, month: 3, year: 1900}) == true
+      assert DateTuple.is_valid?(%DateTuple{day: 29, month: 2, year: 2004}) == true
+    end
+
+    test "Invalid date combos are invalid" do
+      assert DateTuple.is_valid?(%DateTuple{day: 1, month: 13, year: 1900}) == false
+      assert DateTuple.is_valid?(%DateTuple{day: :nil, month: 13, year: 1900}) == false
+      assert DateTuple.is_valid?(%DateTuple{day: 29, month: 2, year: 2003}) == false
+      assert DateTuple.is_valid?(%DateTuple{day: 31, month: 9, year: 2007}) == false
+    end
+
+    test "Things that aren't date tuples are invalid" do
+      assert DateTuple.is_valid?(~D[2004-02-01]) == false
+      assert DateTuple.is_valid?("2000-01-01") == false
+      assert DateTuple.is_valid?("01-01-2000") == false
+      assert DateTuple.is_valid?(1485685661) == false
     end
   end
 end
