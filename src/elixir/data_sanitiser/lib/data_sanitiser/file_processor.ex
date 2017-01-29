@@ -11,11 +11,11 @@ defmodule DataSanitiser.FileProcessor do
 
   def process(file_metadata) do
     case do_process @processing_steps, file_metadata do
-    {:ok, file_metadata} ->
-      {:ok, file_metadata}
-    {:error, error, file_metadata} ->
-      log_bad_file(error, file_metadata)
-      {:error, error, file_metadata}
+      {:ok, file_metadata} ->
+        {:ok, file_metadata}
+      {:error, error, file_metadata} ->
+        log_bad_file(error, file_metadata)
+        {:error, error, file_metadata}
     end
   end
 
@@ -32,21 +32,21 @@ defmodule DataSanitiser.FileProcessor do
 
   defp do_process([:clean_file | remaining_steps], file_metadata) do
     case do_clean_file file_metadata do
-    :ok ->
-      do_process remaining_steps, file_metadata
-    error ->
-      error
+      :ok ->
+        do_process remaining_steps, file_metadata
+      error ->
+        error
     end
   end
 
   defp do_process([:check_has_single_data_type | remaining_steps], file_metadata) do
     case file_metadata.data_type do
-    :ambiguous ->
-      {:error, :ambiguous_data_type, file_metadata}
-    :nil ->
-      {:error, :no_data_type, file_metadata}
-    _ ->
-      do_process remaining_steps, file_metadata
+      :ambiguous ->
+        {:error, :ambiguous_data_type, file_metadata}
+      :nil ->
+        {:error, :no_data_type, file_metadata}
+      _ ->
+        do_process remaining_steps, file_metadata
     end
   end
 

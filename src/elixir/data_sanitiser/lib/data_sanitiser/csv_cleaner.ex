@@ -51,21 +51,21 @@ defmodule DataSanitiser.CSVCleaner do
 
   defp clean_meeting_row({csv_row, row_index}, row_state, file_metadata) do
     case fetch_meeting_values_from_row(csv_row, row_state) do
-    %{minister: "", date: "", organisations: "", reason: ""} ->
-      {[:nil], row_state}
-    %{minister: minister, date: date, organisations: organisations, reason: reason} ->
-      row = %MeetingRow{row: row_index}
-            |> parse_and_insert_minister(String.trim(minister), row_state)
-            |> parse_and_insert_date(date, file_metadata.year)
-            |> parse_and_insert_reason(reason)
-            |> parse_and_insert_organisations(organisations)
-      {[row], Map.put(row_state, :previous_minister, row.minister)}
-    _ ->
-      if row_is_empty? csv_row do
+      %{minister: "", date: "", organisations: "", reason: ""} ->
         {[:nil], row_state}
-      else
-        {[{:error, :invalid_row, row_index}], row_state}
-      end
+      %{minister: minister, date: date, organisations: organisations, reason: reason} ->
+        row = %MeetingRow{row: row_index}
+              |> parse_and_insert_minister(String.trim(minister), row_state)
+              |> parse_and_insert_date(date, file_metadata.year)
+              |> parse_and_insert_reason(reason)
+              |> parse_and_insert_organisations(organisations)
+        {[row], Map.put(row_state, :previous_minister, row.minister)}
+      _ ->
+        if row_is_empty? csv_row do
+          {[:nil], row_state}
+        else
+          {[{:error, :invalid_row, row_index}], row_state}
+        end
     end
   end
 

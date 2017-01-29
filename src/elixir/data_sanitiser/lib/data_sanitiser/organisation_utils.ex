@@ -1,6 +1,6 @@
 defmodule DataSanitiser.OrganisationUtils do
   alias DataSanitiser.Canonicaliser
-  import DataSanitiser.GeneralUtils, only: [ trim_spaces_and_commas: 1 ]
+  import DataSanitiser.GeneralUtils, only: [trim_spaces_and_commas: 1]
 
   @separator_regex ~R{,|;| and | & |/|\\|\n}
 

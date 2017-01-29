@@ -73,7 +73,7 @@ defmodule DataSanitiser.TransparencyData do
                           }
                         end 
                       )
-      { row_stream, next_row_id + length(valid_rows) }
+      {row_stream, next_row_id + length(valid_rows)}
     end
   end
 

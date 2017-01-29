@@ -6,7 +6,7 @@ defmodule DataSanitiser.MetadataProcessor do
   alias DataSanitiser.TransparencyData.MeetingRow
   alias DataSanitiser.DateUtils
 
-  import DataSanitiser.GeneralUtils, only: [ put_into_map_at: 3 ]
+  import DataSanitiser.GeneralUtils, only: [put_into_map_at: 3]
 
   @known_data_types ["gifts", "hospitality", "meetings", "travel"]
 
@@ -81,10 +81,10 @@ defmodule DataSanitiser.MetadataProcessor do
                      |> Enum.map(&DateUtils.extract_year_from_string/1)
                      |> reduce_to_single_value
     case extracted_year do
-    year when is_integer(year) ->
-      year
-    _ ->
-      :nil
+      year when is_integer(year) ->
+        year
+      _ ->
+        :nil
     end
     |> put_into_map_at(file_metadata, :year)
   end
@@ -93,7 +93,7 @@ defmodule DataSanitiser.MetadataProcessor do
   def extract_data_type(info_string) when is_binary(info_string) do
     lower_info_string = String.downcase info_string
     case Enum.filter @known_data_types, &(String.contains? lower_info_string, &1) do
-      [ type ] ->
+      [type] ->
         String.to_atom type
       [] ->
         :nil
@@ -112,8 +112,7 @@ defmodule DataSanitiser.MetadataProcessor do
 
 
   defp info_sources(%{filename: filename}) do
-    [ (filename |> Path.basename),
-    ]
+    [(filename |> Path.basename)]
   end
 
 
