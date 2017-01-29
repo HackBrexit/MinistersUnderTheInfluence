@@ -50,11 +50,17 @@ defmodule DataSanitiser.DateUtils do
     """
     @spec is_valid?(DateTuple.t) :: boolean
     def is_valid?(date_tuple)
-    def is_valid?(%DateTuple{month: month}) when is_nil(month), do: false
-    def is_valid?(%DateTuple{year: year}) when is_nil(year), do: false
+
+    def is_valid?(%DateTuple{month: month}) when is_nil(month),
+      do: false
+
+    def is_valid?(%DateTuple{year: year}) when is_nil(year),
+      do: false
+
     def is_valid?(date_tuple=%DateTuple{day: day}) when is_nil(day) do
       is_valid? Map.put(date_tuple, :day, 1)
     end
+
     def is_valid?(%DateTuple{year: year, month: month, day: day}) do
       case Date.new(year, month, day) do
         {:ok, _} ->
@@ -63,7 +69,9 @@ defmodule DataSanitiser.DateUtils do
           false
       end
     end
-    def is_valid?(_), do: false
+
+    def is_valid?(_),
+      do: false
   end
 
   defimpl String.Chars, for: DateTuple do
@@ -186,12 +194,17 @@ defmodule DataSanitiser.DateUtils do
   """
   @spec normalise_day(String.t | integer) :: 1..31 | :nil
   def normalise_day(day)
-  def normalise_day(""), do: :nil
+  def normalise_day(""),
+    do: :nil
+
   def normalise_day(day) when is_binary(day) do
     normalise_day String.to_integer day
   end
-  def normalise_day(day) when day > 0 and day < 32, do: day
-  def normalise_day(_), do: :nil 
+
+  def normalise_day(day) when day > 0 and day < 32,
+    do: day
+  def normalise_day(_),
+    do: :nil 
 
 
   @doc """
@@ -224,8 +237,11 @@ defmodule DataSanitiser.DateUtils do
         normalise_month month_integer
     end
   end
-  def normalise_month(month) when month > 0 and month < 13, do: month
-  def normalise_month(_), do: :nil
+
+  def normalise_month(month) when month > 0 and month < 13,
+    do: month
+  def normalise_month(_),
+    do: :nil
 
 
   @doc """
@@ -254,14 +270,20 @@ defmodule DataSanitiser.DateUtils do
   """
   @spec normalise_year(String.t | integer) :: integer | :nil
   def normalise_year(year)
-  def normalise_year(""), do: :nil
+  def normalise_year(""),
+    do: :nil
+
   def normalise_year(year) when is_binary(year) do
     normalise_year String.to_integer(year)
   end
+
   def normalise_year(year) when year < 100 do
     normalise_year(year + 2000, :past_only)
   end
-  def normalise_year(year), do: year
+
+  def normalise_year(year),
+    do: year
+
   def normalise_year(year, :past_only) do
     current_year = DateTime.utc_now.year
     cond do
@@ -355,7 +377,7 @@ defmodule DataSanitiser.DateUtils do
             |> Stream.map(&normalise_year/1)
             |> Enum.dedup
     case years do
-      [ year ] ->
+      [year] ->
         year
       [] ->
         :nil
