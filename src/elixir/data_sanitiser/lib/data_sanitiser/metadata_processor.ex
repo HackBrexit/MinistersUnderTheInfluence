@@ -16,7 +16,11 @@ defmodule DataSanitiser.MetadataProcessor do
     |> Stream.map(&(process_metadata_row(&1, datafiles_path)))
     |> Stream.map(&FileProcessor.process/1)
     |> DataFile.stream_clean_data_to_csv
-    |> CSVUtils.stream_to_csv_file!("processed_data.csv", MeetingRow.header_row, [:delayed_write])
+    |> CSVUtils.stream_to_csv_file!(
+         "processed_data.csv",
+         MeetingRow.header_row,
+         [:delayed_write]
+       )
   end
 
 
