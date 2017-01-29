@@ -196,7 +196,7 @@ defmodule DataSanitiser.DateUtilsTests do
   end
 
 
-  defmodule DateTupleIsValid do
+  defmodule DateTupleIsValidTests do
     use ExUnit.Case
 
     alias DataSanitiser.DateUtils.DateTuple
