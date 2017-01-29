@@ -1,5 +1,11 @@
 defmodule DataSanitiser.DateUtilsTests do
 
+  defmodule DocTests do
+    use ExUnit.Case
+    doctest DataSanitiser.DateUtils
+    doctest DataSanitiser.DateUtils.DateTuple
+    doctest String.Chars.DataSanitiser.DateUtils.DateTuple
+  end
 
   defmodule NormaliseDayTests do
     use ExUnit.Case
