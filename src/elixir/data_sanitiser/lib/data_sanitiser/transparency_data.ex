@@ -29,11 +29,11 @@ defmodule DataSanitiser.TransparencyData do
     @type file_type :: atom
 
     @type data_type :: :gifts
-                       | :hospitality
-                       | :meetings
-                       | :travel
-                       | :ambiguous
-                       | :nil
+                     | :hospitality
+                     | :meetings
+                     | :travel
+                     | :ambiguous
+                     | :nil
 
     @type row_type :: MeetingRow.t
 
