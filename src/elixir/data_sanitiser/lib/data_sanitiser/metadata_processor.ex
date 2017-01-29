@@ -5,6 +5,7 @@ defmodule DataSanitiser.MetadataProcessor do
   alias DataSanitiser.TransparencyData.DataFile
   alias DataSanitiser.TransparencyData.MeetingRow
   alias DataSanitiser.DateUtils
+  alias DataSanitiser.CSVUtils
 
   import DataSanitiser.GeneralUtils, only: [put_into_map_at: 3]
 
@@ -14,8 +15,7 @@ defmodule DataSanitiser.MetadataProcessor do
   def run(metadata_file_path, datafiles_path) do
     write_header_row
     metadata_file_path
-    |> File.stream!
-    |> DefaultCSVParser.parse_stream(headers: false)
+    |> CSVUtils.stream_from_csv_file!(headers: false)
     |> Stream.map(&(process_metadata_row(&1, datafiles_path)))
     |> Stream.map(&FileProcessor.process/1)
     |> DataFile.stream_clean_data_to_csv

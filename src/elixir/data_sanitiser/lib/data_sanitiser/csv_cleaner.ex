@@ -1,10 +1,10 @@
 defmodule DataSanitiser.CSVCleaner do
-  NimbleCSV.define(CSVParser, separator: ",", escape: "\"")
 
   alias DataSanitiser.TransparencyData.MeetingRow
   alias DataSanitiser.DateUtils
   alias DataSanitiser.OrganisationUtils
   alias DataSanitiser.Canonicaliser
+  alias DataSanitiser.CSVUtils
 
   import DataSanitiser.GeneralUtils, only: [
     trim_spaces_and_commas: 1,
@@ -27,10 +27,7 @@ defmodule DataSanitiser.CSVCleaner do
 
   def clean_file(file_metadata=%{data_type: :meetings}) do
     processed_rows = file_metadata.filename
-                     |> File.stream!
-                     |> Stream.map(&(:unicode.characters_to_binary(&1, :latin1)))
-                     |> Stream.flat_map(&(String.split &1, "\r"))
-                     |> CSVParser.parse_stream(headers: :false)
+                     |> CSVUtils.stream_from_csv_file!(headers: :false)
                      |> Stream.with_index
                      |> Stream.transform(:header, &(clean_meeting_row &1, &2, file_metadata))
                      |> Stream.filter(&MeetingRow.is_valid?/1)
