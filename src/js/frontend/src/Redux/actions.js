@@ -8,3 +8,12 @@ export const toggleAbout = () => {
     type: actionTypes.TOGGLE_ABOUT,
   }
 }
+
+export const addEntity = (entityType, id, data) => {
+  return {
+    type: actionTypes.ADD_ENTITY,
+    entityType,
+    id,
+    data,
+  }
+}
