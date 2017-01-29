@@ -1,6 +1,4 @@
 defmodule DataSanitiser.MetadataProcessor do
-  NimbleCSV.define(DefaultCSVParser, separator: ",", escape: "\"")
-
   alias DataSanitiser.FileProcessor
   alias DataSanitiser.TransparencyData.DataFile
   alias DataSanitiser.TransparencyData.MeetingRow
@@ -13,21 +11,12 @@ defmodule DataSanitiser.MetadataProcessor do
 
 
   def run(metadata_file_path, datafiles_path) do
-    write_header_row
     metadata_file_path
     |> CSVUtils.stream_from_csv_file!(headers: false)
     |> Stream.map(&(process_metadata_row(&1, datafiles_path)))
     |> Stream.map(&FileProcessor.process/1)
     |> DataFile.stream_clean_data_to_csv
-    |> DefaultCSVParser.dump_to_stream
-    |> Enum.into(File.stream!("processed_data.csv", [:delayed_write, :append]))
-  end
-
-
-  def write_header_row() do
-    [MeetingRow.header_row]
-    |> DefaultCSVParser.dump_to_stream
-    |> Enum.into(File.stream!("processed_data.csv", [:delayed_write]))
+    |> CSVUtils.stream_to_csv_file!("processed_data.csv", MeetingRow.header_row, [:delayed_write])
   end
 
 
