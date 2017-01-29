@@ -5,7 +5,10 @@ defmodule DataSanitiser.MetadataProcessor do
   alias DataSanitiser.DateUtils
   alias DataSanitiser.CSVUtils
 
-  import DataSanitiser.GeneralUtils, only: [put_into_map_at: 3]
+  import DataSanitiser.GeneralUtils, only: [
+    put_into_map_at: 3,
+    reduce_to_single_value: 1
+  ]
 
   @known_data_types ["gifts", "hospitality", "meetings", "travel"]
 
@@ -107,14 +110,5 @@ defmodule DataSanitiser.MetadataProcessor do
   defp info_sources(%{filename: filename}) do
     [(filename |> Path.basename)]
   end
-
-
-  defp reduce_to_single_value([head | tail]), do: reduce_to_single_value tail, head
-  defp reduce_to_single_value([], type), do: type
-  defp reduce_to_single_value([head | tail], head), do: reduce_to_single_value tail, head
-  defp reduce_to_single_value([head | tail], :nil), do: reduce_to_single_value tail, head
-  defp reduce_to_single_value([:nil | tail], type), do: reduce_to_single_value tail, type
-  defp reduce_to_single_value([:ambiguous | _tail], _type), do: :ambiguous
-  defp reduce_to_single_value([_head | _tail], _type), do: :ambiguous
 
 end
