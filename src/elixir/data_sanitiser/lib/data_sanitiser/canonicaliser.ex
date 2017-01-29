@@ -44,10 +44,10 @@ defmodule DataSanitiser.Canonicaliser do
 
   def handle_call({key, value}, _from, map) do
     case map[key] do
-    :nil ->
-      {:reply, value, Map.put(map, key, value)}
-    canonical_value ->
-      {:reply, canonical_value, map}
+      :nil ->
+        {:reply, value, Map.put(map, key, value)}
+      canonical_value ->
+        {:reply, canonical_value, map}
     end
   end
 end
