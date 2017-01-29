@@ -6,7 +6,7 @@ defmodule DataSanitiser.TransparencyData do
     @fallback_to_any true
     @spec is_valid?(any) :: boolean
     def is_valid?(row)
-    @spec prepare_for_csv(any, DataFile.t, pos_integer) :: [any]
+    @spec prepare_for_csv(any, DataFile.t, pos_integer) :: Enumerable.t
     def prepare_for_csv(row, data_file, row_index)
   end
 
