@@ -22,7 +22,7 @@ defmodule DataSanitiser.OrganisationUtils do
   Convert a string of organisations into a list of them.
 
   Currently does a very crude conversion by first splitting on 
-  #{Enum.join @separators, ","}
+  '#{Enum.join @separators, "', '"}'
   After that resulting strings have leading/trailing whitespace and commas
   removed, empty strings are filtered out and the canonical versions of the
   strings are looked up.
