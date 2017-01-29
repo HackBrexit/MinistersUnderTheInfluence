@@ -31,6 +31,7 @@ defmodule DataSanitiser.Canonicaliser do
       iex> DataSanitiser.Canonicaliser.canonicalise("ÁÇÇÈÑTS WØRK TÔÔ")
       "Áççèñts wørk tôô"
   """
+  @spec canonicalise(String.t) :: String.t
   def canonicalise(string) do
     key = String.downcase string
     GenServer.call(__MODULE__, {key, string})

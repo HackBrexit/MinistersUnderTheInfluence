@@ -16,6 +16,7 @@ defmodule DataSanitiser.GeneralUtils do
       iex> DataSanitiser.GeneralUtils.trim_spaces_and_commas("All Good")
       "All Good"
   """
+  @spec trim_spaces_and_commas(String.t) :: String.t
   def trim_spaces_and_commas(string) do
     Regex.replace(~r{(^[\s,]*)|([\s,]*$)}u, string,  "")
   end
@@ -32,5 +33,6 @@ defmodule DataSanitiser.GeneralUtils do
       iex> "A VALUE" |> String.downcase |> put_into_map_at(%{}, :lower)
       %{lower: "a value"}
   """
+  @spec put_into_map_at(Map.value, map, Map.key) :: map
   def put_into_map_at(value, map, key), do: Map.put map, key, value
 end
