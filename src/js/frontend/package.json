@@ -42,6 +42,7 @@
     "redux-storage": "^4.0.1",
     "redux-storage-decorator-debounce": "^1.0.1",
     "redux-storage-engine-localstorage": "^1.1.1",
+    "redux-storage-merger-immutablejs": "^1.0.5",
     "redux-thunk": "^2.1.0",
     "rework-assets": "^1.1.1"
   },
