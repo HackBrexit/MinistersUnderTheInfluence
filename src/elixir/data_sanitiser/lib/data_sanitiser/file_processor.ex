@@ -59,7 +59,7 @@ defmodule DataSanitiser.FileProcessor do
 
   defp do_process([:clean_file | remaining_steps], file_metadata) do
     case do_clean_file(file_metadata) do
-      :ok ->
+      {:ok, file_metadata} ->
         do_process(remaining_steps, file_metadata)
       error ->
         error
@@ -85,7 +85,7 @@ defmodule DataSanitiser.FileProcessor do
   end
 
   defp do_clean_file(file_metadata) do
-    log_bad_file(:unsupported_file_type, file_metadata)
+    {:error, :unsupported_file_type, file_metadata}
   end
 
 
