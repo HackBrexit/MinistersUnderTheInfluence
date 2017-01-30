@@ -56,7 +56,7 @@ defmodule DataSanitiser.TransparencyData do
     def is_valid?(%DataFile{}), do: true
     def is_valid?(_), do: true
 
-    def stream_clean_data_to_csv(processed_files) do
+    def stream_cleaned_data(processed_files) do
       processed_files
       |> Stream.filter(fn ({:ok,_}) -> true; (_) -> false end)
       |> Stream.transform(1, &stream_clean_rows_to_csv/2)

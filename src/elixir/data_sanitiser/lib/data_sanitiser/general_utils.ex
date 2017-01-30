@@ -77,4 +77,19 @@ defmodule DataSanitiser.GeneralUtils do
     do: :ambiguous
   defp do_reduce_to_single_value([_head | _tail], _value), do:
     :ambiguous
+
+
+  @doc """
+  Add a sub path onto a base path
+
+  Convenience function reversing arguments of `Path.join` to allow easier
+  chaining.
+
+  ## Examples
+      iex> import DataSanitiser.GeneralUtils, only: [append_to_path: 2]
+      iex> append_to_path("ending", "beginning")
+      "beginning/ending"
+  """
+  @spec append_to_path(Path.t, Path.t) :: String.t
+  def append_to_path(sub_path, base_path), do: Path.join base_path, sub_path
 end
