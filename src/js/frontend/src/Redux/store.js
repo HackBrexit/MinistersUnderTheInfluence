@@ -2,7 +2,7 @@ import immutableStorageDecorator from "./immutable-storage-decorator"
 import {createStore, applyMiddleware} from "redux"
 import thunkMiddleware from "redux-thunk"
 import createLogger from 'redux-logger'
-import {rootReducer, aboutReducer} from "./reducer"
+import {rootReducer} from "./reducer"
 import * as storage from "redux-storage"
 import createEngine from "redux-storage-engine-localstorage"
 import storageDebounce from 'redux-storage-decorator-debounce'
@@ -13,7 +13,6 @@ import storageDebounce from 'redux-storage-decorator-debounce'
 // wrap our main reducer in a storage reducer - this intercepts LOAD actions and
 // calls the merger function to merge in the new state
 const reducer = storage.reducer(rootReducer, (oldState, newState) => newState)
-// const reducer = aboutReducer;
 
 // create a storage engine, with decorators to convert plain JS into Immutable
 // and "debounce" storage so it's not happening all the time

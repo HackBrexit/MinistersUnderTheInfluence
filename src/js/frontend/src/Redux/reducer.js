@@ -26,7 +26,7 @@ const defaultState = {
   showAboutScreen: false,
 };
 
-export function aboutReducer(state = defaultState.showAboutScreen, {type}) {
+function aboutReducer(state = defaultState.showAboutScreen, {type}) {
   switch (type) {
     case actionTypes.TOGGLE_ABOUT:
       return !state;
