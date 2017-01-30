@@ -21,7 +21,7 @@ const engine = storageDebounce(immutableStorageDecorator(createEngine("muti-fron
 const storageMiddleware = storage.createMiddleware(engine)
 // create logger middleware
 const loggerMiddleware = createLogger({
-  stateTransformer: (state) => state.toJS(),
+  //stateTransformer: (state) => state.toJS ? state.toJS() : state,
   // you can filter out certain actions from logging
   //predicate: (getState, action) => action.type !== CALCULATION_NEEDS_REFRESH
 })
