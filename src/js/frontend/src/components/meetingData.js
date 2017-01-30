@@ -69,11 +69,10 @@ let meetingData = {
   },
 
   lookupTargetNames: function(meetingCounts, targets) {
-    for (let i = 0; i < meetingCounts.length; i++) {
-      let meetingCount = meetingCounts[i];
+    meetingCounts.map((meetingCount) => {
       let target = targets[meetingCount.targetId];
       meetingCount.targetName = target.name;
-    }
+    })
   },
 
   // Return an array of objects, each containing the name of the
@@ -86,22 +85,20 @@ let meetingData = {
     let data = json.data;
 
     let counts = {};
-    for (let i = 0; i < data.length; i++) {
-      let meeting = data[i];
+    data.map((meeting) => {
       let rels = meeting.relationships;
       let targets = rels[meetingTargetType].data;
       // For some reason, the same target can appear multiple times in
       // the relationship data for a given meeting, so we have to
       // de-duplicate here.
       let targetCounts = {};
-      for (let j = 0; j < targets.length; j++) {
-        let target = targets[j];
+      targets.map((target) => {
         targetCounts[target.id] = (targetCounts[target.id] || 0) + 1;
-      }
+      })
       for (let targetId in targetCounts) {
         counts[targetId] = (counts[targetId] || 0) + 1;
       }
-    }
+    })
 
     return Object.keys(counts).map(function(targetId, i) {
       return { targetId: targetId, meetingCount: counts[targetId] };
@@ -115,12 +112,11 @@ let meetingData = {
   // we might want to visualise.
   meetingTargets: function(included) {
     let targets = {};
-    for (let i = 0; i < included.length; i++) {
-      let targetData = included[i];
+    included.map((targetData) => {
       let targetId = targetData.id;
       let targetName = targetData.attributes.name;
       targets[targetId] = {name: targetName};
-    }
+    })
     return targets;
   },
 }
