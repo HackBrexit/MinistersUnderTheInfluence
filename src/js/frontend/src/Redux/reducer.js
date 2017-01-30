@@ -13,7 +13,6 @@ export function rootReducer (state = IMap(), action) {
                                   action),
     entities: addEntityReducer(state.get("entities"), action),
   })
-  return state;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
