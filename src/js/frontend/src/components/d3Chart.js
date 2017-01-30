@@ -28,10 +28,10 @@ let d3Chart = {
   },
 
   initBubbleCoordsRadius: function(svg, data) {
-    for (let i = 0; i < data.length; i++) {
-      data[i].radius = Math.sqrt(data[i].meetingCount) * RADIUS_SCALE;
-      data[i].x = Math.random() * svg.pixelWidth;
-      data[i].y = Math.random() * svg.pixelHeight;
+    data.each((item) => {
+      item.radius = Math.sqrt(item.meetingCount) * RADIUS_SCALE;
+      item.x = Math.random() * svg.pixelWidth;
+      item.y = Math.random() * svg.pixelHeight;
     }
   },
 
