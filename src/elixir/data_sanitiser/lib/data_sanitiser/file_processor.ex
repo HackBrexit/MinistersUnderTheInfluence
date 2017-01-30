@@ -49,31 +49,31 @@ defmodule DataSanitiser.FileProcessor do
                                         | {:error, atom, DataFile.t}
   defp do_process([], file_metadata), do: {:ok, file_metadata}
 
-  defp do_process([:check_file_exists | remaining_steps], file_metadata) do
+  defp do_process([:check_file_exists | remaining], file_metadata) do
     if File.exists?(file_metadata.filename) do
-      do_process(remaining_steps, file_metadata)
+      do_process(remaining, file_metadata)
     else
       {:error, :not_found, file_metadata}
     end
   end
 
-  defp do_process([:clean_file | remaining_steps], file_metadata) do
+  defp do_process([:clean_file | remaining], file_metadata) do
     case do_clean_file(file_metadata) do
       {:ok, file_metadata} ->
-        do_process(remaining_steps, file_metadata)
+        do_process(remaining, file_metadata)
       error ->
         error
     end
   end
 
-  defp do_process([:check_has_single_data_type | remaining_steps], file_metadata) do
+  defp do_process([:check_has_single_data_type | remaining], file_metadata) do
     case file_metadata.data_type do
       :ambiguous ->
         {:error, :ambiguous_data_type, file_metadata}
       :nil ->
         {:error, :no_data_type, file_metadata}
       _ ->
-        do_process(remaining_steps, file_metadata)
+        do_process(remaining, file_metadata)
     end
   end
 
