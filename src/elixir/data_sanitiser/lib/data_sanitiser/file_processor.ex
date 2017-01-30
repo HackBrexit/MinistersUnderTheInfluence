@@ -81,7 +81,7 @@ defmodule DataSanitiser.FileProcessor do
   @spec do_clean_file(DataFile.t) :: {:ok, DataFile.t}
                                    | {:error, atom, DataFile.t} 
   defp do_clean_file(file_metadata = %DataFile{file_type: :csv}) do
-    DataSanitiser.CSVCleaner.clean_file(file_metadata)
+    DataSanitiser.FileProcessor.CSV.clean_file(file_metadata)
   end
 
   defp do_clean_file(file_metadata) do

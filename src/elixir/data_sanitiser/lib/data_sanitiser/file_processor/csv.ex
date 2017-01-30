@@ -1,4 +1,4 @@
-defmodule DataSanitiser.CSVCleaner do
+defmodule DataSanitiser.FileProcessor.CSV do
 
   alias DataSanitiser.TransparencyData.MeetingRow
   alias DataSanitiser.DateUtils
