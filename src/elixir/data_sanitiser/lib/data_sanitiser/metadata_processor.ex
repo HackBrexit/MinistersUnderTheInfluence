@@ -1,4 +1,11 @@
 defmodule DataSanitiser.MetadataProcessor do
+  @moduledoc """
+  Handle the processing of the transparency metadata file.
+
+  Everything needed to work through the metadata file, and appropriately
+  process (or not) each file it references.
+  """
+
   alias DataSanitiser.FileProcessor
   alias DataSanitiser.TransparencyData.DataFile
   alias DataSanitiser.TransparencyData.MeetingRow

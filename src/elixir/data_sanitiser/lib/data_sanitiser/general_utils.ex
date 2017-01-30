@@ -92,4 +92,18 @@ defmodule DataSanitiser.GeneralUtils do
   """
   @spec append_to_path(Path.t, Path.t) :: String.t
   def append_to_path(sub_path, base_path), do: Path.join base_path, sub_path
+
+
+  @doc """
+  Standardised way for outputting error messages.
+
+  Use this method when something has gone wrong in order to log it to the user
+  Currently just outputs to stdout but may change in the future.
+  """
+  @spec log_error(String.t) :: :ok
+  def log_error(message) do
+    IO.puts message
+
+    :ok
+  end
 end
