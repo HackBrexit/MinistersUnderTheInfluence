@@ -31,3 +31,13 @@ If you want to run without compiling you can do so via mix:
 This will output a file named `processed_data.csv` in your working directory
 which can be pushed to the API using the push_data.py python script found
 elsewhere in this repo (look under src/python/sample_data).
+
+## Tests
+To run the tests just use:
+  ```bash
+  mix test
+  ```
+
+## Style conventions
+The code tries to follow the style guide at
+https://github.com/christopheradams/elixir_style_guide
