@@ -1,4 +1,6 @@
 class Organisation < Entity
+  validates :name, uniqueness: true
+
   # has_many :influence_organisation_people,->{ influence_organisation_people },foreign_key: 'office_id',class_name:'InfluenceOfficePerson'
   has_many :influence_organisation_people,foreign_key: 'office_id'
   has_many :meetings,through: :influence_organisation_people,class_name: 'Meeting'
