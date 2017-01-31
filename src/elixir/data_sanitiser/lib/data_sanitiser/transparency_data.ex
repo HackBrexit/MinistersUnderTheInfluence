@@ -101,7 +101,7 @@ defmodule DataSanitiser.TransparencyData do
       minister: String.t | :nil,
       start_date: DateTuple.t,
       end_date: DateTuple.t,
-      organisations: [String.t],
+      organisations: [String.t] | :nil,
       reason: String.t,
       row: non_neg_integer
     }

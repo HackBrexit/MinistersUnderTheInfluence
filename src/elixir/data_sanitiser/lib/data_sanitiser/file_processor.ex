@@ -97,10 +97,37 @@ defmodule DataSanitiser.FileProcessor do
 
 
   defmodule RowState do
+    @moduledoc """
+    Struct to store info needed whilst processing data.
+
+    `previous_minister` represents the last minister name seen
+    `data_positions` are which columns represent which data field.
+
+    This state should be generic enough that it can be used no matter what
+    type of data file is being processed.
+    """
     defstruct previous_minister: :nil, data_positions: :nil
+    @type t :: %RowState{
+      previous_minister: String.t | :nil,
+      data_positions: [atom] | :nil
+    }
   end
 
 
+  @doc """
+  Read the data in from a file, clean it and return it.
+
+  The `DataSanitiser.TransparencyData.DataFile` provided will either be
+  returned in a tuple starting with `:ok` having had its `:rows` key populated
+  with the cleaned data, or (if something went wrong), a tuple starting with
+  `:error` and an error atom.
+
+  Note: An error will only be returned if there's a problem with the file
+  itself. If some of the rows are invalid then it will still attempt to return
+  the data from any that were valid.
+  """
+  @spec clean_file(DataFile.t) :: {:ok, DataFile.t}
+                                | {:error, atom, DataFile.t}
   def clean_file(file_metadata=%{data_type: :meetings}) do
     case DataFile.extract_data(file_metadata) do
       {:ok, data_stream} ->
@@ -131,16 +158,36 @@ defmodule DataSanitiser.FileProcessor do
   end
 
 
+  @spec clean_meeting_row(
+          {[String.t], non_neg_integer},
+          :header | RowState.t,
+          DataFile.t
+        ) :: {[MeetingRow.t], RowState.t}
+           | {[{:error, atom, non_neg_integer}], RowState.t}
   defp clean_meeting_row(row, :header, _file_metadata) do
+    # When dealing with a header row, try to extract the positions of columns
+    # from the row and update the state with it.
     data_positions = meeting_data_positions_from_header row
-    {[:nil], %RowState{data_positions: data_positions}}
+    {
+      [], # Don't add anything to the stream of row data
+      %RowState{data_positions: data_positions}
+    }
   end
 
-  defp clean_meeting_row({csv_row, row_index}, row_state, file_metadata) do
-    case fetch_meeting_values_from_row(csv_row, row_state) do
+  defp clean_meeting_row({row, row_index}, row_state, file_metadata) do
+    case fetch_meeting_values_from_row(row, row_state) do
       %{minister: "", date: "", organisations: "", reason: ""} ->
-        {[:nil], row_state}
-      %{minister: minister, date: date, organisations: organisations, reason: reason} ->
+        # Don't add anything to the stream if no data was put into any of the
+        # columns
+        {[], row_state}
+      %{
+        minister: minister,
+        date: date,
+        organisations: organisations,
+        reason: reason
+      } ->
+        # If there's at least some data then process it into a MeetingRow
+        # and add it to the stream.
         row = %MeetingRow{row: row_index}
               |> parse_and_insert_minister(String.trim(minister), row_state)
               |> parse_and_insert_date(date, file_metadata.year)
@@ -148,51 +195,76 @@ defmodule DataSanitiser.FileProcessor do
               |> parse_and_insert_organisations(organisations)
         {[row], Map.put(row_state, :previous_minister, row.minister)}
       _ ->
-        if row_is_empty? csv_row do
-          {[:nil], row_state}
+        if row_is_empty? row do
+          # Don't add anything to the stream or state if the row is empty.
+          {[], row_state}
         else
+          # Add an error to the stream otherwise as we don't know how to handle
+          # this row.
           {[{:error, :invalid_row, row_index}], row_state}
         end
     end
   end
 
 
+  @spec meeting_data_positions_from_header(
+          {[String.t], non_neg_integer}
+        ) :: [:atom]
   defp meeting_data_positions_from_header({header_row, _}) do
     Enum.map header_row, &(extract_column_type String.trim(&1))
   end
 
 
+  @spec extract_column_type(String.t) :: atom
   defp extract_column_type(""), do: :empty
 
   defp extract_column_type(header_value) do
-    extract_column_type(header_value, Map.keys(@header_types))
+    do_extract_column_type(header_value, Map.keys(@header_types))
   end
 
-  defp extract_column_type(_header_value, []), do: :unknown
 
-  defp extract_column_type(header_value, [type_key | remaining_types]) do
+  @spec do_extract_column_type(String.t, [String.t]) :: atom
+  # No match found so return `:unknown`
+  defp do_extract_column_type(_header_value, []), do: :unknown
+
+  defp do_extract_column_type(header_value, [type_key | remaining_types]) do
+    # Check if the key at the head of the list is in the header string,
+    # If so return the atom associated with that key, otherwise move on to the
+    # next one.
     key_matches = header_value
                   |> String.downcase
                   |> String.contains?(type_key)
     if key_matches do
       @header_types[type_key]
     else
-      extract_column_type(header_value, remaining_types)
+      do_extract_column_type(header_value, remaining_types)
     end
   end
 
 
-  defp fetch_meeting_values_from_row(csv_row, row_state) do
+  @spec fetch_meeting_values_from_row(
+          [String.t], RowState.t
+        ) :: %{required(atom) => String.t}
+  defp fetch_meeting_values_from_row(row, row_state) do
     row_state.data_positions
-    |> Enum.zip(csv_row)
+    |> Enum.zip(row)
     |> Enum.into(%{})
   end
 
 
-  defp row_is_empty?(csv_row), do: Enum.all? csv_row, &(""  == String.trim &1)
+  @spec row_is_empty?([String.t]) :: boolean
+  defp row_is_empty?(row), do: Enum.all? row, &(""  == String.trim &1)
 
 
-  defp parse_and_insert_minister(row, "", %RowState{previous_minister: minister}) do
+  @spec parse_and_insert_minister(
+          MeetingRow.t, String.t, RowState.t
+        ) :: MeetingRow.t
+  defp parse_and_insert_minister(
+         row, "", %RowState{previous_minister: minister}
+       ) do
+    # If the current row has no minister value in it substitute in the last
+    # one seen.
+
     minister
     |> clean_minister_name
     |> put_into_map_at(row, :minister)
@@ -205,8 +277,15 @@ defmodule DataSanitiser.FileProcessor do
   end
 
 
+  @spec clean_minister_name(String.t | :nil) :: String.t | :nil
   defp clean_minister_name(:nil), do: :nil
   defp clean_minister_name(minister) do
+    # Normalises to some common name prefixes and suffixes by trimming
+    # anything before or after them. Removes anything written inside brackets
+    # as this is usually just extra info such as when they took up their role.
+    # Also tidies up excess spaces and commas then returns a canonically cased
+    # version.
+
     minister
     |> String.replace(~r{^.* Rt Hon}, "Rt Hon")
     |> String.replace(~r{ MP[ ,].*$}, " MP")
@@ -216,6 +295,7 @@ defmodule DataSanitiser.FileProcessor do
   end
 
 
+  @spec parse_and_insert_reason(MeetingRow.t, String.t) :: MeetingRow.t
   defp parse_and_insert_reason(row, reason) do
     reason
     |> clean_reason
@@ -223,21 +303,32 @@ defmodule DataSanitiser.FileProcessor do
   end
 
 
+  @spec clean_reason(String.t) :: String.t
   defp clean_reason(reason) do
+    # For reasons we just trim excess whitespace/commas and then canonicalise
+    # the case for easier comparison.
+
     reason
     |> trim_spaces_and_commas
     |> Canonicaliser.canonicalise
   end
 
 
+  @spec parse_and_insert_date(
+          MeetingRow.t, String.t, pos_integer
+        ) :: MeetingRow.t
   defp parse_and_insert_date(row, date_string, default_year) do
-    date_tuple = DateUtils.date_string_to_tuple date_string, default_year
+    # Converts the date string to a tuple, then for now puts it in both the
+    # start and end date entries.
+
+    date_tuple = DateUtils.date_string_to_tuple(date_string, default_year)
     row
     |> Map.put(:start_date, date_tuple)
     |> Map.put(:end_date, date_tuple)
   end
 
 
+  @spec parse_and_insert_organisations(MeetingRow.t, String.t) :: MeetingRow.t
   defp parse_and_insert_organisations(row, organisations_string) do
     organisations_string
     |> OrganisationUtils.parse_organisations
