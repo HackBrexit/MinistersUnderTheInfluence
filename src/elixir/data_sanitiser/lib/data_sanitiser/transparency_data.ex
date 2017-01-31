@@ -6,7 +6,9 @@ defmodule DataSanitiser.TransparencyData do
     @fallback_to_any true
     @spec is_valid?(any) :: boolean
     def is_valid?(row)
-    @spec prepare_for_csv(any, DataFile.t, pos_integer) :: Enumerable.t
+    @spec prepare_for_csv(
+            any, DataSanitiser.TransparencyData.DataFile.t, pos_integer
+          ) :: Enumerable.t
     def prepare_for_csv(row, data_file, row_index)
   end
 
@@ -37,7 +39,7 @@ defmodule DataSanitiser.TransparencyData do
                      | :ambiguous
                      | :nil
 
-    @type row_type :: MeetingRow.t
+    @type row_type :: DataSanitiser.TransparencyData.MeetingRow.t
 
     @type t :: %DataFile{
                  name: String.t,
