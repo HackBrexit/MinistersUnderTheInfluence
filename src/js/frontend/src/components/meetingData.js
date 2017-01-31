@@ -23,7 +23,7 @@ let meetingData = {
 
   fetch: function(sourceType, sourceId, targetType, onSuccess) {
     let url = this.apiURL(sourceType, sourceId, targetType);
-    console.log("Fetching from " + url);
+    console.debug("Fetching from " + url);
     d3.request(url)
       .mimeType("application/json")
       .header("Accept", "application/vnd.api+json")
