@@ -126,7 +126,6 @@ defmodule DataSanitiser.FileProcessor do
   @spec clean_data(Enumerable.t, DataFile.t) :: Enumerable.t
   def clean_data(data_stream, file_metadata=%{data_type: :meetings}) do
     data_stream
-    |> Stream.with_index
     |> Stream.transform(:header, &(clean_meeting_row &1, &2, file_metadata))
     |> Stream.filter(&MeetingRow.is_valid?/1)
   end
