@@ -1,11 +1,25 @@
 defmodule DataSanitiser.TransparencyData do
+  @moduledoc """
+  Various structures representing transparency data files/parts of files
+  """
+
   alias DataSanitiser.DateUtils.DateTuple
 
 
   defprotocol DataFileRow do
+    @moduledoc """
+    Define some common functions shared by all row types.
+
+    These are `is_valid?/1` to say if the data in the row is good or not and
+    `prepare_for_csv/3` which ensures the row is nicely formatted and ready to
+    to output to a 'cleaned' csv file.
+    """
+
     @fallback_to_any true
+
     @spec is_valid?(any) :: boolean
     def is_valid?(row)
+
     @spec prepare_for_csv(
             any, DataSanitiser.TransparencyData.DataFile.t, pos_integer
           ) :: Enumerable.t
@@ -19,6 +33,13 @@ defmodule DataSanitiser.TransparencyData do
 
 
   defmodule DataFile do
+    @moduledoc """
+    Structure representing a single transparency data file.
+
+    Holds enough information to allow the file to be read and cleaned, and then
+    can also hold the cleaned data too.
+    """
+
     defstruct name: "",
               department: "",
               title: "",
@@ -56,14 +77,28 @@ defmodule DataSanitiser.TransparencyData do
 
     @spec is_valid?(any) :: boolean
     def is_valid?(%DataFile{}), do: true
-    def is_valid?(_), do: true
+    def is_valid?(_), do: false
 
+    @doc """
+    Stream several cleaned data files one row at a time formatted for CSV.
+
+    Excludes a header line but includes all valid data from the files passed
+    in, in one continuous stream. Each 'row' will be a list of values that
+    can be converted to a string cleanly.
+    """
+    @spec stream_cleaned_data(Enumerable.t) :: Enumerable.t
     def stream_cleaned_data(processed_files) do
       processed_files
       |> Stream.filter(fn ({:ok,_}) -> true; (_) -> false end)
       |> Stream.transform(1, &stream_clean_rows_to_csv/2)
     end
 
+    @doc """
+    Stream any valid rows out in a CSV ready format.
+    """
+    @spec stream_clean_rows_to_csv(
+            {:ok, DataFile.t}, non_neg_integer
+          ) :: Enumerable.t
     def stream_clean_rows_to_csv({:ok, data_file}, next_row_id) do
       valid_rows = data_file.rows
                    |> Enum.filter(&DataFileRow.is_valid?/1)
@@ -80,6 +115,11 @@ defmodule DataSanitiser.TransparencyData do
       {row_stream, next_row_id + length(valid_rows)}
     end
 
+    @doc """
+    Read in the data from the file on disk and stream one entry at a time.
+    """
+    @spec extract_data(DataFile.t) :: {:ok, Enumerable.t}
+                                    | {:error, atom, DataFile.t}
     def extract_data(file_metadata = %DataFile{file_type: :csv}) do
       {:ok, DataSanitiser.FileProcessor.CSV.extract_data!(file_metadata)}
     end
@@ -91,6 +131,10 @@ defmodule DataSanitiser.TransparencyData do
 
 
   defmodule MeetingRow do
+    @moduledoc """
+    Structure for storing the data that can be extracted from a meeting entry.
+    """
+
     defstruct minister: :nil,
               start_date: %DateTuple{},
               end_date: %DateTuple{},
@@ -106,6 +150,12 @@ defmodule DataSanitiser.TransparencyData do
       row: non_neg_integer
     }
 
+    @doc """
+    Convert the data in the row into a 'cleaned CSV' format.
+    """
+    @spec prepare_for_csv(
+            MeetingRow.t, DataFile.t, non_neg_integer
+          ) :: Enumerable.t
     def prepare_for_csv(row = %MeetingRow{}, data_file, row_index) do
       row.organisations
       |> Stream.map(&(prepare_for_csv(&1, row, data_file, row_index)))
@@ -128,6 +178,7 @@ defmodule DataSanitiser.TransparencyData do
       ]
     end
 
+
     @spec is_valid?(any) :: boolean
     def is_valid?(%MeetingRow{organisations: [""]}), do: false
     def is_valid?(%MeetingRow{minister: :nil}), do: false
@@ -136,6 +187,9 @@ defmodule DataSanitiser.TransparencyData do
     end
     def is_valid?(_), do: false
 
+    @doc """
+    The headings to associate with the output of `prepare_for_csv`.
+    """
     @spec header_row :: [String.t]
     def header_row do
       [
