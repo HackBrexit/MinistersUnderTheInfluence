@@ -4,6 +4,7 @@ defmodule DataSanitiser.FileProcessor.CSV do
   """
 
   alias DataSanitiser.CSVUtils
+  alias DataSanitiser.TransparencyData.DataFile
 
   @doc """
   Reads a file and returns a stream of its data.
@@ -12,7 +13,7 @@ defmodule DataSanitiser.FileProcessor.CSV do
   Streams the data out one row at a time, including the first (header) row.
   """
   @spec extract_data!(DataFile.t) :: Enumerable.t
-  def extract_data!(%{data_type: :meetings, filename: filename}) do
+  def extract_data!(%DataFile{file_type: :csv, filename: filename}) do
     CSVUtils.stream_from_csv_file!(filename, headers: false)
   end
 end
