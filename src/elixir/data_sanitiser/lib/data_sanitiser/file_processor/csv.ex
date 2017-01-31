@@ -1,4 +1,7 @@
 defmodule DataSanitiser.FileProcessor.CSV do
+  @moduledoc """
+  Functions to assist with the processing of transparency files saved as CSVs.
+  """
 
   alias DataSanitiser.TransparencyData.MeetingRow
   alias DataSanitiser.DateUtils
@@ -19,6 +22,18 @@ defmodule DataSanitiser.FileProcessor.CSV do
     "purpose" => :reason
   }
 
+  @doc """
+  Reads a file and returns a stream of its data.
+
+  Only reads meetings files at the moment.
+  Streams the data out one row at a time, including the first (header) row.
+  """
+  @spec extract_data!(DataFile.t) :: Enumerable.t
+  def extract_data!(%{data_type: :meetings, filename: filename}) do
+    CSVUtils.stream_from_csv_file!(filename, headers: false)
+  end
+
+
 
   defmodule RowState do
     defstruct previous_minister: :nil, data_positions: :nil
@@ -26,18 +41,30 @@ defmodule DataSanitiser.FileProcessor.CSV do
 
 
   def clean_file(file_metadata=%{data_type: :meetings}) do
-    processed_rows = file_metadata.filename
-                     |> CSVUtils.stream_from_csv_file!(headers: :false)
-                     |> Stream.with_index
-                     |> Stream.transform(:header, &(clean_meeting_row &1, &2, file_metadata))
-                     |> Stream.filter(&MeetingRow.is_valid?/1)
+    new_metadata = file_metadata
+                   |> extract_data!
+                   |> clean_data(file_metadata)
+                   |> put_into_map_at(file_metadata, :rows)
 
-    new_metadata = Map.put(file_metadata, :rows, processed_rows)
     {:ok, new_metadata}
   end
 
   def clean_file(file_metadata) do
     {:error, :unsupported_data_type, file_metadata}
+  end
+
+
+  @doc """
+  Clean up a data stream which has been read from a file.
+
+  Currently only knows how to clean data from meetings files.
+  """
+  @spec clean_data(Enumerable.t, DataFile.t) :: Enumerable.t
+  def clean_data(data_stream, file_metadata=%{data_type: :meetings}) do
+    data_stream
+    |> Stream.with_index
+    |> Stream.transform(:header, &(clean_meeting_row &1, &2, file_metadata))
+    |> Stream.filter(&MeetingRow.is_valid?/1)
   end
 
 
