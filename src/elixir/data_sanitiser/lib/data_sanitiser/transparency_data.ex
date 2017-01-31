@@ -77,6 +77,14 @@ defmodule DataSanitiser.TransparencyData do
                       )
       {row_stream, next_row_id + length(valid_rows)}
     end
+
+    def extract_data(file_metadata = %DataFile{file_type: :csv}) do
+      {:ok, DataSanitiser.FileProcessor.CSV.extract_data!(file_metadata)}
+    end
+
+    def extract_data(file_metadata) do
+      {:error, :unsupported_file_type, file_metadata}
+    end
   end
 
 
