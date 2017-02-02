@@ -41,7 +41,6 @@ namespace :deploy do
     on roles(:app), in: :sequence, wait: 5 do
       # Your restart mechanism here, for example:
       invoke 'unicorn:reload'
-  end
     end
   end
   after :publishing, :restart
