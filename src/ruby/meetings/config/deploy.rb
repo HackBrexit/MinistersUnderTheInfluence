@@ -1,4 +1,5 @@
 # config valid only for Capistrano 3.1
+lock '3.6.1'
 set :application, ->{YAML.load_file('config/deploy.yml')[fetch(:stage)][:directory]}
 set :repo_url, ->{YAML.load_file('config/deploy.yml')[fetch(:stage)][:repo_url]}
 set :branch, ->{YAML.load_file('config/deploy.yml')[fetch(:stage)][:branch]}
@@ -7,7 +8,7 @@ set :branch, ->{YAML.load_file('config/deploy.yml')[fetch(:stage)][:branch]}
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 
 # Default deploy_to directory is /var/www/my_app
-set :deploy_to, '/home/rails/my_app'
+set :deploy_to, "/home/rails/muti/#{fetch(:stage)}"
 
 # Default value for :scm is :git
 # set :scm, :git
@@ -39,7 +40,8 @@ namespace :deploy do
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
       # Your restart mechanism here, for example:
-      execute :touch, release_path.join('tmp/restart.txt')
+      invoke 'unicorn:reload'
+  end
     end
   end
   after :publishing, :restart
