@@ -1,3 +1,10 @@
+# Avoid warnings about the git protocol being insecure when using github repos.
+# https://github.com/bundler/bundler/issues/4978
+git_source(:github) do |repo_name|
+  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
+  "https://github.com/#{repo_name}.git"
+end
+
 source 'https://rubygems.org'
 #https://github.com/twbs/bootstrap-rubygem
 source 'https://rails-assets.org' do
@@ -60,12 +67,13 @@ gem 'draper', github: 'drapergem/draper'
 gem 'haml-rails'
 gem 'country_select'
 gem 'kaminari'
+gem "htmlentities"
 gem 'factory_girl_rails'
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'activemodel-serializers-xml'
 gem 'swagger-blocks'
 gem 'jsonapi-resources'
-gem 'globalize', git: 'git@github.com:JohnSmall/globalize.git'
+gem 'globalize', github: 'JohnSmall/globalize'
 gem 'rack-cors', :require => 'rack/cors'
 
 group :development, :test do
@@ -76,7 +84,9 @@ group :development, :test do
   gem 'cucumber-rails', require: false
   gem 'awesome_print'
   gem 'webmock'
-  gem 'capistrano-git-submodule-strategy', '~> 0.1', :github => 'ekho/capistrano-git-submodule-strategy'
+  gem 'capistrano-git-submodule-strategy', '~> 0.1', github: 'ekho/capistrano-git-submodule-strategy'
+  gem 'faraday'
+  gem 'jsonpath'
 end
 
 group :test do

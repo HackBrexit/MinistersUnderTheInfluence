@@ -8,7 +8,6 @@ it:
   delete: Cancellare
   save: Salva
   home_page: Casa
-  application_name: ministerial_meetings
   toggle_navigation: Navigazione Toggle
   not_authorised: Accesso negato. Non sei autorizzato a fare questo
   not_authenticated: Accesso negato. È necessario il login prima
@@ -33,3 +32,67 @@ it:
     :up: Stati Uniti - Spagna
     :ca: Canada - English
     :cf: Canada - French
+    :es: Spagna
+  activerecord:
+    models:
+      meeting:
+        one: Incontro
+        other: incontri
+      hospitality:
+        one: Ospitalità
+        other: Ospitalità
+      gift:
+        one: Regalo
+        other: I regali
+      travel:
+        one: Viaggio
+        other: Viaggi
+      person:
+        one: Persona
+        other: Persone
+      government_office:
+        one: Ufficio governativo
+        other: Uffici governativi
+      organisation:
+        one: organizzazione
+        other: organizzazioni
+    attributes:
+      means_of_influence:
+        day: Giorno
+        month: Mese
+        year: Anno
+      meeting:
+        day: Giorno
+        month: Mese
+        year: Anno
+        purpose: Scopo della riunione
+      travel:
+        day: Giorno
+        month: Mese
+        year: Anno
+        purpose: Proposta di viaggio
+      hospitality:
+        day: Giorno
+        month: Mese
+        year: Anno
+        type_of_hospitality: Tipo di ospitalità
+      gift:
+        day: Giorno
+        month: Mese
+        year: Anno
+        gift: Regalo
+        value: Valore
+      entity:
+        name: Nome
+        wikipedia_entry: Wikipedia Entry
+      person:
+        name: Nome
+        wikipedia_entry: Wikipedia Entry
+      government_office:
+        name: Nome
+        wikipedia_entry: Wikipedia Entry
+      organisation:
+        name: Nome
+        wikipedia_entry: Wikipedia Entry
+  application_name: I Ministri Under The Influence
+  documentation: Documentazione

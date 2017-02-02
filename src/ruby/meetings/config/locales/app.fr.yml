@@ -2,13 +2,12 @@
 fr:
   hello: Bonjour le monde
   show: Spectacle
-  edit: "Éditer"
+  edit: Éditer
   back: Arrière
   update: Mettre à jour
   delete: Effacer
   save: Enregistrer
   home_page: Maison
-  application_name: ministerial_meetings
   toggle_navigation: Basculer la navigation
   not_authorised: Accès refusé. Vous n&#39;êtes pas autorisé à le faire
   not_authenticated: Accès refusé. Vous devez d&#39;abord vous connecter
@@ -29,7 +28,71 @@ fr:
     :uk: Royaume-Uni
     :br: Brésil
     :ba: Bosnie-
-    :us: "États-Unis - Anglais"
-    :up: "États-Unis - Espagnol"
+    :us: États-Unis - Anglais
+    :up: États-Unis - Espagnol
     :ca: Canada - English
     :cf: Canada - Français
+    :es: l'Espagne
+  activerecord:
+    models:
+      meeting:
+        one: Réunion
+        other: Réunions
+      hospitality:
+        one: Hospitalité
+        other: Hospitalité
+      gift:
+        one: Cadeau
+        other: Cadeaux
+      travel:
+        one: Voyager
+        other: Voyages
+      person:
+        one: Personne
+        other: Gens
+      government_office:
+        one: Bureau du gouvernement
+        other: Bureaux du gouvernement
+      organisation:
+        one: organisation
+        other: organisations
+    attributes:
+      means_of_influence:
+        day: journée
+        month: Mois
+        year: An
+      meeting:
+        day: journée
+        month: Mois
+        year: An
+        purpose: Objet de la réunion
+      travel:
+        day: journée
+        month: Mois
+        year: An
+        purpose: Raison du voyage
+      hospitality:
+        day: journée
+        month: Mois
+        year: An
+        type_of_hospitality: Type d'accueil
+      gift:
+        day: journée
+        month: Mois
+        year: An
+        gift: Cadeau
+        value: Valeur
+      entity:
+        name: prénom
+        wikipedia_entry: Wikipedia Entrée
+      person:
+        name: prénom
+        wikipedia_entry: Wikipedia Entrée
+      government_office:
+        name: prénom
+        wikipedia_entry: Wikipedia Entrée
+      organisation:
+        name: prénom
+        wikipedia_entry: Wikipedia Entrée
+  application_name: Ministres sous influence
+  documentation: Documentation

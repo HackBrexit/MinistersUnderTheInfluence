@@ -1,25 +1,21 @@
-%h1 Listing entities
+-content_for :title do
+  = @type.pluralize
 
-%table.table.table-inverse.table-striped
-  %thead
-    %tr
-      %th Name
-      %th Wikipedia entry
-      %th Type
-      %th
-      %th
-      %th
+-content_for :content do
+  .card
+    .card-block
+      %h1.card-title= @type_class.model_name.human(count: 2).capitalize
+    .card-block
+      %table.table.table-inverse.table-striped
+        %thead
+          %tr
+            %th Name
+            %th Wikipedia entry
+            %th
 
-  %tbody
-    - @entities.each do |entity|
-      %tr
-        %td= entity.name
-        %td= entity.wikipedia_entry
-        %td= entity.type
-        %td= link_to 'Show', entity
-        %td= link_to 'Edit', edit_entity_path(entity)
-        %td= link_to 'Destroy', entity, :method => :delete, :data => { :confirm => 'Are you sure?' }
-
-%br
-
-= link_to 'New Entity', new_entity_path
+        %tbody
+          - @entities.each do |entity|
+            %tr
+              %td= entity.name
+              %td= entity.wikipedia_entry
+              %td= link_to 'Show', send("#{@type.underscore.downcase}_path",entity)

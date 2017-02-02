@@ -13,14 +13,18 @@ require 'rails_helper'
     it{ should have_many(:government_people).through(:influence_government_office_people).class_name('Person')}
     it{ should have_many(:government_offices).through(:influence_government_office_people)}
     it{ should have_many(:organisation_people).through(:influence_organisation_people).class_name('Person')}
+    it{ should belong_to(:source_file)}
+    it{ should have_db_column(:source_file_id).of_type(:integer)}
+    it{ should have_db_column(:source_file_line_number).of_type(:integer)}
+    it{ should validate_presence_of(:source_file_id)}
+    it{ should validate_presence_of(:source_file_line_number)}
   end
 
 
 RSpec.describe Meeting, type: :model do
   it{ should have_db_column(:purpose).of_type(:string)}
-  it{should validate_presence_of(:purpose)}
 
-  # verify that these complex through relationships are working 
+  # verify that these complex through relationships are working
   it 'should link to a government person' do
    link_record = create(:influence_government_office_person)
    meeting = link_record.meeting

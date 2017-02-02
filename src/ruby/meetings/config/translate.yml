@@ -1,0 +1,14 @@
+---
+default: &default 
+  host: 'https://www.googleapis.com/language/translate/v2'
+  key: <%= ENV['GOOGLE_TRANSLATION_API_KEY'] %> 
+development:
+  <<: *default
+bbc_data:
+  <<: *default
+test:
+  <<: *default
+staging:
+  <<: *default
+production:
+  <<: *default

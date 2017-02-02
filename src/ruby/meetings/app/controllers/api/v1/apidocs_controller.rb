@@ -1,10 +1,16 @@
 class Api::V1::ApidocsController < ApplicationController
   include Swagger::Blocks
 
-  swagger_root do
-    deploy = YAML.load(File.read('config/deploy.yml'))
+  def self.get_deployment_host
+    deploy_yml = 'config/deploy.yml'
+    return nil unless File.exist? deploy_yml
+    yaml = File.read(deploy_yml)
+    deploy = YAML.load(yaml)
     section = deploy[Rails.env.to_sym]
-    host = section ? deploy[Rails.env.to_sym][:domain] : 'example.com'
+    section ? section[:domain] : nil
+  end
+
+  swagger_root do
     key :swagger, '2.0'
     info do
       key :version, '1.0.0'
@@ -26,7 +32,7 @@ class Api::V1::ApidocsController < ApplicationController
         key :url, 'http://jsonapi.org/'
       end
     end
-    key :host, host
+    key :host, Api::V1::ApidocsController::get_deployment_host || 'example.com'
     key :basePath, '/api/v1'
     key :consumes, ['application/vnd.api+json']
     key :produces, ['application/vnd.api+json']
