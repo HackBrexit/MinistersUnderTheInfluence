@@ -1,4 +1,8 @@
 # config valid only for Capistrano 3.1
+# See http://stackoverflow.com/questions/29168/deploying-a-git-subdirectory-in-capistrano/6969505#6969505 for instructions on how
+# to install from a subdirection
+# As of Capistrano 3.3.3, you can now use the :repo_tree configuration variable,
+# http://capistranorb.com/documentation/getting-started/configuration/
 lock '3.6.1'
 set :application, ->{YAML.load_file('config/deploy.yml')[fetch(:stage)][:directory]}
 set :repo_url, ->{YAML.load_file('config/deploy.yml')[fetch(:stage)][:repo_url]}
@@ -8,11 +12,10 @@ set :branch, ->{YAML.load_file('config/deploy.yml')[fetch(:stage)][:branch]}
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 
 # Default deploy_to directory is /var/www/my_app
-set :deploy_to, "/home/rails/muti/#{fetch(:stage)}"
+set :deploy_to, "/home/rails/muti_tree/#{fetch(:stage)}"
 
 # Default value for :scm is :git
 # set :scm, :git
-set :git_strategy, Capistrano::Git::SubmoduleStrategy
 set :repo_tree, 'src/ruby/meetings'
 # Default value for :format is :pretty
 # set :format, :pretty
