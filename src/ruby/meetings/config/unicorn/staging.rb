@@ -10,7 +10,7 @@ worker_processes 4
 timeout 30
 preload_app true
 
-listen '/tmp/unicorn.muti.staging.sock', backlog: 64
+listen '/tmp/unicorn.muti.staging_2.sock', backlog: 64
 
 before_fork do |server, worker|
   Signal.trap 'TERM' do
