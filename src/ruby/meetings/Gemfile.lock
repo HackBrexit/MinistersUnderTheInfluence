@@ -246,6 +246,7 @@ GEM
     public_suffix (2.0.5)
     puma (3.6.2)
     rack (2.0.1)
+    rack-cors (0.4.0)
     rack-test (0.6.3)
       rack (>= 1.0)
     railroady (1.5.2)
@@ -434,6 +435,7 @@ DEPENDENCIES
   pg (~> 0.18)
   poltergeist
   puma (~> 3.0)
+  rack-cors
   railroady
   rails (~> 5.0.0, >= 5.0.0.1)
   rails-assets-tether (>= 1.1.0)!
