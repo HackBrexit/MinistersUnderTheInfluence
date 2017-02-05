@@ -34,7 +34,7 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'unicorn'
+gem "passenger", ">= 5.0.25", require: "phusion_passenger/rack_handler"
 gem 'draper', "3.0.0.pre1"
 
 gem 'bootstrap', '~> 4.0.0.alpha4'
@@ -60,7 +60,7 @@ group :development do
   gem 'capistrano', '~> 3.6'
   gem 'capistrano-rails', '~> 1.1'
   gem 'capistrano-bundler', '~> 1.1.2'
-  gem 'capistrano3-unicorn'
+  gem 'capistrano-passenger'
   gem 'railroady'
   gem 'rvm1-capistrano3', require: false
   gem 'git'
