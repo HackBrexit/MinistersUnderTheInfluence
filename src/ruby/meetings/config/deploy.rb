@@ -27,7 +27,7 @@ set :repo_tree, 'src/ruby/meetings'
 # set :pty, true
 
 # Default value for :linked_files is []
-set :linked_files, ['config/database.yml','config/secrets.yml','config/deploy.yml','config/environment_params.yml']
+set :linked_files, ['config/database.yml','config/secrets.yml','config/environment_params.yml']
 
 # Default value for linked_dirs is []
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads}
@@ -38,24 +38,5 @@ set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 
-namespace :deploy do
-  desc 'Restart application'
-  task :restart do
-    on roles(:app), in: :sequence, wait: 5 do
-      # Your restart mechanism here, for example:
-      invoke 'unicorn:reload'
-    end
-  end
-  after :publishing, :restart
-
-  after :restart, :clear_cache do
-    on roles(:web), in: :groups, limit: 3, wait: 10 do
-      # Here we can do anything such as:
-      # within release_path do
-      #   execute :rake, 'cache:clear'
-      # end
-    end
-  end
 
 
-end
