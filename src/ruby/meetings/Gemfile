@@ -1,17 +1,10 @@
 # Avoid warnings about the git protocol being insecure when using github repos.
 # https://github.com/bundler/bundler/issues/4978
-git_source(:github) do |repo_name|
-  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
-  "https://github.com/#{repo_name}.git"
-end
-
-source 'https://rubygems.org'
 #https://github.com/twbs/bootstrap-rubygem
+source 'https://rubygems.org'
 source 'https://rails-assets.org' do
     gem 'rails-assets-tether', '>= 1.1.0'
 end
-
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
 # Use postgresql as the database for Active Record
@@ -41,12 +34,19 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'unicorn'
+gem "passenger", ">= 5.0.25", require: "phusion_passenger/rack_handler"
+gem 'draper', "3.0.0.pre1"
 
-group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platform: :mri
-end
+gem 'bootstrap', '~> 4.0.0.alpha4'
+gem 'haml-rails'
+gem 'country_select'
+gem 'kaminari'
+gem "htmlentities"
+gem 'active_model_serializers', '~> 0.10.0'
+gem 'activemodel-serializers-xml'
+gem 'swagger-blocks'
+gem 'jsonapi-resources'
+gem 'rack-cors', :require => 'rack/cors'
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
@@ -55,28 +55,22 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+# Use Capistrano for deployment
+# gem 'capistrano-rails', group: :development
+  gem 'capistrano', '~> 3.6'
+  gem 'capistrano-rails', '~> 1.1'
+  gem 'capistrano-bundler', '~> 1.1.2'
+  gem 'capistrano-passenger'
+  gem 'railroady'
+  gem 'rvm1-capistrano3', require: false
+  gem 'git'
+  gem 'spring-commands-rspec'
+  gem 'spring-commands-cucumber'
+  #gem 'capistrano-git-submodule-strategy', '~> 0.1', :github => 'ekho/capistrano-git-submodule-strategy'
 end
 
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
-
-gem 'bootstrap', '~> 4.0.0.alpha4'
-gem 'carrierwave'
-gem 'mini_magick'
-gem 'draper', github: 'drapergem/draper'
-gem 'haml-rails'
-gem 'country_select'
-gem 'kaminari'
-gem "htmlentities"
-gem 'factory_girl_rails'
-gem 'active_model_serializers', '~> 0.10.0'
-gem 'activemodel-serializers-xml'
-gem 'swagger-blocks'
-gem 'jsonapi-resources'
-gem 'globalize', github: 'JohnSmall/globalize'
-gem 'rack-cors', :require => 'rack/cors'
-
 group :development, :test do
+  gem 'byebug', platform: :mri
   gem 'mailcatcher'
   gem 'syntax'
   gem 'rspec-rails'
@@ -84,9 +78,9 @@ group :development, :test do
   gem 'cucumber-rails', require: false
   gem 'awesome_print'
   gem 'webmock'
-  gem 'capistrano-git-submodule-strategy', '~> 0.1', github: 'ekho/capistrano-git-submodule-strategy'
   gem 'faraday'
   gem 'jsonpath'
+  gem 'factory_girl_rails'
 end
 
 group :test do
@@ -102,14 +96,3 @@ group :test do
   gem 'rails-controller-testing'
 end
 
-group :development do
-  gem 'capistrano', '~> 3.6'
-  gem 'capistrano-rails', '~> 1.1'
-  gem 'capistrano-bundler', '~> 1.1.2'
-  gem 'capistrano-passenger'
-  gem 'railroady'
-  gem 'rvm1-capistrano3', require: false
-  gem 'git'
-  gem 'spring-commands-rspec'
-  gem 'spring-commands-cucumber'
-end

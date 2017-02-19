@@ -16,7 +16,7 @@ set :stage, :staging
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 set :domain,YAML.load_file('config/deploy.yml')[fetch(:stage)][:domain]
-server fetch(:domain), user: 'ubuntu', roles: %w{db web app}#, my_property: :my_value
+server fetch(:domain), user: 'rails', roles: %w{db web app}#, my_property: :my_value
 
 
 
