@@ -28,11 +28,11 @@ let d3Chart = {
   },
 
   initBubbleCoordsRadius: function(svg, data) {
-    data.each((item) => {
+    data.map((item) => {
       item.radius = Math.sqrt(item.meetingCount) * RADIUS_SCALE;
       item.x = Math.random() * svg.pixelWidth;
       item.y = Math.random() * svg.pixelHeight;
-    }
+    })
   },
 
   translate: function(x, y) {
