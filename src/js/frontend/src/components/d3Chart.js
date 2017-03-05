@@ -4,7 +4,7 @@
 // them.
 
 // FIXME: make this constant configurable
-let RADIUS_SCALE = 10;
+let RADIUS_SCALE = 25;
 
 let d3 = require('d3');
 let meetingData = require('./meetingData');
@@ -28,11 +28,11 @@ let d3Chart = {
   },
 
   initBubbleCoordsRadius: function(svg, data) {
-    for (let i = 0; i < data.length; i++) {
-      data[i].radius = data[i].meetingCount * RADIUS_SCALE;
-      data[i].x = Math.random() * svg.pixelWidth;
-      data[i].y = Math.random() * svg.pixelHeight;
-    }
+    data.map((item) => {
+      item.radius = Math.sqrt(item.meetingCount) * RADIUS_SCALE;
+      item.x = Math.random() * svg.pixelWidth;
+      item.y = Math.random() * svg.pixelHeight;
+    })
   },
 
   translate: function(x, y) {
@@ -104,12 +104,13 @@ let d3Chart = {
     this.bubbles.append("text")
       .text(function(d) {return d.targetName;})
       .style("font-size", this.bubbleTextFontSize)
+      .style("font-weight", "bold")
   },
 
   bubbleTextFontSize: function(d) {
     return Math.min(
       2 * d.radius,
-      (2 * d.radius - 8) / this.getComputedTextLength() * 10
+      (2 * d.radius - 8) / this.getComputedTextLength() * 15
     ) + "px";
   },
 

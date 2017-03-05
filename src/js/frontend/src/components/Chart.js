@@ -1,6 +1,7 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import Radium from "radium"
+import { Link } from 'react-router'
 
 let d3Chart = require('./d3Chart');
 let meetingData = require('./meetingData');
@@ -12,6 +13,7 @@ let Chart = React.createClass({
     data: React.PropTypes.object,
     sourceType: React.PropTypes.string.isRequired,
     sourceId: React.PropTypes.string,
+    sourceName: React.PropTypes.string,
     targetType: React.PropTypes.string,
   },
 
@@ -29,6 +31,10 @@ let Chart = React.createClass({
         </svg>
       </div>
     )
+  },
+
+  shouldComponentUpdate: function() {
+    return false;
   },
 
   componentDidMount: function() {
