@@ -68,6 +68,6 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
     curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
     apt-get update
-    apt-get install -y git nodejs=6.9.1-1nodesource1~xenial1
+    apt-get install -y git nodejs=6.9.1-1nodesource1~xenial1 postgresql
   SHELL
 end
