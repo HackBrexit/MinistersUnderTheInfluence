@@ -49,9 +49,9 @@ class ChartContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({ data }) => {
   return {
-    entities: state.get("entities"),
+    entities: data.get('entities'),
   };
 };
 
