@@ -5,7 +5,15 @@ It describes the system dependencies and how to set up the project
 == Dependencies
 
 1. Ruby version at least 2.2.2, it was developed in Ruby 2.3.1
-2. Postgresql
+2. Postgresql (this is included on the vagrant machine)
+
+  sudo apt-get -y install postgresql
+
+You will need to create a user in Postgresql for the Rails app to connect as:
+
+  sudo su postgres
+  createuser -s mutiuser
+  exit
 
 == Setup
 
@@ -48,6 +56,11 @@ the data structure.
    with permission to create databases. Go to +RAILS_ROOT/config/+,
    copy +database.yml.example+ to +database.yml+, and edit as required.
 
+For example, if you created a user 'mutiuser' with no password edit the two lines like so:
+
+  username: mutiuser
+  password:
+
 2. Within the same directory, copy +secrets.yml.example+ to
    +secrets.yml+ and add your own secrets. You can get new secrets by
    typing +bundle exec rake secret+ on the command line.
@@ -55,18 +68,12 @@ the data structure.
 Once you've got +database.yml+ and +secrets.yml+ in place and
 configured then run
 
-  bundle exec rails db:create:all
+  bundle exec rake db:setup
 
 This will create the databases for each Rails environment,
 development, test, staging and production. As you'll be using
 development and test these are the only ones you need to be concerned
 with.
-
-Then run
-
-  bundle exec rails db:migrate
-
-This will set up the tables in the development database.
 
 Then run
 
@@ -89,9 +96,13 @@ If Rspec spec tests pass then ignore the Cucumber failures and run
 This will seed the development database with data extracted from some
 of the ministerial meetings csv files.
 
-And finally type
+And finally type (if running directly on your laptop):
 
   bundle exec rails s
+
+or, if running from within the vagrant machine:
+
+  bundle exec rails s -b 0.0.0.0
 
 This will start up Rails on port 3000 so go to
 {h\ttp://localhost:3000}[http://localhost:3000], or h\ttp://\{ip-address
@@ -103,3 +114,50 @@ using node on port 3000, then start with
   bundle exec rails s -p 3001
 
 or whatever port number you want.
+
+== Troubleshooting
+
+=== no password supplied
+
+If you receive the following error when trying to create the database:
+
+  fe_sendauth: no password supplied
+  Couldn't create database for {"adapter"=>"postgresql", "encoding"=>"unicode", "pool"=>5, "username"=>"mutiuser", "password"=>nil, "host"=>"localhost", "database"=>"meetings_development"}
+  rake aborted!
+  PG::ConnectionBad: fe_sendauth: no password supplied
+
+Update the user in Postgres to have a password set.
+
+  sudo su postgres
+  psql
+  alter user mutiuser with password 'mutiuserpassword';
+  exit
+
+Remember to update the database.yml file as well:
+
+  password: mutiuserpassword
+
+Then re-run the database creation command.
+
+=== encoding "UTF8" does not match locale "en_US"
+
+If you receive the following error when trying to create the database:
+
+  PG::InvalidParameterValue: ERROR:  encoding "UTF8" does not match locale "en_US"
+  DETAIL:  The chosen LC_CTYPE setting requires encoding "LATIN1".
+  : CREATE DATABASE "meetings_development" ENCODING = 'unicode'
+  Couldn't create database for {"adapter"=>"postgresql", "encoding"=>"unicode", "pool"=>5, "username"=>"mutiuser", "password"=>"mutiuserpassword", "host"=>"localhost", "database"=>"meetings_development"}
+  rake aborted!
+  ActiveRecord::StatementInvalid: PG::InvalidParameterValue: ERROR:  encoding "UTF8" does not match locale "en_US"
+  DETAIL:  The chosen LC_CTYPE setting requires encoding "LATIN1".
+
+Run the following commands to update Postgres:
+
+  sudo su postgres
+  psql
+  update pg_database set datistemplate=false where datname='template1';
+  drop database Template1;
+  create database template1 with owner=postgres encoding='UTF-8' lc_collate='en_US.utf8' lc_ctype='en_US.utf8' template template0;
+  update pg_database set datistemplate=true where datname='template1';
+
+Then re-run the database creation command.
