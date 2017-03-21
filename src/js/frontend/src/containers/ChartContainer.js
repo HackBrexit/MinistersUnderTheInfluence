@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import ChartTitle from "../components/ChartTitle"
 import Chart from "../components/Chart"
-import entityData from "../components/entityData"
+import entityData from "../lib/entityData"
 import * as actions from "../Redux/actions"
 
 class ChartContainer extends React.Component {
