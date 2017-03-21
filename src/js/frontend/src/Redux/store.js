@@ -5,6 +5,7 @@ import {rootReducer, storeStructure, initialStoreState} from "./reducer"
 import * as storage from "redux-storage"
 import createEngine from "redux-storage-engine-localstorage"
 import storageDebounce from 'redux-storage-decorator-debounce'
+import promiseMiddleware from 'redux-promise-middleware'
 import immutablejs from 'redux-storage-decorator-immutablejs'
 import merger from 'redux-storage-merger-immutablejs'
 
@@ -43,6 +44,7 @@ const store = createStore(
   composeEnhancers(
     applyMiddleware(
       thunkMiddleware, // first, so function results get transformed
+      promiseMiddleware(),
 //      loggerMiddleware,  // now log everything at this state
 //      storageMiddleware, // finally the storage middleware
     )
