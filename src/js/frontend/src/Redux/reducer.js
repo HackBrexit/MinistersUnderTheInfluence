@@ -14,3 +14,8 @@ export const storeStructure = [
   ['ui'],
   ['data'],
 ]
+
+export const initialStoreState = {
+  ui: {},
+  data: {},
+}

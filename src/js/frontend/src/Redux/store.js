@@ -1,7 +1,7 @@
 import {createStore, applyMiddleware} from "redux"
 import thunkMiddleware from "redux-thunk"
 import createLogger from 'redux-logger'
-import {rootReducer, storeStructure} from "./reducer"
+import {rootReducer, storeStructure, initialStoreState} from "./reducer"
 import * as storage from "redux-storage"
 import createEngine from "redux-storage-engine-localstorage"
 import storageDebounce from 'redux-storage-decorator-debounce'
@@ -41,6 +41,7 @@ const loggerMiddleware = createLogger({
 
 const store = createStore(
   reducer,
+  initialStoreState,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
