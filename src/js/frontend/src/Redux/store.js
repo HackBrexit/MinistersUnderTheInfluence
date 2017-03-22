@@ -10,6 +10,7 @@ import merger from 'redux-storage-merger-immutablejs'
 
 ////////////////////////////////////////////////////////////////////////////////
 // redux stuff
+import { composeWithDevTools } from 'redux-devtools-extension'
 
 // wrap our main reducer in a storage reducer - this intercepts LOAD actions and
 // calls the merger function to merge in the new state
@@ -31,18 +32,21 @@ const loggerMiddleware = createLogger({
   //predicate: (getState, action) => action.type !== CALCULATION_NEEDS_REFRESH
 })
 
-// now create our redux store, applying all our middleware
-// const store = createStore(reducer, applyMiddleware(
-//   thunkMiddleware, // first, so function results get transformed
-//   loggerMiddleware, // now log everything at this state
-//   storageMiddleware // finally the storage middleware
-// ))
-
+const composeEnhancers = composeWithDevTools({
+  name: 'MUTI frontend',
+  // actionsBlacklist: ['REDUX_STORAGE_SAVE']
+});
 
 const store = createStore(
   reducer,
   initialStoreState,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  composeEnhancers(
+    applyMiddleware(
+      thunkMiddleware, // first, so function results get transformed
+//      loggerMiddleware,  // now log everything at this state
+//      storageMiddleware, // finally the storage middleware
+    )
+  )
 );
 
 window.store = store;
