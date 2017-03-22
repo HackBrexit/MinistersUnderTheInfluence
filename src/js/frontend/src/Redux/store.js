@@ -17,8 +17,10 @@ const reducer = storage.reducer(rootReducer, (oldState, newState) => newState)
 // create a storage engine, with decorators to convert plain JS into Immutable
 // and "debounce" storage so it's not happening all the time
 const engine = storageDebounce(immutableStorageDecorator(createEngine("muti-frontend")), 2000)
+
 // create storage middleware, which triggers a save action after every normal action
 const storageMiddleware = storage.createMiddleware(engine)
+
 // create logger middleware
 const loggerMiddleware = createLogger({
   //stateTransformer: (state) => state.toJS ? state.toJS() : state,
