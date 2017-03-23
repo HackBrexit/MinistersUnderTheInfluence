@@ -14,17 +14,19 @@ export const dataReducer = (state = initialState, action) => {
 
   switch (type) {
     case ADD_ENTITY:
-      if (!state.has(entityType)) {
+      if (!state.get("entities").has(entityType)) {
         console.error(`Received ADD_ENTITY action with invalid entity type ${entityType}`);
         return state;
       }
       return state.mergeDeep({
-        [entityType]: {
-          [id]: data
+        entities: {
+          [entityType]: {
+            [id]: data
+          },
         },
       });
+
     default:
       return state;
-
   }
 }
