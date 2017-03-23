@@ -3,8 +3,8 @@ import ReactDOM from "react-dom"
 import Radium from "radium"
 import { Link } from 'react-router'
 
-let d3Chart = require('./d3Chart');
-let meetingData = require('./meetingData');
+let d3Chart = require('../lib/d3Chart');
+let meetingData = require('../lib/meetingData');
 
 let Chart = React.createClass({
   d3Chart: d3Chart,
