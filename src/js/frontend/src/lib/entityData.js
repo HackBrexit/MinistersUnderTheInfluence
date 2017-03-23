@@ -1,5 +1,6 @@
 let d3 = require('d3');
 let api = require('./api');
+import axios from "axios"
 
 let entityData = {
   apiURL: function(entityType, entityId) {
@@ -14,6 +15,7 @@ let entityData = {
     return this.validTypes.indexOf(entityType) >= 0;
   },
 
+  // FIXME: retire this in favour of fetchEntitiesRequest() below
   fetch: function(entityType, entityId, onSuccess) {
     let url = this.apiURL(entityType, entityId);
     console.debug("Fetching from " + url);
@@ -47,6 +49,15 @@ let entityData = {
       onSuccess(json);
     };
   },
+
+  fetchEntitiesRequest: function (entityType) {
+    return axios.get(api.fetchEntitiesURL(entityType), {
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/vnd.api+json"
+      },
+    });
+  }
 }
 
 module.exports = entityData;

@@ -3,9 +3,11 @@ import Radium from "radium"
 import { connect } from 'react-redux';
 
 import * as actions from "../Redux/actions"
+import entityData from "../lib/entityData"
 
 class EntityListContainer extends React.Component {
   componentWillMount () {
+    this.props.fetchEntities(this.props.route.entityType);
   }
 
   render () {
@@ -29,8 +31,14 @@ class EntityListContainer extends React.Component {
 //     entities: state.get("entities"),
 //   };
 // };
-// 
-// export default connect(mapStateToProps)(Radium(EntityListContainer));
 
-export default Radium(EntityListContainer);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchEntities: (entityType) => {
+      dispatch(actions.fetchEntities(entityType));
+    }
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Radium(EntityListContainer));
 
