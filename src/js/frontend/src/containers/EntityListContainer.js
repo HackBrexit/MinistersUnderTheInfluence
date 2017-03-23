@@ -26,11 +26,11 @@ class EntityListContainer extends React.Component {
   }
 }
 
-// const mapStateToProps = (state) => {
-//   return {
-//     entities: state.get("entities"),
-//   };
-// };
+const mapStateToProps = (state, ownProps) => {
+  return {
+    entities: state.getIn("data", "entities", ownProps.route.entityType),
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -40,5 +40,8 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(Radium(EntityListContainer));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Radium(EntityListContainer));
 
