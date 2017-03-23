@@ -2,6 +2,10 @@ let d3 = require('d3');
 let api = require('./api');
 
 let entityData = {
+  apiURL: function(entityType, entityId) {
+    return api.URL(entityType + "/" + entityId);
+  },
+
   validTypes: [
       "organisations", "people", "government-offices"
   ],
@@ -18,10 +22,6 @@ let entityData = {
       .header("Accept", "application/vnd.api+json")
       .response(function(xhr) { return JSON.parse(xhr.responseText); })
       .get(this.dataLoadedHandler(onSuccess, url, entityType, entityId));
-  },
-
-  apiURL: function(entityType, entityId) {
-    return api.URL(entityType + "/" + entityId);
   },
 
   dataLoadedHandler: function(onSuccess, url, entityType, entityId) {
