@@ -11,6 +11,13 @@ class EntityListContainer extends React.Component {
   render () {
     let entityType = this.props.route.entityType;
 
+    if (! entityData.isValidType(entityType)) {
+      return <div className="error">
+        Invalid entity type {entityType}.
+        Must be one of: {entityData.validTypes.join(", ")}
+      </div>
+    }
+
     return <div className="entity-list">
       List of {entityType} entities
     </div>

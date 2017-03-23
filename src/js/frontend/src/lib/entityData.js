@@ -2,6 +2,14 @@ let d3 = require('d3');
 let api = require('./api');
 
 let entityData = {
+  validTypes: [
+      "organisations", "people", "government-offices"
+  ],
+
+  isValidType: function(entityType) {
+    return this.validTypes.indexOf(entityType) >= 0;
+  },
+
   fetch: function(entityType, entityId, onSuccess) {
     let url = this.apiURL(entityType, entityId);
     console.debug("Fetching from " + url);
