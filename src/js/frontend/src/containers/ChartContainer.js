@@ -18,13 +18,9 @@ class ChartContainer extends React.Component {
     let sourceType = this.props.route.sourceType;
     let targetType = this.props.params.targetType;
     let id = this.props.params.id;
-    let entities = this.props.entities; // comes in via mapStateToProps
-    let sourceData = entities && entities.get(sourceType);
-    let entityData = sourceData && sourceData.get(id);
-    let entityName = entityData && entityData.get("name");
 
     return <div className="chart-container">
-      <ChartTitle sourceName={entityName}
+      <ChartTitle sourceName={this.props.entityName}
                   targetType={targetType} />
       <Chart width="100%" height="100%"
              sourceType={sourceType}
@@ -49,9 +45,15 @@ class ChartContainer extends React.Component {
   }
 }
 
-const mapStateToProps = ({ data }) => {
+const mapStateToProps = (state, ownProps) => {
+  if (ownProps.route.sourceType === "demo") {
+    return { entityName: "demo" };
+  }
+
+  let entities = state.data.getIn(["entities", ownProps.route.sourceType]);
+  let entity = entities.getIn(["byId", ownProps.params.id]);
   return {
-    entities: data.get('entities'),
+    entityName: entity && entity.get("name"),
   };
 };
 
