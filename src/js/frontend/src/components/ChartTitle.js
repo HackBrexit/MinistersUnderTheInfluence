@@ -4,7 +4,7 @@ import Radium from "radium"
 import { Link } from 'react-router'
 
 function ChartTitle (props) {
-  let description = props.sourceName ?
+  let description = props.sourceName && props.targetType ?
       <p style={{width: "50%", display: "inline"}}>
         Showing all meetings of {props.targetType} with {props.sourceName}
       </p>
