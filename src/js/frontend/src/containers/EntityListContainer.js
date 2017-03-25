@@ -4,10 +4,13 @@ import { connect } from 'react-redux';
 
 import * as actions from "../Redux/actions"
 import entityData from "../lib/entityData"
+import EntityList from "../components/EntityList"
 
 class EntityListContainer extends React.Component {
   componentWillMount () {
-    this.props.fetchEntities(this.props.route.entityType);
+    if (!this.props.fetched) {
+      this.props.fetchEntities(this.props.route.entityType);
+    }
   }
 
   render () {
@@ -21,14 +24,21 @@ class EntityListContainer extends React.Component {
     }
 
     return <div className="entity-list">
-      List of {entityType} entities
+      <EntityList
+        entityType={entityType}
+        fetching={this.props.fetching}
+        fetched={this.props.fetched}
+        entitiesById={this.props.entitiesById} />
     </div>
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
+  let entities = state.data.getIn(["entities", ownProps.route.entityType]);
   return {
-    entities: state.getIn("data", "entities", ownProps.route.entityType),
+    fetching: entities.get("fetching"),
+    fetched: entities.get("fetched"),
+    entitiesById: entities.get("byId"),
   };
 };
 
