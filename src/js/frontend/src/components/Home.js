@@ -2,9 +2,9 @@ import React from "react"
 import Radium from "radium"
 import { Link } from 'react-router'
 
-class OrgList extends React.Component {
+class Home extends React.Component {
   render () {
-    return <div className="org-list">
+    return <div className="home">
       <p>
         Eventually this home page will allow you to choose from dynamic lists
         of organisations, people, government offices etc.
@@ -69,4 +69,4 @@ class OrgList extends React.Component {
   }
 }
 
-export default Radium(OrgList);
+export default Radium(Home);
