@@ -34,6 +34,11 @@ class EntityListContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  if (!state.data) {
+    console.warn("No data in store yet?!");
+    return {};
+  }
+
   let entities = state.data.getIn(["entities", ownProps.route.entityType]);
   return {
     fetching: entities.get("fetching"),
