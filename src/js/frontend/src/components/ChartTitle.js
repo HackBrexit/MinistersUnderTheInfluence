@@ -7,7 +7,9 @@ import BackToHome from './BackToHome'
 function ChartTitle (props) {
   let description = props.sourceName && props.targetType ?
       <p style={{width: "50%", display: "inline"}}>
-        Showing all meetings of {props.targetType} with {props.sourceName}
+        Showing all meetings of {
+          props.targetType.replace('-', ' ')
+        } with {props.sourceName}
       </p>
     : "";
 
