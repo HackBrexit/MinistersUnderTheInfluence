@@ -23,7 +23,7 @@ class EntityListContainer extends React.Component {
       </div>
     }
 
-    return <div className="entity-list">
+    return <div className="entity-list" style={[styles["entity-list"]]}>
       <EntityList
         entityType={entityType}
         fetching={this.props.fetching}
@@ -49,6 +49,13 @@ const mapDispatchToProps = (dispatch) => {
     }
   }
 }
+
+let styles = {
+  "entity-list": {
+    overflowY: "auto",
+    height: "100%",
+  }
+};
 
 export default connect(
   mapStateToProps,
