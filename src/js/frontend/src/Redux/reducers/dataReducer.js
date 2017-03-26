@@ -21,11 +21,25 @@ const initialState = fromJS({
   entities: initialEntitiesState
 });
 
+const checkActionValidEntityType = (action, state) => {
+  let entityType = action.meta && action.meta.entityType;
+  if (!entityType) return true;
+  let valid = state.get("entities").has(entityType);
+  if (!valid) {
+    console.error(`Received ${action.type} action with invalid entity type ${entityType}`);
+  }
+  return valid;
+}
+
 export const dataReducer = (state = initialState, action) => {
+  if (!checkActionValidEntityType(action, state)) {
+    return state;
+  }
+
   switch (action.type) {
     case actionTypes.ADD_ENTITY:
       return state.setIn(
-        ["entities", action.entityType, "byId", action.id],
+        ["entities", action.meta.entityType, "byId", action.id],
         fromJS(action.data)
       );
 

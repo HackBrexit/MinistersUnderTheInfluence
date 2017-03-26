@@ -13,7 +13,7 @@ export const toggleAbout = () => {
 export const addEntity = (entityType, id, data) => {
   return {
     type: actionTypes.ADD_ENTITY,
-    entityType,
+    meta: { entityType },
     id,
     data,
   }
