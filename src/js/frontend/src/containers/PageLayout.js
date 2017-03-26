@@ -46,9 +46,9 @@ let styles = {
 }
 
 const mapStateToProps = (state) => {
-    return {
-        showAboutScreen: state.showAboutScreen,
-    };
+  return {
+    showAboutScreen: state.ui.get("showAboutScreen"),
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
