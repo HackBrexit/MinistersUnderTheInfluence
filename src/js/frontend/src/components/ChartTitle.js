@@ -1,5 +1,4 @@
 import React from "react"
-import ReactDOM from "react-dom"
 import Radium from "radium"
 import { Link } from 'react-router'
 
