@@ -15,7 +15,9 @@ class ChartContainer extends React.Component {
   }
 
   render () {
+    // This comes from the <Route> element in main.js
     let sourceType = this.props.route.sourceType;
+
     let targetType = this.props.params.targetType;
     let id = this.props.params.id;
 
