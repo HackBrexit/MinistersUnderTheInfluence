@@ -9,7 +9,7 @@ import * as actions from "../Redux/actions"
 
 class ChartContainer extends React.Component {
   componentWillMount () {
-    if (this.props.route.sourceType !== "demo") {
+    if (this.props.route.sourceType !== "demo" && !this.props.entityName) {
       this.getEntityName()
     }
   }
