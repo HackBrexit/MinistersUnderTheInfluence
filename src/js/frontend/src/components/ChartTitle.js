@@ -1,19 +1,22 @@
 import React from "react"
-import ReactDOM from "react-dom"
 import Radium from "radium"
 import { Link } from 'react-router'
 
+import BackToHome from './BackToHome'
+
 function ChartTitle (props) {
-  let description = props.sourceName ?
+  let description = props.sourceName && props.targetType ?
       <p style={{width: "50%", display: "inline"}}>
-        Showing all meetings of {props.targetType} with {props.sourceName}
+        Showing all meetings of {
+          props.targetType.replace('-', ' ')
+        } with {props.sourceName}
       </p>
     : "";
 
   return (
     <div>
       {description}
-      <Link style={{float: "right"}} to="/">Back to home</Link>
+      <BackToHome />
     </div>
   )
 }

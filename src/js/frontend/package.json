@@ -20,6 +20,7 @@
   "dependencies": {
     "@n3dst4/browser-bundle": "^1.1.0",
     "@n3dst4/build-stylesheets": "^1.0.1",
+    "axios": "^0.15.3",
     "babel-polyfill": "6.9.1",
     "browser-sync": "^2.12.3",
     "d3": "^4.3.0",
@@ -38,7 +39,9 @@
     "react-redux": "^4.4.5",
     "react-router": "^2.4.1",
     "redux": "^3.6.0",
+    "redux-devtools-extension": "^2.13.0",
     "redux-logger": "^2.6.1",
+    "redux-promise-middleware": "^4.2.0",
     "redux-storage": "^4.0.1",
     "redux-storage-decorator-debounce": "^1.0.1",
     "redux-storage-engine-localstorage": "^1.1.1",

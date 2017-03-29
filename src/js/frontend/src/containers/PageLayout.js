@@ -5,6 +5,8 @@ import Header from "../components/Header";
 import About from "../components/About";
 import { toggleAbout } from '../Redux/actions';
 
+const HEADER_HEIGHT = 12;
+
 class PageLayout extends React.Component {
   constructor(props) {
     super(props);
@@ -23,9 +25,11 @@ class PageLayout extends React.Component {
         styles.base,
       ]}
       className="app-container">
-        <Header />
+        <Header height={HEADER_HEIGHT + "vh"} />
         <About shouldDisplay={this.props.showAboutScreen} closeFlyover={this._closeFlyover}/>
-        {this.props.children}
+        <div id="app-content" style={[styles.main]}>
+          {this.props.children}
+        </div>
       </div>
     )
   }
@@ -33,15 +37,18 @@ class PageLayout extends React.Component {
 
 let styles = {
   base: {
-    height:"100vh",
+    height: "100vh",
     overflow: 'hidden',
-  }
+  },
+  main: {
+    height: (100 - HEADER_HEIGHT) + "vh",
+  },
 }
 
 const mapStateToProps = (state) => {
-    return {
-        showAboutScreen: state.showAboutScreen,
-    };
+  return {
+    showAboutScreen: state.ui.get("showAboutScreen"),
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {

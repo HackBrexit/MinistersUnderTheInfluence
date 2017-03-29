@@ -2,7 +2,7 @@ import {fromJS} from "immutable";
 import {TOGGLE_ABOUT} from "../action-types";
 
 const initialState = fromJS({
-    showAboutScreen: false
+  showAboutScreen: false
 });
 
 export const uiReducer = (state = initialState, {type}) => {

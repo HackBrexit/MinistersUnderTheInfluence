@@ -9,6 +9,7 @@ import App from "./app"
 import PageLayout from "./containers/PageLayout"
 import Home from "./components/Home"
 import ChartContainer from "./containers/ChartContainer"
+import EntityListContainer from "./containers/EntityListContainer"
 
 // now everything is set up, create a loader and use it to load the store
 const load = storage.createLoader(engine)
@@ -25,13 +26,19 @@ loaded.then((newState) => {
             <IndexRoute component={Home} />
             <Route path="demo"
                    component={ChartContainer} sourceType="demo" />
+
+            <Route path="organisations"
+                   component={EntityListContainer} entityType="organisations" />
+            <Route path="government-offices"
+                   component={EntityListContainer} entityType="government-offices" />
+            <Route path="people"
+                   component={EntityListContainer} entityType="people" />
+
             <Route path="organisation/:id/:targetType"
                    component={ChartContainer} sourceType="organisations" />
             <Route path="government-office/:id/:targetType"
                    component={ChartContainer} sourceType="government-offices" />
-            <Route path="government-person/:id/:targetType"
-                   component={ChartContainer} sourceType="people" />
-            <Route path="organisation-person/:id/:targetType"
+            <Route path="person/:id/:targetType"
                    component={ChartContainer} sourceType="people" />
           </Route>
         </Route>
