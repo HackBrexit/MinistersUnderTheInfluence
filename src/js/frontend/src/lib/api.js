@@ -8,6 +8,10 @@ let api = {
   URL: function (path) {
     return this.protocol + "://" + this.host + ":" + this.port +
       this.apiPathPrefix + path;
+  },
+
+  fetchEntitiesURL: function (entityType) {
+    return this.URL(entityType);
   }
 }
 

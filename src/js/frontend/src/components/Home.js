@@ -17,6 +17,23 @@ class OrgList extends React.Component {
           </Link> 
         </li>
       </ul>
+      <ul>
+        <li>
+          <Link to="/organisations">
+            See all organisations
+          </Link>
+        </li>
+        <li>
+          <Link to="/government-offices">
+            See all government offices
+          </Link>
+        </li>
+        <li>
+          <Link to="/people">
+            See all people
+          </Link>
+        </li>
+      </ul>
       <p>
         Here are sample URLs you can use to visualize parts of the
         data set relating to a given organisation.  They assume that
